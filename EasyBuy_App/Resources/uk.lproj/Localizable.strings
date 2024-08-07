@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  EasyBuy_App
+
+  Created by Влад Лялькін on 06.08.2024.
+  
+*/
+
+// MARK: - Localization to SignUpLogIn
+
+// AuthenticationView
+"title" = "Світ Apple – в твоїх руках!";
+"description" = "Від AirPods до MacBook – все, що ти шукаєш, тут. Отримай більше від Apple.";
+"sign_up" = "Зареєструватись";
+"log_in" = "Увійти";

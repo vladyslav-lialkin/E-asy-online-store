@@ -7,18 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3255356A2C612F0700E7B1F3 /* EasyBuy_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325535692C612F0700E7B1F3 /* EasyBuy_AppApp.swift */; };
+		3202B5522C623E600047A333 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3202B5512C623E600047A333 /* AuthenticationView.swift */; };
+		3202B5552C62AC5A0047A333 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3202B5532C62AC5A0047A333 /* Localizable.strings */; };
+		323CDD962C639D2E009B5182 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CDD952C639D2E009B5182 /* AppColors.swift */; };
+		3255356A2C612F0700E7B1F3 /* EasyBuy_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325535692C612F0700E7B1F3 /* EasyBuy_App.swift */; };
 		3255356C2C612F0700E7B1F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3255356B2C612F0700E7B1F3 /* ContentView.swift */; };
 		3255356E2C612F0900E7B1F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3255356D2C612F0900E7B1F3 /* Assets.xcassets */; };
 		325535712C612F0900E7B1F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 325535702C612F0900E7B1F3 /* Preview Assets.xcassets */; };
+		325535792C61351000E7B1F3 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325535782C61351000E7B1F3 /* HttpClient.swift */; };
+		3255357B2C61353700E7B1F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3255357A2C61353700E7B1F3 /* Constants.swift */; };
+		3255357E2C613F5D00E7B1F3 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3255357D2C613F5D00E7B1F3 /* HttpMethod.swift */; };
+		325535802C613F6500E7B1F3 /* MIMEType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3255357F2C613F6500E7B1F3 /* MIMEType.swift */; };
+		325535822C613F7000E7B1F3 /* HttpHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325535812C613F7000E7B1F3 /* HttpHeaders.swift */; };
+		325535842C613F7900E7B1F3 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325535832C613F7900E7B1F3 /* HttpError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3202B5512C623E600047A333 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		3202B5542C62AC5A0047A333 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3202B5572C62AC7F0047A333 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		323CDD952C639D2E009B5182 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		325535662C612F0700E7B1F3 /* EasyBuy_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuy_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		325535692C612F0700E7B1F3 /* EasyBuy_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyBuy_AppApp.swift; sourceTree = "<group>"; };
+		325535692C612F0700E7B1F3 /* EasyBuy_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyBuy_App.swift; sourceTree = "<group>"; };
 		3255356B2C612F0700E7B1F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3255356D2C612F0900E7B1F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		325535702C612F0900E7B1F3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		325535782C61351000E7B1F3 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		3255357A2C61353700E7B1F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3255357D2C613F5D00E7B1F3 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		3255357F2C613F6500E7B1F3 /* MIMEType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEType.swift; sourceTree = "<group>"; };
+		325535812C613F7000E7B1F3 /* HttpHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHeaders.swift; sourceTree = "<group>"; };
+		325535832C613F7900E7B1F3 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +51,64 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3202B54A2C622BA50047A333 /* SignUpLogIn */ = {
+			isa = PBXGroup;
+			children = (
+				3202B54B2C623AAE0047A333 /* Models */,
+				3202B54C2C623AB50047A333 /* Views */,
+				3202B54D2C623ACA0047A333 /* ViewModels */,
+			);
+			path = SignUpLogIn;
+			sourceTree = "<group>";
+		};
+		3202B54B2C623AAE0047A333 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3202B54C2C623AB50047A333 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3202B5512C623E600047A333 /* AuthenticationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3202B54D2C623ACA0047A333 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		3202B54E2C623AFB0047A333 /* App Lifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				325535692C612F0700E7B1F3 /* EasyBuy_App.swift */,
+			);
+			path = "App Lifecycle";
+			sourceTree = "<group>";
+		};
+		3202B54F2C623B240047A333 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3255356D2C612F0900E7B1F3 /* Assets.xcassets */,
+				3255356F2C612F0900E7B1F3 /* Preview Content */,
+				3202B5532C62AC5A0047A333 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		323CDD942C639D20009B5182 /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				323CDD952C639D2E009B5182 /* AppColors.swift */,
+			);
+			path = Color;
+			sourceTree = "<group>";
+		};
 		3255355D2C612F0700E7B1F3 = {
 			isa = PBXGroup;
 			children = (
@@ -51,10 +128,11 @@
 		325535682C612F0700E7B1F3 /* EasyBuy_App */ = {
 			isa = PBXGroup;
 			children = (
-				325535692C612F0700E7B1F3 /* EasyBuy_AppApp.swift */,
+				3202B54E2C623AFB0047A333 /* App Lifecycle */,
 				3255356B2C612F0700E7B1F3 /* ContentView.swift */,
-				3255356D2C612F0900E7B1F3 /* Assets.xcassets */,
-				3255356F2C612F0900E7B1F3 /* Preview Content */,
+				3202B54A2C622BA50047A333 /* SignUpLogIn */,
+				325535772C6134F900E7B1F3 /* Utitlities */,
+				3202B54F2C623B240047A333 /* Resources */,
 			);
 			path = EasyBuy_App;
 			sourceTree = "<group>";
@@ -65,6 +143,28 @@
 				325535702C612F0900E7B1F3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		325535772C6134F900E7B1F3 /* Utitlities */ = {
+			isa = PBXGroup;
+			children = (
+				323CDD942C639D20009B5182 /* Color */,
+				3255357C2C613F2F00E7B1F3 /* HttpCient */,
+			);
+			path = Utitlities;
+			sourceTree = "<group>";
+		};
+		3255357C2C613F2F00E7B1F3 /* HttpCient */ = {
+			isa = PBXGroup;
+			children = (
+				3255357A2C61353700E7B1F3 /* Constants.swift */,
+				3255357D2C613F5D00E7B1F3 /* HttpMethod.swift */,
+				3255357F2C613F6500E7B1F3 /* MIMEType.swift */,
+				325535812C613F7000E7B1F3 /* HttpHeaders.swift */,
+				325535832C613F7900E7B1F3 /* HttpError.swift */,
+				325535782C61351000E7B1F3 /* HttpClient.swift */,
+			);
+			path = HttpCient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,6 +209,7 @@
 			knownRegions = (
 				en,
 				Base,
+				uk,
 			);
 			mainGroup = 3255355D2C612F0700E7B1F3;
 			productRefGroup = 325535672C612F0700E7B1F3 /* Products */;
@@ -126,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				325535712C612F0900E7B1F3 /* Preview Assets.xcassets in Resources */,
+				3202B5552C62AC5A0047A333 /* Localizable.strings in Resources */,
 				3255356E2C612F0900E7B1F3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,11 +240,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				3255356C2C612F0700E7B1F3 /* ContentView.swift in Sources */,
-				3255356A2C612F0700E7B1F3 /* EasyBuy_AppApp.swift in Sources */,
+				325535802C613F6500E7B1F3 /* MIMEType.swift in Sources */,
+				325535792C61351000E7B1F3 /* HttpClient.swift in Sources */,
+				323CDD962C639D2E009B5182 /* AppColors.swift in Sources */,
+				325535822C613F7000E7B1F3 /* HttpHeaders.swift in Sources */,
+				325535842C613F7900E7B1F3 /* HttpError.swift in Sources */,
+				3255357E2C613F5D00E7B1F3 /* HttpMethod.swift in Sources */,
+				3255356A2C612F0700E7B1F3 /* EasyBuy_App.swift in Sources */,
+				3202B5522C623E600047A333 /* AuthenticationView.swift in Sources */,
+				3255357B2C61353700E7B1F3 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3202B5532C62AC5A0047A333 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3202B5542C62AC5A0047A333 /* en */,
+				3202B5572C62AC7F0047A333 /* uk */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		325535722C612F0900E7B1F3 /* Debug */ = {
@@ -150,6 +272,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -213,6 +336,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -271,15 +395,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"EasyBuy_App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"EasyBuy_App/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = ZQHM35MVPU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = AuthenticationView.swift;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -287,9 +412,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "LIALKIN-s.EasyBuy-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -300,15 +429,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"EasyBuy_App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"EasyBuy_App/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = ZQHM35MVPU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = AuthenticationView.swift;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -316,9 +446,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "LIALKIN-s.EasyBuy-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
