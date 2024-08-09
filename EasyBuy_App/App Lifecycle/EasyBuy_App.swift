@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct EasyBuy_App: App {
+    
     var body: some Scene {
         WindowGroup {
-//            EmailValidationView()
-            AuthenticationView()
+//                EmailValidationView()
+                SignUpLogInCoordinatorView()
         }
     }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AuthenticationView: View {
+    @EnvironmentObject var coordinator: SignUpLogInCoordinator
+    
     var body: some View {
         GeometryReader { geometry in
             let width = geometry.size.width
@@ -28,38 +30,36 @@ struct AuthenticationView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                Text("title")
+                Text("authentication_title")
                     .font(.largeTitle)
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                Text("description")
+                Text("authentication_description")
                     .padding(.horizontal)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 HStack(spacing: 20) {
                     Button {
-                        
+                        coordinator.stack.append(.signUp)
                     } label: {
                         RoundedRectangle(cornerRadius: 50)
-                            .stroke(AppColors.adaptiveGradient,
+                            .stroke(Color("AppColor"),
                                     lineWidth: 1)
                             .overlay {
-                                Text("sign_up")
-                                    .foregroundStyle(AppColors.gradient)
+                                Text("authentication_sign_up")
+                                    .foregroundStyle(Color("AppColor"))
                             }
-                            .brightness(-0.3)
                     }
                     
                     Button {
-                        
+                        coordinator.stack.append(.logIn)
                     } label: {
                         RoundedRectangle(cornerRadius: 50)
-                            .fill(AppColors.gradient)
-                            .brightness(-0.3)
+                            .fill(Color("AppColor"))
                             .overlay {
-                                Text("log_in")
+                                Text("authentication_log_in")
                                     .foregroundStyle(.background)
                             }
                     }
@@ -78,4 +78,5 @@ struct AuthenticationView: View {
 
 #Preview {
     AuthenticationView()
+        .environmentObject(SignUpLogInCoordinator())
 }

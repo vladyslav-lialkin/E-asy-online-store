@@ -9,7 +9,7 @@
 // MARK: - Localization to SignUpLogIn
 
 // AuthenticationView
-"title" = "Світ Apple – в твоїх руках!";
-"description" = "Від AirPods до MacBook – все, що ти шукаєш, тут. Отримай більше від Apple.";
-"sign_up" = "Зареєструватись";
-"log_in" = "Увійти";
+"authentication_title" = "Світ Apple – в твоїх руках!";
+"authentication_description" = "Від AirPods до MacBook – все, що ти шукаєш, тут. Отримай більше від Apple.";
+"authentication_sign_up" = "Зареєструватись";
+"authentication_log_in" = "Увійти";
