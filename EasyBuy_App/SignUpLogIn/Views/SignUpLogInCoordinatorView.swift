@@ -16,14 +16,13 @@ struct SignUpLogInCoordinatorView: View {
             case .authentication:
                 AuthenticationView()
             case .signUp:
-                SignUpLogInView(title: "Sign Up", isLogin: false)
+                SignUpLogInView(isLogin: false)
             case .logIn:
-                SignUpLogInView(title: "Log In", isLogin: true)
+                SignUpLogInView(isLogin: true)
             }
         }
         .environmentObject(coordinator)
         .customBackButton()
-        
     }
 }
 

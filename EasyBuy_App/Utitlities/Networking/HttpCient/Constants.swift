@@ -8,7 +8,7 @@
 import Foundation
 
 enum Constants: String {
-    case baseURL = "http://127.0.0.1:8080"
+    case baseURL = "https://e20d-91-204-86-236.ngrok-free.app"
 }
 
 enum Endpoints: String {

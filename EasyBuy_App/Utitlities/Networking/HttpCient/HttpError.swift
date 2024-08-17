@@ -8,5 +8,5 @@
 import Foundation
 
 enum HttpError: Error {
-    case badURL, badResponse, errorDecodingData, invalidURL
+    case badURL, badResponse, errorDecodingData, invalidURL, tokenDontSave
 }

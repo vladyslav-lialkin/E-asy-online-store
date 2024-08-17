@@ -6,6 +6,12 @@
   
 */
 
+// MARK: - Localization to App Lifecycle
+
+// EasyBuy_App
+"no_internet_connection" = "Немає підключення до Інтернету";
+
+
 // MARK: - Localization to SignUpLogIn
 
 // AuthenticationView

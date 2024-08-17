@@ -47,10 +47,10 @@ indirect enum NavigationNode<Screen, ScreenView: View>: View {
                         set: { isPushed in
                             guard !isPushed else { return }
                             if stack.wrappedValue.count > index + 1 {
-                                print("was stack count:", stack.count)
+//                                print("was stack count:", stack.count)
                                 stack.wrappedValue.removeLast()
-                                print("stack.wrappedValue.removeLast()")
-                                print("stack count:", stack.count)
+//                                print("stack.wrappedValue.removeLast()")
+//                                print("stack count:", stack.count)
                             }
                         }),
                     label: EmptyView.init

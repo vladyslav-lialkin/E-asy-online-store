@@ -22,4 +22,8 @@ class SignUpLogInCoordinator: ObservableObject {
     func pop() {
         stack.removeLast()
     }
+    
+    deinit {
+        print("deinit: SignUpLogInCoordinator")
+    }
 }

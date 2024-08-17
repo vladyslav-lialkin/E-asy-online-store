@@ -6,10 +6,16 @@
   
 */
 
+// MARK: - Localization to App Lifecycle
+
+// EasyBuy_App
+"no_internet_connection" = "No Internet Connection";
+
+
 // MARK: - Localization to SignUpLogIn
 
 // AuthenticationView
 "authentication_title" = "The world of Apple is in your hands!";
-"authentication_description" = "From iPhone to MacBook, everything you're looking for is here. Get more from Apple.";
+"authentication_description" = "From AirPods to MacBook, everything you're looking for is here. Get more from Apple.";
 "authentication_sign_up" = "Sign Up";
 "authentication_log_in" = "Log In";

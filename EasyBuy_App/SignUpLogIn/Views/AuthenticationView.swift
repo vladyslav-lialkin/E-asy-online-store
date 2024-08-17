@@ -34,11 +34,13 @@ struct AuthenticationView: View {
                     .font(.largeTitle)
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal)
                 
                 Text("authentication_description")
                     .padding(.horizontal)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 HStack(spacing: 20) {
                     Button {
@@ -72,6 +74,7 @@ struct AuthenticationView: View {
                 Spacer()
             }
             .frame(width: width, height: height)
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
