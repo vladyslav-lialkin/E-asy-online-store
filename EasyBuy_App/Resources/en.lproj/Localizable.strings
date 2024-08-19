@@ -8,14 +8,57 @@
 
 // MARK: - Localization to App Lifecycle
 
-// EasyBuy_App
+// MARK: EasyBuy_App
 "no_internet_connection" = "No Internet Connection";
 
 
 // MARK: - Localization to SignUpLogIn
 
-// AuthenticationView
+// MARK: AuthenticationView
 "authentication_title" = "The world of Apple is in your hands!";
 "authentication_description" = "From AirPods to MacBook, everything you're looking for is here. Get more from Apple.";
 "authentication_sign_up" = "Sign Up";
 "authentication_log_in" = "Log In";
+
+// MARK: SignUpLogInView
+// Titles
+"log_in_title" = "Login To Your \nAccount";
+"sign_up_title" = "Create Your New \nAccount";
+
+// Descriptions
+"log_in_description" = "Please sign in to your account";
+"sign_up_description" = "Sign up to start buying your favorite apple products";
+
+// Fields
+"username" = "Username";
+"enter_username" = "Enter username";
+"email_address" = "Email Address";
+"enter_email" = "Enter email";
+"password" = "Password";
+"enter_password" = "Enter password";
+
+// Buttons
+"log_in_primary_button_title" = "Sign In";
+"sign_up_primary_button_title" = "Sign Up";
+"log_in_secondary_button_title" = "Register";
+"sign_up_secondary_button_title" = "Sign In";
+"done" = "Done";
+
+// Miscellaneous
+"or_sign_in_with" = "Or sign in with";
+
+// Bottom descriptions
+"log_in_bottom_description_text" = "Don't have an account?";
+"sign_up_bottom_description_text" = "Already have an account?";
+
+// Errors
+"email_is_already_in_use" = "Email is already in use.";
+"username_is_already_in_use" = "Username is already in use.";
+"email_does_not_exist" = "Email does not exist.";
+"incorrect_password" = "Incorrect password.";
+"server_connection_issue" = "There is an issue with the connection to the server. Please try again later.";
+"this_email_does_not_exist" = "This email does not exist.";
+"password_is_very_weak" = "Password is very weak.";
+"google_sign_in_error" = "Could not sign in with Google. Please try again later.";
+"facebook_sign_in_error" = "Could not sign in with Facebook. Please try again later.";
+"apple_sign_in_error" = "Could not sign in with Apple. Please try again later.";

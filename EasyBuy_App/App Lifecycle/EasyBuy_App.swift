@@ -7,9 +7,12 @@
 
 import SwiftUI
 import GoogleSignIn
+import FacebookLogin
 
 @main
 struct EasyBuy_App: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     @StateObject private var appState = AppState()
     @StateObject private var networkMonitor = NetworkMonitor()
 
@@ -42,6 +45,10 @@ struct EasyBuy_App: App {
             .animation(.easeInOut, value: appState.isAuthenticated)
             .animation(.easeOut, value: networkMonitor.isConnected)
             .onOpenURL { url in
+                ApplicationDelegate.shared.application(UIApplication.shared,
+                                                       open: url,sourceApplication: nil,
+                                                       annotation: UIApplication.OpenURLOptionsKey.annotation)
+                
                 if GIDSignIn.sharedInstance.handle(url) {
                     return
                 }

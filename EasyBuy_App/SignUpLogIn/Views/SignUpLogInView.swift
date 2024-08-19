@@ -10,7 +10,6 @@ import SwiftUI
 struct SignUpLogInView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var coordinator: SignUpLogInCoordinator
-    @Environment(\.colorScheme) private var scheme
     
     @StateObject var viewModel: SignUpLogInViewModel    
     @FocusState var focus: Bool
@@ -24,7 +23,7 @@ struct SignUpLogInView: View {
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     .padding(.horizontal)
                 
-                Text(viewModel.description)
+                Text(viewModel.descriptionText)
                     .padding(.horizontal)
                     .foregroundStyle(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -36,11 +35,11 @@ struct SignUpLogInView: View {
                     )
                 
                 if !viewModel.isLogin {
-                    Text("Username")
+                    Text("username")
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    TextField("Enter Username", text: $viewModel.username)
+                    TextField("enter_username", text: $viewModel.username)
                         .focused($focus)
                         .customTextField(color: viewModel.errorUsername != nil ? .red : .gray)
                     
@@ -54,11 +53,11 @@ struct SignUpLogInView: View {
                     }
                 }
                 
-                Text("Email Address")
+                Text("email_address")
                     .padding(.horizontal)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                TextField("Enter Email", text: $viewModel.email)
+                TextField("enter_email", text: $viewModel.email)
                     .focused($focus)
                     .customTextField(color: viewModel.errorEmail != nil ? .red : .gray)
                 
@@ -72,11 +71,11 @@ struct SignUpLogInView: View {
                 }
                 
                 
-                Text("Password")
+                Text("password")
                     .padding(.horizontal)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                SecureTextField("Password", password: $viewModel.password)
+                SecureTextField("password", password: $viewModel.password)
                     .focused($focus)
                     .customTextField(color: viewModel.errorPassword != nil ? .red : .gray)
                 
@@ -102,15 +101,12 @@ struct SignUpLogInView: View {
                             print("An unexpected error occurred: \(error)")
                         }
                         viewModel.isLoading = false
-                        appState.checkAuthentication {
-                            coordinator.stack.removeAll()
-                        }
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 50)
                         .fill(Color("AppColor"))
                         .overlay {
-                            Text(viewModel.buttonTitle)
+                            Text(viewModel.primaryButtonTitle)
                                 .foregroundStyle(.background)
                         }
                 }
@@ -124,7 +120,9 @@ struct SignUpLogInView: View {
                             .padding(.leading)
                     }
                     
-                    Text("Or sign in with")
+                    Text("or_sign_in_with")
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
                     
                     VStack {
                         Divider()
@@ -135,28 +133,15 @@ struct SignUpLogInView: View {
                 HStack {
                     Button {
                         focus = false
-                        Task {
-                            viewModel.isLoading = true
-                            do {
-                                try await viewModel.signInWithGoogle()
-                            } catch let error as HttpError {
-                                viewModel.handleHttpError(error)
-                            } catch {
-                                print("An unexpected error occurred: \(error)")
-                            }
-                            viewModel.isLoading = false
-                            appState.checkAuthentication {
-                                coordinator.stack.removeAll()
-                            }
-                        }
+                        viewModel.signInWithGoogle()
                     } label: {
-                        Capsule()
+                        Capsule(style: .circular)
                             .stroke(Color.gray, lineWidth: 1)
                             .overlay {
                                 Image("google")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 28)
+                                    .frame(width: 30)
                                     .foregroundStyle(Color(uiColor: .label))
                             }
                     }
@@ -164,15 +149,33 @@ struct SignUpLogInView: View {
                     .disabled(viewModel.errorMessage != nil)
                     
                     Button {
-                        
+                        focus = false
+                        viewModel.signInWithFaceBook()
                     } label: {
-                        Capsule()
+                        Capsule(style: .circular)
+                            .stroke(Color.gray, lineWidth: 1)
+                            .overlay {
+                                Image("facebook")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30)
+                                    .foregroundStyle(Color(uiColor: .label))
+                            }
+                    }
+                    .frame(width: 50, height: 50)
+                    .disabled(viewModel.errorMessage != nil)
+                    
+                    Button {
+                        focus = false
+                        viewModel.signInWithApple()
+                    } label: {
+                        Capsule(style: .circular)
                             .stroke(Color.gray, lineWidth: 1)
                             .overlay {
                                 Image(systemName: "applelogo")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 22)
+                                    .frame(width: 24)
                                     .foregroundStyle(Color(uiColor: .label))
                             }
                     }
@@ -181,7 +184,7 @@ struct SignUpLogInView: View {
                 }
                 
                 HStack {
-                    Text(viewModel.botomDescription)
+                    Text(viewModel.bottomDescriptionText)
                     
                     Button {
                         if viewModel.isLogin {
@@ -190,11 +193,7 @@ struct SignUpLogInView: View {
                             coordinator.push(.logIn)
                         }
                     } label: {
-                        if viewModel.isLogin {
-                            Text("Register")
-                        } else {
-                            Text("Sign In")
-                        }
+                        Text(viewModel.secondaryButtonTitle)
                     }.foregroundStyle(Color("AppColor"))
                 }
                 
@@ -214,6 +213,11 @@ struct SignUpLogInView: View {
                                 focus = false
                             })
                     )
+            }
+            .onReceive(viewModel.$isLoading) { newValue in
+                appState.checkAuthentication {
+                    coordinator.stack.removeAll()
+                }
             }
         }
         .overlay {
@@ -249,7 +253,7 @@ struct SignUpLogInView: View {
                     Button(action: {
                         focus = false
                     }) {
-                        Text("Done")
+                        Text("done")
                             .foregroundColor(Color("AppColor"))
                     }
                 }

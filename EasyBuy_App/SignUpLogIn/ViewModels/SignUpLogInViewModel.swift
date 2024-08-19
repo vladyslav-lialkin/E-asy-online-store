@@ -8,19 +8,22 @@
 import SwiftUI
 import CryptoKit
 import GoogleSignIn
+import FacebookLogin
+import AuthenticationServices
 
 
-class SignUpLogInViewModel: ObservableObject {
+class SignUpLogInViewModel: NSObject, ObservableObject {
+    
     // MARK: - Property
     
     @Published var username: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
     
-    @Published var errorUsername: String?
-    @Published var errorEmail: String?
-    @Published var errorPassword: String?
-    @Published var errorMessage: String? {
+    @Published var errorUsername: LocalizedStringKey?
+    @Published var errorEmail: LocalizedStringKey?
+    @Published var errorPassword: LocalizedStringKey?
+    @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
                 startErrorTimeout()
@@ -29,26 +32,29 @@ class SignUpLogInViewModel: ObservableObject {
     }
     
     @Published var isLogin: Bool
-    
-    @Published var isLoading = false
+    @Published var isLoading: Bool = false
     
     var title: LocalizedStringKey {
-        isLogin ? "Login To Your \nAccount" : "Create Your New \nAccount"
+        isLogin ? "log_in_title" : "sign_up_title"
     }
     
-    var description: LocalizedStringKey {
-        isLogin ? "Please sign in to your account" : "Sign up to start buying your favorite apple products"
+    var descriptionText: LocalizedStringKey {
+        isLogin ? "log_in_description" : "sign_up_description"
     }
     
-    var buttonTitle: LocalizedStringKey {
-        isLogin ? "Sign In" : "Sign Up"
+    var primaryButtonTitle: LocalizedStringKey {
+        isLogin ? "log_in_primary_button_title" : "sign_up_primary_button_title"
     }
     
-    var botomDescription: LocalizedStringKey {
-        isLogin ? "Don't have an account?" : "Already have an account?"
+    var bottomDescriptionText: LocalizedStringKey {
+        isLogin ? "log_in_bottom_description_text" : "sign_up_bottom_description_text"
     }
     
-    // MARK: - Init
+    var secondaryButtonTitle: LocalizedStringKey {
+        isLogin ? "log_in_secondary_button_title" : "sign_up_secondary_button_title"
+    }
+    
+    // MARK: - Init and DeInit
     
     init(isLogin: Bool) {
         self.isLogin = isLogin
@@ -58,13 +64,6 @@ class SignUpLogInViewModel: ObservableObject {
         print("deinit: SignUpLogInViewModel")
     }
     
-    private func startErrorTimeout() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-            withAnimation {
-                self?.errorMessage = nil
-            }
-        }
-    }
     
     // MARK: - Error Handling Methods
     
@@ -75,7 +74,7 @@ class SignUpLogInViewModel: ObservableObject {
         case message
     }
     
-    private func updateError(_ error: String?, for field: UpdateError) {
+    private func updateError(_ error: LocalizedStringKey?, for field: UpdateError) {
         DispatchQueue.main.async { [weak self] in
             switch field {
             case .username:
@@ -86,6 +85,7 @@ class SignUpLogInViewModel: ObservableObject {
                 self?.errorPassword = error
             case .message:
                 self?.errorMessage = error
+                self?.isLoading = false
             }
         }
     }
@@ -94,22 +94,22 @@ class SignUpLogInViewModel: ObservableObject {
         var hasError = false
         
         if modelError.reason.contains("Email is already in use.") {
-            updateError("Email is already in use.", for: .email)
+            updateError("email_is_already_in_use", for: .email)
             hasError = true
         }
         
         if modelError.reason.contains("Username is already in use.") {
-            updateError("Username is already in use.", for: .username)
+            updateError("username_is_already_in_use", for: .username)
             hasError = true
         }
         
         if modelError.reason.contains("Email does not exist.") {
-            updateError("Email does not exist.", for: .email)
+            updateError("email_does_not_exist", for: .email)
             hasError = true
         }
         
         if modelError.reason.contains("Incorrect password.") {
-            updateError("Incorrect password.", for: .password)
+            updateError("incorrect_password", for: .password)
             hasError = true
         }
         
@@ -130,14 +130,23 @@ class SignUpLogInViewModel: ObservableObject {
             print("The token was not saved properly.")
         }
         
-        errorMessage = "There is an issue with the connection to the server. Please try again later."
+        errorMessage = "server_connection_issue"
+        isLoading = false
+    }
+    
+    private func startErrorTimeout() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
+            withAnimation {
+                self?.errorMessage = nil
+            }
+        }
     }
 
     // MARK: - Validation Methods
     
     private func validateUsername() -> Bool {
         guard !username.isEmpty else {
-            updateError("Enter username", for: .username)
+            updateError("enter_username", for: .username)
             return false
         }
         updateError(nil, for: .username)
@@ -147,7 +156,7 @@ class SignUpLogInViewModel: ObservableObject {
     
     private func validateEmail(_ email: String) -> Bool {
         guard !email.isEmpty else {
-            updateError("Enter email", for: .email)
+            updateError("enter_email", for: .email)
             return false
         }
         updateError(nil, for: .email)
@@ -158,14 +167,14 @@ class SignUpLogInViewModel: ObservableObject {
         if emailPredicate.evaluate(with: email) {
             return true
         } else {
-            updateError("This email does not exist", for: .email)
+            updateError("this_email_does_not_exist", for: .email)
             return false
         }
     }
     
     func validatePasswordStrength(password: String) -> Bool {
         guard !password.isEmpty else {
-            updateError("Enter password", for: .password)
+            updateError("enter_password", for: .password)
             return false
         }
         updateError(nil, for: .password)
@@ -176,27 +185,27 @@ class SignUpLogInViewModel: ObservableObject {
         let digitRequirement = NSPredicate(format: "SELF MATCHES %@", ".*[0-9]+.*").evaluate(with: password)
         
         let specialCharacterRequirement = NSPredicate(format: "SELF MATCHES %@", ".*[!@#$%^&*(),.?\":{}|<>]+.*").evaluate(with: password)
-
+        
         let mandatoryCriteriaMet = [lengthRequirement, uppercaseRequirement, lowercaseRequirement, digitRequirement].allSatisfy { $0 }
-
+        
         if !mandatoryCriteriaMet {
-            updateError("Password is very weak", for: .password)
+            updateError("password_is_very_weak", for: .password)
             return false
         }
-
+        
         let optionalCriteriaMet = specialCharacterRequirement ? 1 : 0
-
+        
         switch optionalCriteriaMet {
         case 0:
             return true
         case 1:
             return true
         default:
-            updateError("Password is very weak", for: .password)
+            updateError("password_is_very_weak", for: .password)
             return false
         }
     }
-        
+    
     // MARK: - HTTP Request's
     
     private func signInRequest(email: String, password: String) async throws -> (Data, URLResponse) {
@@ -228,17 +237,12 @@ class SignUpLogInViewModel: ObservableObject {
     
     // MARK: - Login and Signup Methods
     
-    func hashUserID(_ userID: String) -> String {
-        let hash = SHA256.hash(data: userID.data(using: .utf8)!)
-        return hash.map { String(format: "%02hhx", $0) }.joined()
-    }
-    
     func logIn() async throws {
         let isValidEmail = validateEmail(email)
         let isValidPasswordStrength = validatePasswordStrength(password: password)
         
         guard isValidEmail, isValidPasswordStrength else { return }
-                
+        
         let (data, _) = try await signInRequest(email: email, password: password)
         
         if let modelError = try? JSONDecoder().decode(ModelError.self, from: data) {
@@ -273,52 +277,215 @@ class SignUpLogInViewModel: ObservableObject {
         try await logIn()
     }
     
-    // MARK: - Google Sign-In
+    // MARK: - Sign-In Methods
     
-    func signInWithGoogle() async throws {
-        guard let topVc = await TopViewController.find() else {
-            updateError("Could not sign in with Google. Please try again later.", for: .message)
-            return
-        }
-        
-        let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVc)
-        
-        guard let userID = result.user.userID else {
-            updateError("Could not sign in with Google. Please try again later.", for: .message)
-            return
-        }
-        
-        guard let profile = result.user.profile else {
-            updateError("Could not sign in with Google. Please try again later.", for: .message)
-            return
-        }
-        
-        let user = UserSignUp(email: profile.email, password: hashUserID(userID), username: "User_G:" + UUID().uuidString)
-        let (data, _) = try await registerRequest(user: user)
-        
-        if (try? JSONDecoder().decode(ModelError.self, from: data)) != nil {
-            print("error with Google register")
-        }
-
-        let (dataSignIn, _) = try await signInRequest(email: profile.email, password: hashUserID(userID))
-        
-        if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
-            updateError("Could not sign in with Google. Please try again later.", for: .message)
-            return
-        }
-        
-        guard let token = try? JSONDecoder().decode(TokenModel.self, from: dataSignIn) else {
-            print("Don't decoding token")
-            throw HttpError.errorDecodingData
-        }
-        
-        if !KeychainHelper.save(token: token.value) {
-            print("Don't save token")
-            throw HttpError.tokenDontSave
+    func hashUserID(_ userID: String) -> String {
+        let hash = SHA256.hash(data: userID.data(using: .utf8)!)
+        return hash.map { String(format: "%02hhx", $0) }.joined()
+    }
+    
+    // Google Sign-In
+    
+    func signInWithGoogle() {
+        Task {
+            do {
+                isLoading = true
+                guard let topVc = await TopViewController.find() else {
+                    updateError("google_sign_in_error", for: .message)
+                    return
+                }
+                
+                let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVc)
+                
+                guard let userID = result.user.userID else {
+                    updateError("google_sign_in_error", for: .message)
+                    return
+                }
+                
+                guard let profile = result.user.profile else {
+                    updateError("google_sign_in_error", for: .message)
+                    return
+                }
+                
+                let user = UserSignUp(email: profile.email, password: hashUserID(userID), username: "User_G:" + UUID().uuidString)
+                let (data, _) = try await registerRequest(user: user)
+                
+                if (try? JSONDecoder().decode(ModelError.self, from: data)) != nil {
+                    print("error when registering with Google")
+                }
+                
+                let (dataSignIn, _) = try await signInRequest(email: profile.email, password: hashUserID(userID))
+                
+                if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
+                    updateError("google_sign_in_error", for: .message)
+                    return
+                }
+                
+                guard let token = try? JSONDecoder().decode(TokenModel.self, from: dataSignIn) else {
+                    print("Don't decoding token")
+                    throw HttpError.errorDecodingData
+                }
+                
+                if !KeychainHelper.save(token: token.value) {
+                    print("Don't save token")
+                    throw HttpError.tokenDontSave
+                }
+            } catch let error as HttpError {
+                handleHttpError(error)
+            } catch {
+                print("An unexpected error occurred: \(error)")
+            }
+            isLoading = false
         }
     }
-                    
-    // MARK: - Apple Sign-In
     
-    func signInWithApple() {}
+    // Fecebook Sign-In
+    
+    func signInWithFaceBook() {
+        Task {
+            isLoading = true
+            
+            guard let topVc = await TopViewController.find() else {
+                throw URLError(.cannotFindHost)
+            }
+            
+            let loginManager = LoginManager()
+            
+            loginManager.logIn(permissions: ["public_profile", "email"], from: topVc) { (result, error) in
+                if let error = error {
+                    print(error)
+                } else if let result = result, !result.isCancelled {
+                    self.fetchFacebookUserData()
+                } else {
+                    print("isCancelled")
+                }
+            }
+        }
+    }
+    
+    private func fetchFacebookUserData() {
+        guard AccessToken.current != nil else {
+            updateError("facebook_sign_in_error", for: .message)
+            return
+        }
+        
+        let request = GraphRequest(graphPath: "me", parameters: ["fields": "id,name,email"])
+        
+        request.start { (_, result, error) in
+            if let error = error {
+                print(error)
+            } else if let userData = result as? [String: Any] {
+                self.handleFacebookUserData(userData: userData)
+            } else {
+                print("isCancelled")
+            }
+        }
+    }
+    
+    private func handleFacebookUserData(userData: [String: Any]) {
+        Task {
+            do {
+                guard let userID = userData["id"] as? String, let name = userData["name"] as? String else {
+                    updateError("facebook_sign_in_error", for: .message)
+                    return
+                }
+                
+                let user = UserSignUp(email: hashUserID(name), password: hashUserID(userID), username: "User_F:" + UUID().uuidString)
+                
+                let (data, _) = try await registerRequest(user: user)
+                
+                if (try? JSONDecoder().decode(ModelError.self, from: data)) != nil {
+                    print("error when registering with Facebook")
+                }
+                
+                let (dataSignIn, _) = try await signInRequest(email: hashUserID(name), password: hashUserID(userID))
+                
+                if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
+                    updateError("facebook_sign_in_error", for: .message)
+                    return
+                }
+                
+                guard let token = try? JSONDecoder().decode(TokenModel.self, from: dataSignIn) else {
+                    throw HttpError.errorDecodingData
+                }
+                
+                if !KeychainHelper.save(token: token.value) {
+                    throw HttpError.tokenDontSave
+                }
+            } catch let error as HttpError {
+                handleHttpError(error)
+            } catch {
+                print("An unexpected error occurred: \(error)")
+            }
+            isLoading = false
+        }
+    }
+    
+    // Apple Sign-In
+    
+    func signInWithApple() {
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.performRequests()
+    }
+    
+    private func handleAuthorization(credential: ASAuthorizationAppleIDCredential) {
+        let userID = credential.user
+        let email = credential.email
+        
+        Task {
+            do {
+                isLoading = true
+                
+                guard let emailToUse = email else {
+                    updateError("apple_sign_in_error", for: .message)
+                    return
+                }
+                                
+                let user = UserSignUp(email: emailToUse, password: hashUserID(userID), username: "User_A:" + UUID().uuidString)
+                let (data, _) = try await registerRequest(user: user)
+                
+                if (try? JSONDecoder().decode(ModelError.self, from: data)) != nil {
+                    print("error when registering with Apple")
+                }
+                
+                let (dataSignIn, _) = try await signInRequest(email: emailToUse, password: hashUserID(userID))
+                
+                if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
+                    updateError("apple_sign_in_error", for: .message)
+                    return
+                }
+                
+                guard let token = try? JSONDecoder().decode(TokenModel.self, from: dataSignIn) else {
+                    print("Don't decoding token")
+                    throw HttpError.errorDecodingData
+                }
+                
+                if !KeychainHelper.save(token: token.value) {
+                    print("Don't save token")
+                    throw HttpError.tokenDontSave
+                }
+                isLoading = false
+            } catch let error as HttpError {
+                handleHttpError(error)
+            } catch {
+                print("An unexpected error occurred: \(error)")
+            }
+        }
+    }
+}
+
+extension SignUpLogInViewModel: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            handleAuthorization(credential: appleIDCredential)
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        updateError("apple_sign_in_error", for: .message)
+    }
 }

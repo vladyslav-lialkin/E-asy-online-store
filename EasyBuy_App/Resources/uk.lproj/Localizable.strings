@@ -8,14 +8,57 @@
 
 // MARK: - Localization to App Lifecycle
 
-// EasyBuy_App
+// MARK: EasyBuy_App
 "no_internet_connection" = "Немає підключення до Інтернету";
 
 
 // MARK: - Localization to SignUpLogIn
 
-// AuthenticationView
+// MARK: AuthenticationView
 "authentication_title" = "Світ Apple – в твоїх руках!";
 "authentication_description" = "Від AirPods до MacBook – все, що ти шукаєш, тут. Отримай більше від Apple.";
 "authentication_sign_up" = "Зареєструватись";
 "authentication_log_in" = "Увійти";
+
+// MARK: SignUpLogInView
+// Заголовки
+"log_in_title" = "Увійдіть До Свого \nАккаунту";
+"sign_up_title" = "Створіть Новий \nАккаунт";
+
+// Опис
+"log_in_description" = "Будь ласка, увійдіть до свого аккаунту";
+"sign_up_description" = "Зареєструйтесь, щоб почати купувати ваші улюблені продукти Apple";
+
+// Поля
+"username" = "Ім'я користувача";
+"enter_username" = "Введіть ім'я користувача";
+"email_address" = "Адреса електронної пошти";
+"enter_email" = "Введіть адресу електронної пошти";
+"password" = "Пароль";
+"enter_password" = "Введіть пароль";
+
+// Кнопки
+"log_in_primary_button_title" = "Увійти";
+"sign_up_primary_button_title" = "Зареєструватись";
+"log_in_secondary_button_title" = "Зареєструватися";
+"sign_up_secondary_button_title" = "Увійти";
+"done" = "Готово";
+
+// Інше
+"or_sign_in_with" = "Або увійдіть через";
+
+// Опис внизу
+"log_in_bottom_description_text" = "Немає аккаунту?";
+"sign_up_bottom_description_text" = "Вже є аккаунт?";
+
+// Помилки
+"email_is_already_in_use" = "Ця електронна адреса вже використовується.";
+"username_is_already_in_use" = "Це ім'я користувача вже використовується.";
+"email_does_not_exist" = "Електронна адреса не існує.";
+"incorrect_password" = "Неправильний пароль.";
+"server_connection_issue" = "Проблема з підключенням до сервера. Будь ласка, спробуйте пізніше.";
+"this_email_does_not_exist" = "Ця електронна адреса не існує.";
+"password_is_very_weak" = "Пароль дуже слабкий.";
+"google_sign_in_error" = "Не вдалося увійти через Google. Будь ласка, спробуйте пізніше.";
+"facebook_sign_in_error" = "Не вдалося увійти через Facebook. Будь ласка, спробуйте пізніше.";
+"apple_sign_in_error" = "Не вдалося увійти через Apple. Будь ласка, спробуйте пізніше.";
