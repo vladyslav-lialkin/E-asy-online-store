@@ -358,6 +358,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                     self.fetchFacebookUserData()
                 } else {
                     print("isCancelled")
+                    self.isLoading = false
                 }
             }
         }
@@ -378,6 +379,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                 self.handleFacebookUserData(userData: userData)
             } else {
                 print("isCancelled")
+                self.isLoading = false
             }
         }
     }
@@ -432,7 +434,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         authorizationController.performRequests()
     }
     
-    private func handleAuthorization(credential: ASAuthorizationAppleIDCredential) {
+    private func handleAppleAuthorization(credential: ASAuthorizationAppleIDCredential) {
         let userID = credential.user
         let email = credential.email
         
@@ -481,7 +483,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 extension SignUpLogInViewModel: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            handleAuthorization(credential: appleIDCredential)
+            handleAppleAuthorization(credential: appleIDCredential)
         }
     }
     
