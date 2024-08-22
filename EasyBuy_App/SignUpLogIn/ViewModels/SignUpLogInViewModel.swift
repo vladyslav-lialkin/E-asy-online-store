@@ -64,6 +64,14 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         print("deinit: SignUpLogInViewModel")
     }
     
+    // MARK: - Update isLoading Methods
+    
+    func isLoading(_ bool: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.isLoading = bool
+        }
+    }
+    
     
     // MARK: - Error Handling Methods
     
@@ -130,8 +138,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
             print("The token was not saved properly.")
         }
         
-        errorMessage = "server_connection_issue"
-        isLoading = false
+        updateError("server_connection_issue", for: .message)
     }
     
     private func startErrorTimeout() {
@@ -287,9 +294,9 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
     // MARK: Google Sign-In
     
     func signInWithGoogle() {
+        isLoading = true
         Task {
             do {
-                isLoading = true
                 guard let topVc = await TopViewController.find() else {
                     updateError("google_sign_in_error", for: .message)
                     return
@@ -335,16 +342,15 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
             } catch {
                 print("An unexpected error occurred: \(error)")
             }
-            isLoading = false
+            isLoading(false)
         }
     }
     
     // MARK: Fecebook Sign-In
 //
 //    func signInWithFaceBook() {
+//        isLoading = true
 //        Task {
-//            isLoading = true
-//            
 //            guard let topVc = await TopViewController.find() else {
 //                throw URLError(.cannotFindHost)
 //            }
@@ -358,7 +364,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 //                    self.fetchFacebookUserData()
 //                } else {
 //                    print("isCancelled")
-//                    self.isLoading = false
+//                    self.isLoading(false)
 //                }
 //            }
 //        }
@@ -379,7 +385,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 //                self.handleFacebookUserData(userData: userData)
 //            } else {
 //                print("isCancelled")
-//                self.isLoading = false
+//                self.isLoading(false)
 //            }
 //        }
 //    }
@@ -419,7 +425,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 //            } catch {
 //                print("An unexpected error occurred: \(error)")
 //            }
-//            isLoading = false
+//            isLoading(false)
 //        }
 //    }
     
@@ -438,10 +444,9 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         let userID = credential.user
         let email = credential.email
         
+        isLoading = true
         Task {
             do {
-                isLoading = true
-                
                 guard let emailToUse = email else {
                     updateError("apple_sign_in_error", for: .message)
                     return
@@ -470,7 +475,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                     print("Don't save token")
                     throw HttpError.tokenDontSave
                 }
-                isLoading = false
+                isLoading(false)
             } catch let error as HttpError {
                 handleHttpError(error)
             } catch {

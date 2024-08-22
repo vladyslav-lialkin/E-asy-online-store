@@ -91,8 +91,8 @@ struct SignUpLogInView: View {
                 
                 Button {
                     focus = false
+                    viewModel.isLoading = true
                     Task {
-                        viewModel.isLoading = true
                         do {
                             try await viewModel.isLogin ? viewModel.logIn() : viewModel.signUp()
                         } catch let error as HttpError {
@@ -100,7 +100,7 @@ struct SignUpLogInView: View {
                         } catch {
                             print("An unexpected error occurred: \(error)")
                         }
-                        viewModel.isLoading = false
+                        viewModel.isLoading(false)
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 50)
