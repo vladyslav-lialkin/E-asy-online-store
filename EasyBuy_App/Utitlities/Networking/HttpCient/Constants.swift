@@ -8,7 +8,7 @@
 import Foundation
 
 enum Constants: String {
-    case baseURL = "https://cca6-91-204-86-218.ngrok-free.app"
+    case baseURL = "https://server-easybuy-api.fly.dev"
 }
 
 enum Endpoints: String {
@@ -19,6 +19,7 @@ enum Endpoints: String {
     case delete = "/delete"
     case users = "/users"
     case products = "/products"
+    case favorites = "/favorites"
     case orders = "/orders"
     case cartitems = "/cartitems"
     case reviews = "/reviews"

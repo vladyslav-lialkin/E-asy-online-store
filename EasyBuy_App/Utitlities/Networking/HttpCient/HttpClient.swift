@@ -12,7 +12,7 @@ class HttpClient {
 
     static let shared = HttpClient()
     
-    func fetch<T: Codable>(url: URL, mimeType: MIMEType) async throws -> [T] {
+    func fetch<T: Codable>(url: URL, mimeType: MIMEType) async throws -> T {
         var request = URLRequest(url: url)
         request.addValue(mimeType.rawValue,
                          forHTTPHeaderField: HttpHeaders.authorization.rawValue)
@@ -23,13 +23,13 @@ class HttpClient {
             throw HttpError.badResponse
         }
         
-        guard let objects = try? JSONDecoder().decode([T].self, from: data) else {
+        guard let objects = try? JSONDecoder().decode(T.self, from: data) else {
             throw HttpError.errorDecodingData
         }
         
         return objects
     }
-    
+        
     func sendData<T: Codable>(to url: URL, object: T, httpMethod: HttpMethod, mimeType: MIMEType) async throws {
         var request = URLRequest(url: url)
         

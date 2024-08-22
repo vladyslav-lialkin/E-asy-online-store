@@ -62,3 +62,12 @@
 "google_sign_in_error" = "Could not sign in with Google. Please try again later.";
 "facebook_sign_in_error" = "Could not sign in with Facebook. Please try again later.";
 "apple_sign_in_error" = "Could not sign in with Apple. Please try again later.";
+
+
+// MARK: - MainTab
+
+// MARK: MainTabView
+"products" = "Products";
+"favorites" = "Favorites";
+"bag" = "Bag";
+"profile" = "Profile";

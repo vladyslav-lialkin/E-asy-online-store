@@ -9,9 +9,9 @@ import Foundation
 import Combine
 
 class SignUpLogInCoordinator: ObservableObject {
-    @Published var stack: [SignUpLogInScreens] = [.authentication]
+    @Published var stack: [SignUpLogInStack] = [.authentication]
     
-    func push(_ element: SignUpLogInScreens) {
+    func push(_ element: SignUpLogInStack) {
         if !stack.contains(element) {
             stack.append(element)
         } else {

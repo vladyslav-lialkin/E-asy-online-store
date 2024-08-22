@@ -150,7 +150,7 @@ struct SignUpLogInView: View {
                     
                     Button {
                         focus = false
-                        viewModel.signInWithFaceBook()
+//                        viewModel.signInWithFaceBook()
                     } label: {
                         Capsule(style: .circular)
                             .stroke(Color.gray, lineWidth: 1)

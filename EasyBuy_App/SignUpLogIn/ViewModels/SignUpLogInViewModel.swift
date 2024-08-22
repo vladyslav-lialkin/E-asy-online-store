@@ -8,7 +8,7 @@
 import SwiftUI
 import CryptoKit
 import GoogleSignIn
-import FacebookLogin
+//import FacebookLogin
 import AuthenticationServices
 
 
@@ -284,7 +284,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         return hash.map { String(format: "%02hhx", $0) }.joined()
     }
     
-    // Google Sign-In
+    // MARK: Google Sign-In
     
     func signInWithGoogle() {
         Task {
@@ -339,91 +339,91 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         }
     }
     
-    // Fecebook Sign-In
+    // MARK: Fecebook Sign-In
+//
+//    func signInWithFaceBook() {
+//        Task {
+//            isLoading = true
+//            
+//            guard let topVc = await TopViewController.find() else {
+//                throw URLError(.cannotFindHost)
+//            }
+//            
+//            let loginManager = LoginManager()
+//            
+//            loginManager.logIn(permissions: ["public_profile", "email"], from: topVc) { (result, error) in
+//                if let error = error {
+//                    print(error)
+//                } else if let result = result, !result.isCancelled {
+//                    self.fetchFacebookUserData()
+//                } else {
+//                    print("isCancelled")
+//                    self.isLoading = false
+//                }
+//            }
+//        }
+//    }
+//    
+//    private func fetchFacebookUserData() {
+//        guard AccessToken.current != nil else {
+//            updateError("facebook_sign_in_error", for: .message)
+//            return
+//        }
+//        
+//        let request = GraphRequest(graphPath: "me", parameters: ["fields": "id,name,email"])
+//        
+//        request.start { (_, result, error) in
+//            if let error = error {
+//                print(error)
+//            } else if let userData = result as? [String: Any] {
+//                self.handleFacebookUserData(userData: userData)
+//            } else {
+//                print("isCancelled")
+//                self.isLoading = false
+//            }
+//        }
+//    }
+//    
+//    private func handleFacebookUserData(userData: [String: Any]) {
+//        Task {
+//            do {
+//                guard let userID = userData["id"] as? String, let name = userData["name"] as? String else {
+//                    updateError("facebook_sign_in_error", for: .message)
+//                    return
+//                }
+//                
+//                let user = UserSignUp(email: hashUserID(name), password: hashUserID(userID), username: "User_F:" + UUID().uuidString)
+//                
+//                let (data, _) = try await registerRequest(user: user)
+//                
+//                if (try? JSONDecoder().decode(ModelError.self, from: data)) != nil {
+//                    print("error when registering with Facebook")
+//                }
+//                
+//                let (dataSignIn, _) = try await signInRequest(email: hashUserID(name), password: hashUserID(userID))
+//                
+//                if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
+//                    updateError("facebook_sign_in_error", for: .message)
+//                    return
+//                }
+//                
+//                guard let token = try? JSONDecoder().decode(TokenModel.self, from: dataSignIn) else {
+//                    throw HttpError.errorDecodingData
+//                }
+//                
+//                if !KeychainHelper.save(token: token.value) {
+//                    throw HttpError.tokenDontSave
+//                }
+//            } catch let error as HttpError {
+//                handleHttpError(error)
+//            } catch {
+//                print("An unexpected error occurred: \(error)")
+//            }
+//            isLoading = false
+//        }
+//    }
     
-    func signInWithFaceBook() {
-        Task {
-            isLoading = true
-            
-            guard let topVc = await TopViewController.find() else {
-                throw URLError(.cannotFindHost)
-            }
-            
-            let loginManager = LoginManager()
-            
-            loginManager.logIn(permissions: ["public_profile", "email"], from: topVc) { (result, error) in
-                if let error = error {
-                    print(error)
-                } else if let result = result, !result.isCancelled {
-                    self.fetchFacebookUserData()
-                } else {
-                    print("isCancelled")
-                    self.isLoading = false
-                }
-            }
-        }
-    }
-    
-    private func fetchFacebookUserData() {
-        guard AccessToken.current != nil else {
-            updateError("facebook_sign_in_error", for: .message)
-            return
-        }
-        
-        let request = GraphRequest(graphPath: "me", parameters: ["fields": "id,name,email"])
-        
-        request.start { (_, result, error) in
-            if let error = error {
-                print(error)
-            } else if let userData = result as? [String: Any] {
-                self.handleFacebookUserData(userData: userData)
-            } else {
-                print("isCancelled")
-                self.isLoading = false
-            }
-        }
-    }
-    
-    private func handleFacebookUserData(userData: [String: Any]) {
-        Task {
-            do {
-                guard let userID = userData["id"] as? String, let name = userData["name"] as? String else {
-                    updateError("facebook_sign_in_error", for: .message)
-                    return
-                }
-                
-                let user = UserSignUp(email: hashUserID(name), password: hashUserID(userID), username: "User_F:" + UUID().uuidString)
-                
-                let (data, _) = try await registerRequest(user: user)
-                
-                if (try? JSONDecoder().decode(ModelError.self, from: data)) != nil {
-                    print("error when registering with Facebook")
-                }
-                
-                let (dataSignIn, _) = try await signInRequest(email: hashUserID(name), password: hashUserID(userID))
-                
-                if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
-                    updateError("facebook_sign_in_error", for: .message)
-                    return
-                }
-                
-                guard let token = try? JSONDecoder().decode(TokenModel.self, from: dataSignIn) else {
-                    throw HttpError.errorDecodingData
-                }
-                
-                if !KeychainHelper.save(token: token.value) {
-                    throw HttpError.tokenDontSave
-                }
-            } catch let error as HttpError {
-                handleHttpError(error)
-            } catch {
-                print("An unexpected error occurred: \(error)")
-            }
-            isLoading = false
-        }
-    }
-    
-    // Apple Sign-In
+    // MARK: Apple Sign-In
     
     func signInWithApple() {
         let request = ASAuthorizationAppleIDProvider().createRequest()

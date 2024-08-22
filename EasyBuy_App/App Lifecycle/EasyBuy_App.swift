@@ -7,7 +7,7 @@
 
 import SwiftUI
 import GoogleSignIn
-import FacebookLogin
+//import FacebookLogin
 
 @main
 struct EasyBuy_App: App {
@@ -20,7 +20,7 @@ struct EasyBuy_App: App {
         WindowGroup {
             ZStack {
                 if appState.isAuthenticated {
-                    ContentView()
+                    MainTabView()
                         .environmentObject(appState)
                         .transition(.move(edge: .trailing))
                 } else {
@@ -45,9 +45,9 @@ struct EasyBuy_App: App {
             .animation(.easeInOut, value: appState.isAuthenticated)
             .animation(.easeOut, value: networkMonitor.isConnected)
             .onOpenURL { url in
-                ApplicationDelegate.shared.application(UIApplication.shared,
-                                                       open: url,sourceApplication: nil,
-                                                       annotation: UIApplication.OpenURLOptionsKey.annotation)
+//                ApplicationDelegate.shared.application(UIApplication.shared,
+//                                                       open: url,sourceApplication: nil,
+//                                                       annotation: UIApplication.OpenURLOptionsKey.annotation)
                 
                 if GIDSignIn.sharedInstance.handle(url) {
                     return
