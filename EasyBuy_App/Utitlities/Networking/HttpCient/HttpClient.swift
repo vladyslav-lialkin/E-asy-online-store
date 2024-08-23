@@ -12,10 +12,10 @@ class HttpClient {
 
     static let shared = HttpClient()
     
-    func fetch<T: Codable>(url: URL, mimeType: MIMEType) async throws -> T {
+    func fetch<T: Codable>(url: URL, token: String) async throws -> T {
         var request = URLRequest(url: url)
-        request.addValue(mimeType.rawValue,
-                         forHTTPHeaderField: HttpHeaders.authorization.rawValue)
+        request.addValue("Bearer \(token)",
+                         forHTTPHeaderField: "Authorization")
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
@@ -30,12 +30,12 @@ class HttpClient {
         return objects
     }
         
-    func sendData<T: Codable>(to url: URL, object: T, httpMethod: HttpMethod, mimeType: MIMEType) async throws {
+    func sendData<T: Codable>(to url: URL, object: T, httpMethod: HttpMethod, token: String) async throws {
         var request = URLRequest(url: url)
         
         request.httpMethod = httpMethod.rawValue
-        request.addValue(mimeType.rawValue,
-                             forHTTPHeaderField: HttpHeaders.authorization.rawValue)
+        request.addValue("Bearer \(token)",
+                         forHTTPHeaderField: "Authorization")
         request.addValue(MIMEType.JSON.rawValue,
                          forHTTPHeaderField: HttpHeaders.contentType.rawValue)
         
@@ -46,15 +46,13 @@ class HttpClient {
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             throw HttpError.badResponse
         }
-        
-        print(response)
     }
     
-    func delete(url: URL, mimeType: MIMEType) async throws {
+    func delete(url: URL, token: String) async throws {
         var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.DELETE.rawValue
-        request.addValue(mimeType.rawValue,
-                         forHTTPHeaderField: HttpHeaders.authorization.rawValue)
+        request.addValue("Bearer \(token)",
+                         forHTTPHeaderField: "Authorization")
         
         let (_, response) = try await URLSession.shared.data(for: request)
         
