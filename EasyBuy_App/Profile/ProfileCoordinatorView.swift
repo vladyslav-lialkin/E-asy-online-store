@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ProfileCoordinatorView: View {
     @EnvironmentObject var coordinator: MainTabCoordinator
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         NStack(stack: $coordinator.profileStack) { screens in
             switch screens {
             case .profile:
-                ProfileView()
+                ProfileView(appState: appState)
             }
         }
     }
@@ -22,4 +23,5 @@ struct ProfileCoordinatorView: View {
 
 #Preview {
     ProfileCoordinatorView()
+        .environmentObject(MainTabCoordinator())
 }

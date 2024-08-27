@@ -24,4 +24,5 @@ struct FavoritesCoordinatorView: View {
 
 #Preview {
     FavoritesCoordinatorView()
+        .environmentObject(MainTabCoordinator())
 }

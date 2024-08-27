@@ -21,5 +21,10 @@ enum HttpHeaders: String {
 }
 
 enum HttpError: Error {
-    case badURL, badResponse, errorDecodingData, invalidURL, tokenDontSave
+    case badURL
+    case badToken
+    case badResponse
+    case errorDecodingData
+    case invalidURL
+    case tokenDontSave
 }

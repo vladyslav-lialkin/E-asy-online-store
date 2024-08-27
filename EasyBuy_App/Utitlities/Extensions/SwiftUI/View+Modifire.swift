@@ -15,4 +15,12 @@ extension View {
     func customTextField(color: Color) -> some View {
         self.modifier(TextFieldModifier(color: color))
     }
+    
+    func showErrorMessega(errorMessage: LocalizedStringKey?) -> some View {
+        self.modifier(ShowErrorMessegaModifier(errorMessage: errorMessage))
+    }
+    
+    func showProgressView(isLoading: Bool) -> some View {
+        self.modifier(ShowProgressViewModifier(isLoading: isLoading))
+    }
 }

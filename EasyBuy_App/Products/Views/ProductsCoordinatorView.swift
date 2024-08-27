@@ -24,4 +24,5 @@ struct ProductsCoordinatorView: View {
 
 #Preview {
     ProductsCoordinatorView()
+        .environmentObject(MainTabCoordinator())
 }

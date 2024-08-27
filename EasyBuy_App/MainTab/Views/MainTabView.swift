@@ -41,7 +41,7 @@ struct MainTabView: View {
                 }
         }
         .environmentObject(coordinator)
-        .tint(Color("AppColor"))
+        .tint(Color.app)
         .customBackButton()
     }
 }

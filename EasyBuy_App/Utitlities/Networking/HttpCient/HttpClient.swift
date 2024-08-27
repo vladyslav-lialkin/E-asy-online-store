@@ -29,6 +29,11 @@ class HttpClient {
         
         return objects
     }
+    
+    func fetch(url: URL) async throws -> Data {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return data
+    }
         
     func sendData<T: Codable>(to url: URL, object: T, httpMethod: HttpMethod, token: String) async throws {
         var request = URLRequest(url: url)

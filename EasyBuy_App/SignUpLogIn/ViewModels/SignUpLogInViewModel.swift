@@ -82,7 +82,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         case message
     }
     
-    private func updateError(_ error: LocalizedStringKey?, for field: UpdateError) {
+    func updateError(_ error: LocalizedStringKey?, for field: UpdateError) {
         DispatchQueue.main.async { [weak self] in
             switch field {
             case .username:
@@ -122,23 +122,6 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         }
         
         return hasError
-    }
-    
-    func handleHttpError(_ error: HttpError) {
-        switch error {
-        case .badURL:
-            print("The URL provided is invalid.")
-        case .badResponse:
-            print("Received a bad response from the server.")
-        case .errorDecodingData:
-            print("Failed to decode the data.")
-        case .invalidURL:
-            print("The URL is invalid.")
-        case .tokenDontSave:
-            print("The token was not saved properly.")
-        }
-        
-        updateError("server_connection_issue", for: .message)
     }
     
     private func startErrorTimeout() {
@@ -338,7 +321,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                     throw HttpError.tokenDontSave
                 }
             } catch let error as HttpError {
-                handleHttpError(error)
+                updateError(HandlerError.httpError(error), for: .message)
             } catch {
                 print("An unexpected error occurred: \(error)")
             }
@@ -477,7 +460,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                 }
                 isLoading(false)
             } catch let error as HttpError {
-                handleHttpError(error)
+                updateError(HandlerError.httpError(error), for: .message)
             } catch {
                 print("An unexpected error occurred: \(error)")
             }

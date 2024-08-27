@@ -24,4 +24,5 @@ struct BagCoordinatorView: View {
 
 #Preview {
     BagCoordinatorView()
+        .environmentObject(MainTabCoordinator())
 }

@@ -96,7 +96,7 @@ struct SignUpLogInView: View {
                         do {
                             try await viewModel.isLogin ? viewModel.logIn() : viewModel.signUp()
                         } catch let error as HttpError {
-                            viewModel.handleHttpError(error)
+                            viewModel.updateError(HandlerError.httpError(error), for: .message)
                         } catch {
                             print("An unexpected error occurred: \(error)")
                         }
@@ -220,33 +220,8 @@ struct SignUpLogInView: View {
                 }
             }
         }
-        .overlay {
-            if let message = viewModel.errorMessage {
-                Text(message)
-                    .foregroundColor(.red)
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 15)
-                            .fill(Color(uiColor: .systemGray2))
-                            .opacity(0.9)
-                    }
-                    .frame(width: 230)
-            }
-        }
-        .overlay {
-            if viewModel.errorMessage == nil, viewModel.isLoading {
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(Color(uiColor: .systemGray2))
-                    .opacity(0.8)
-                    .overlay {
-                        ProgressView()
-                            .tint(.white)
-                            .scaleEffect(1.6)
-                            .progressViewStyle(.circular)
-                    }
-                    .frame(width: 50, height: 50, alignment: .center)
-            }
-        }
+        .showErrorMessega(errorMessage: viewModel.errorMessage)
+        .showProgressView(isLoading: viewModel.isLoading)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if focus {
