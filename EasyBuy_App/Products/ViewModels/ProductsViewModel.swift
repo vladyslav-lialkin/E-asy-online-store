@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-
 class ProductsViewModel: ObservableObject {
     
     // MARK: - Property
-    @Published var products = [Product]()
-    
+    @Published var isLoading = false
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
@@ -21,27 +19,28 @@ class ProductsViewModel: ObservableObject {
         }
     }
     
-    @Published var isLoading = false
+    @Published var imagesData = [Data]()
+    let iPhonesImagesUrl: [URL?] = [
+        URL(string: "https://i.imgur.com/RvgrlFp.png")
+    ]
     
-    let categories = ["iPhone", "Apple\nWatch", "iPad", "Mac", "Apple\nVision Pro", "AirPods", "Apple TV 4K", "HomePod", "AirTag"]
-    let categoriesImage = ["iPhone", "Apple Watch", "iPad", "Mac", "Apple Vision Pro", "AirPods", "Apple TV 4K", "HomePod", "AirTag"]
-    
+    let categoriesTitle = ["iPhone", "Apple\nWatch", "iPad", "Mac", "Apple\nVision Pro", "AirPods", "Apple TV 4K", "HomePod", "AirTag"]
     
     // MARK: - Init
     init() {
-        isLoading = true
-        Task {
-            do {
-                let products = try await fetchProducts()
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.products = products
-                }
-            } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
-            }
-            isLoading(false)
-        }
+//        isLoading = true
+//        Task {
+//            do {
+//                let imagesData = try await fetchImages()
+//                
+//                DispatchQueue.main.async { [weak self] in
+//                    self?.imagesData = imagesData
+//                }
+//            } catch let error as HttpError {
+//                updateError(HandlerError.httpError(error))
+//            }
+//            isLoading(false)
+//        }
     }
     
     // MARK: - Update isLoading
@@ -69,23 +68,17 @@ class ProductsViewModel: ObservableObject {
     }
     
     // MARK: - Fetch Methods
-    func fetchProducts() async throws -> [Product] {
-        guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.products.rawValue) else {
-            throw HttpError.badURL
-        }
-        
-        guard let token = KeychainHelper.getToken() else {
-            throw HttpError.badToken
-        }
-        
-        var products: [Product] = try await HttpClient.shared.fetch(url: url, token: token)
-        
-        for index in 0..<products.count {
-            if let url = products[index].imagesUrl.first {
-                products[index].imagesData += [try await HttpClient.shared.fetch(url: url)]
+    func fetchImages() async throws -> [Data] {        
+        var imagesData = [Data]()
+                
+        for index in 0..<iPhonesImagesUrl.count {
+            if let url = iPhonesImagesUrl[index] {
+                imagesData += [try await HttpClient.shared.fetch(url: url)]
+            } else {
+                print("The URL of the photo at index \(index) is incorrect")
             }
         }
 
-        return products
+        return imagesData
     }
 }

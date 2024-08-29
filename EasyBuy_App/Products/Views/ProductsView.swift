@@ -10,30 +10,29 @@ import SwiftUI
 struct ProductsView: View {
     @EnvironmentObject var coordinator: MainTabCoordinator
     @StateObject private var viewModel = ProductsViewModel()
-    @State private var searchText = ""
     
-    
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    let width = UIScreen.main.bounds.size.width
+    let height = UIScreen.main.bounds.size.height
     
     var body: some View {
         ScrollView(.vertical) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(Array(viewModel.categories.enumerated()), id: \.offset) { index, category in
+                    ForEach(Array(viewModel.categoriesTitle.enumerated()), id: \.offset) { index, category in
                         Button {
-                            coordinator.productsStack.append(.products)
+                            coordinator.productsStack.append(.categoryProducts(CategoryEnum.rawValue(index)))
                         } label: {
                             VStack {
                                 Spacer()
                                 Spacer()
-                                Image(viewModel.categoriesImage[index])
+                                Image(CategoryEnum.rawValue(index))
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 85)
                                                                 
                                 Text(category)
                                     .frame(height: 35 ,alignment: .center)
-                                    .font(.caption.weight(.medium))
+                                    .font(.caption.weight(.semibold))
                                     .foregroundStyle(.lable)
                                     .padding(.bottom, 5)
                             }
@@ -41,47 +40,29 @@ struct ProductsView: View {
                             .background(Color.itemBackground)
                             .clipShape(.rect(cornerRadius: 15))
                         }
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(.app, lineWidth: 0.5)
-                        }
-                        .padding(.all, 2)
                     }
                 }
-                .padding()
+                .padding(.top)
+                .padding(.horizontal)
             }
             
-            LazyVGrid(columns: columns) {
-                ForEach(viewModel.products) { product in
-                    VStack {
-                        if let data = product.imagesData.first, let image = UIImage(data: data) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .padding()
-                        } else {
-                            ProgressView()
-                                .tint(.white)
-                                .scaleEffect(1.6)
-                                .progressViewStyle(.circular)
-                        }
-                        
-                        Text(product.name)
-                            .padding(.horizontal)
-                        Text("\(product.price) грн.")
-                            .padding(.horizontal)
-                    }
-                    .frame(height: 300)
-                    .background(Color.itemBackground)
-                    .clipShape(.rect(cornerRadius: 25))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(.app, lineWidth: 0.5)
-                    }
-                    .padding(.all, 2)
+            Text("Discover what's new")
+                .font(.title2.bold())
+                .padding(.top)
+                .padding(.horizontal)
+                .frame(width: width, alignment: .leading)
+            
+            PageTabView {
+                ForEach(viewModel.iPhonesImagesUrl, id: \.self) { url in
+                    PageItemView(url: url,
+                             title: "iPhone 15 pro",
+                             price: "$999",
+                             id: UUID(),
+                             coordinator: coordinator)
                 }
+
             }
-            .padding()
+            .frame(width: width, height: 550)
         }
         .navigationTitle("Products")
         .showErrorMessega(errorMessage: viewModel.errorMessage)

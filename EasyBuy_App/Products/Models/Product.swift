@@ -16,7 +16,6 @@ struct Product: Codable, Identifiable {
     let category: CategoryEnum.RawValue
     let imagesUrl: [URL]
     let createdAt: Date
-    var imagesData = [Data]()
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -27,7 +26,6 @@ struct Product: Codable, Identifiable {
         case category
         case imagesUrl
         case createdAt
-        case imagesData
     }
 
     init(from decoder: Decoder) throws {
@@ -50,21 +48,3 @@ struct Product: Codable, Identifiable {
         }
     }
 }
-
-//[
-//    {
-//        "updatedAt": "2024-08-23T16:09:36Z",
-//        "stockQuantity": 2,
-//        "createdAt": "2024-08-23T16:09:36Z",
-//        "name": "MacBook Air 2022 512 mamory",
-//        "price": 899.99,
-//        "id": "79AE0D38-1FBE-4237-BEC9-1043BD55DCCF",
-//        "imagesUrl": [
-//            "https://img.jabko.ua/image/cache/catalog/products/2020/11/111144/2-2-1397x1397.jpg.webp"
-//        ],
-//        "status": "published",
-//        "category": "Mac",
-//        "author": "Optional(\"Vladyslav\") Optional(\"Lialkin\")",
-//        "description": "Cool Mac, buy me"
-//    }
-//]

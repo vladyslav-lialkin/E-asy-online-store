@@ -15,6 +15,8 @@ struct ProductsCoordinatorView: View {
             switch screens {
             case .products:
                 ProductsView()
+            case .categoryProducts(let category):
+                CategoryProductView(category: category)
             case .product(_):
                 EmptyView()
             }
