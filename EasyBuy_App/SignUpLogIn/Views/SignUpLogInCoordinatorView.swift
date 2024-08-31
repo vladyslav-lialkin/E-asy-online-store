@@ -22,10 +22,11 @@ struct SignUpLogInCoordinatorView: View {
             }
         }
         .environmentObject(coordinator)
-        .customBackButton()
+        .tint(.app)
     }
 }
 
 #Preview {
     SignUpLogInCoordinatorView()
+        .environmentObject(AppState())
 }

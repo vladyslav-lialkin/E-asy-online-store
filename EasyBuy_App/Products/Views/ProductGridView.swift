@@ -16,59 +16,56 @@ struct ProductGridView: View {
     let coordinator: MainTabCoordinator
     
     var body: some View {
-        VStack {
-            Spacer()
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .empty:
-                    Spacer()
-                    ProgressView()
-                        .scaleEffect(1.2)
-                    Spacer()
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                case .failure:
-                    Text("Failed to load image")
-                        .foregroundColor(.red)
-                @unknown default:
-                    Text("Unknown error")
-                        .foregroundColor(.red)
+        Button {
+            coordinator.productsStack.append(.product(id))
+        } label: {
+            VStack {
+                Spacer()
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        Spacer()
+                        ProgressView()
+                            .scaleEffect(1.2)
+                        Spacer()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                    case .failure:
+                        Text("Failed to load image")
+                            .foregroundColor(.red)
+                    @unknown default:
+                        Text("Unknown error")
+                            .foregroundColor(.red)
+                    }
                 }
-            }
-            
-            Spacer()
-                                    
-            Text(title)
-                .font(.callout.bold())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
-            
-            HStack {
-                Text("Price $" + String(format: "%.2f", price))
-                    .font(.caption)
-                    .padding(.leading)
                 
                 Spacer()
                 
-                Button {
-                    coordinator.productsStack.append(.product(id))
-                } label: {
-                    Text("Buy")
+                VStack {
+                    Spacer()
+                        .frame(height: 15)
+                    Text(title)
+                        .customStroke(strokeSize: 1, strokeColor: .app)
+                        .font(.callout.bold())
+                        .foregroundStyle(.customBackground)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .lineLimit(1)
+                    
+                    Text("Price $" + String(format: "%.2f", price))
+                        .customStroke(strokeSize: 0.8, strokeColor: .app)
                         .font(.caption)
-                        .foregroundStyle(Color.lable)
-                        .background {
-                            Capsule()
-                                .fill(Color.customBackground)
-                                .frame(width: 45, height: 30)
-                        }
+                        .foregroundStyle(.customBackground)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                    Spacer()
+                        .frame(height: 15)
                 }
-                .frame(width: 45, height: 30)
-                .padding(.trailing)
+                .background(.banerBottom)
             }
-            .frame(height: 40)
-            .background(Color.itemBackground)
+            .background(Color(uiColor: .systemBackground))
         }
         .clipShape(.rect(cornerRadius: 20))
         .overlay {
@@ -83,7 +80,7 @@ struct ProductGridView: View {
         let columns = [GridItem(.flexible()), GridItem(.flexible())]
         LazyVGrid(columns: columns) {
             ProductGridView(url: URL(string: "https://i.imgur.com/RvgrlFp.png"),
-                            title: "iPhone 15 pro",
+                            title: "MacBook Air 2020",
                             price: 999.99,
                             id: UUID(),
                             coordinator: MainTabCoordinator())

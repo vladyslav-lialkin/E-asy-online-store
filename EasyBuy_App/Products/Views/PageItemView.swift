@@ -41,12 +41,16 @@ struct PageItemView: View {
             Spacer()
                                     
             Text(title)
+                .customStroke(strokeSize: 2, strokeColor: .app)
                 .font(.title.bold())
+                .foregroundStyle(.customBackground)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 30)
             
             HStack {
                 Text("From " + price)
+                    .customStroke(strokeSize: 1.2, strokeColor: .app)
+                    .foregroundStyle(.customBackground)
                     .padding(.leading, 30)
                 
                 Spacer()
@@ -55,19 +59,26 @@ struct PageItemView: View {
                     coordinator.productsStack.append(.product(id))
                 } label: {
                     Text("Buy")
-                        .foregroundStyle(Color.lable)
+                        .customStroke(strokeSize: 1.2, strokeColor: .app)
+                        .foregroundStyle(Color.customBackground)
                         .background {
                             Capsule()
                                 .fill(Color.customBackground)
                                 .frame(width: 65, height: 40)
                         }
                 }
+                .overlay {
+                    Capsule()
+                        .stroke(Color.border, lineWidth: 1)
+                        .frame(width: 65, height: 40)
+                }
                 .frame(width: 65, height: 40)
                 .padding(.trailing, 30)
             }
             .frame(height: 60)
-            .background(Color.itemBackground)
+            .background(Color.banerBottom)
         }
+        .background(Color(uiColor: .systemBackground))
         .clipShape(.rect(cornerRadius: 30))
         .overlay {
             RoundedRectangle(cornerRadius: 30)

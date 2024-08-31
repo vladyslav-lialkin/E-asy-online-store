@@ -31,9 +31,10 @@ struct ProductsView: View {
                                     .frame(width: 85)
                                                                 
                                 Text(category)
+                                    .customStroke(strokeSize: 0.8, strokeColor: .app)
                                     .frame(height: 35 ,alignment: .center)
                                     .font(.caption.weight(.semibold))
-                                    .foregroundStyle(.lable)
+                                    .foregroundStyle(.customBackground)
                                     .padding(.bottom, 5)
                             }
                             .frame(width: 105, height: 125)
@@ -63,6 +64,9 @@ struct ProductsView: View {
 
             }
             .frame(width: width, height: 550)
+            
+            Spacer()
+                .frame(height: 50)
         }
         .navigationTitle("Products")
         .showErrorMessega(errorMessage: viewModel.errorMessage)
@@ -78,11 +82,6 @@ struct ProductsView: View {
 
             }
         }
-    }
-    
-    private func emoji(_ value: Int) -> String {
-        guard let scalar = UnicodeScalar(value) else { return "?" }
-        return String(Character(scalar))
     }
 }
 

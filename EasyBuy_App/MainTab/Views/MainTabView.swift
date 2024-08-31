@@ -41,11 +41,11 @@ struct MainTabView: View {
                 }
         }
         .environmentObject(coordinator)
-        .tint(Color.app)
-        .customBackButton()
+        .tint(.app)
     }
 }
 
 #Preview {
     MainTabView()
+        .environmentObject(AppState())
 }

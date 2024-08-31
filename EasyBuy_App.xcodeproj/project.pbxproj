@@ -63,9 +63,8 @@
 		32C670662C73AF5600C209E5 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 32C670652C73AF5600C209E5 /* GoogleSignIn */; };
 		32C670682C73AF5600C209E5 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 32C670672C73AF5600C209E5 /* GoogleSignInSwift */; };
 		32C6706F2C73B97500C209E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6706E2C73B97500C209E5 /* AppDelegate.swift */; };
-		32C671C72C6637F800E392D4 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C671C62C6637F800E392D4 /* UIImage+Ext.swift */; };
 		32C671C92C6638AB00E392D4 /* View+Modifire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C671C82C6638AB00E392D4 /* View+Modifire.swift */; };
-		32C671CC2C66395600E392D4 /* BackButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C671CB2C66395600E392D4 /* BackButtonModifier.swift */; };
+		32FACDE22C8355FA007769DE /* StrokeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FACDE12C8355FA007769DE /* StrokeModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,9 +125,8 @@
 		32C0ED7B2C6A977200A9886E /* TokenModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		32C0ED7D2C6A9EFB00A9886E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		32C6706E2C73B97500C209E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		32C671C62C6637F800E392D4 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		32C671C82C6638AB00E392D4 /* View+Modifire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Modifire.swift"; sourceTree = "<group>"; };
-		32C671CB2C66395600E392D4 /* BackButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonModifier.swift; sourceTree = "<group>"; };
+		32FACDE12C8355FA007769DE /* StrokeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,8 +224,9 @@
 		323CDD9D2C63D295009B5182 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				32C671C32C66378B00E392D4 /* SwiftUI */,
-				32C671C42C66379600E392D4 /* UIKit */,
+				3249EAC52C64FD87004C478F /* View+Ext.swift */,
+				32C671C82C6638AB00E392D4 /* View+Modifire.swift */,
+				327656372C677A690048790B /* Color+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -452,24 +451,6 @@
 			path = Keychain;
 			sourceTree = "<group>";
 		};
-		32C671C32C66378B00E392D4 /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				3249EAC52C64FD87004C478F /* View+Ext.swift */,
-				32C671C82C6638AB00E392D4 /* View+Modifire.swift */,
-				327656372C677A690048790B /* Color+Ext.swift */,
-			);
-			path = SwiftUI;
-			sourceTree = "<group>";
-		};
-		32C671C42C66379600E392D4 /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				32C671C62C6637F800E392D4 /* UIImage+Ext.swift */,
-			);
-			path = UIKit;
-			sourceTree = "<group>";
-		};
 		32C671C52C6637AE00E392D4 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -481,10 +462,10 @@
 		32C671CA2C66394700E392D4 /* Modifier */ = {
 			isa = PBXGroup;
 			children = (
-				32C671CB2C66395600E392D4 /* BackButtonModifier.swift */,
 				3276563B2C67A94A0048790B /* TextFieldModifier.swift */,
 				329D86D92C791E4A0014B601 /* ShowErrorMessegaModifier.swift */,
 				32AE6D682C7DF123003B22A7 /* ShowProgressView */,
+				32FACDE12C8355FA007769DE /* StrokeModifier.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -568,10 +549,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32FACDE22C8355FA007769DE /* StrokeModifier.swift in Sources */,
 				327719C52C74BBA00064B287 /* ProductsStack.swift in Sources */,
 				32C0ED712C6A107F00A9886E /* SignUpLogInViewModel.swift in Sources */,
 				326947752C77CCCF004D56D4 /* Product.swift in Sources */,
-				32C671CC2C66395600E392D4 /* BackButtonModifier.swift in Sources */,
 				3269476C2C77A534004D56D4 /* FavoritesCoordinatorView.swift in Sources */,
 				327719C72C74BBB10064B287 /* FavoritesStack.swift in Sources */,
 				326947772C77CD9A004D56D4 /* CategoryEnum.swift in Sources */,
@@ -587,7 +568,6 @@
 				329D86DA2C791E4A0014B601 /* ShowErrorMessegaModifier.swift in Sources */,
 				326947792C77CDF2004D56D4 /* ProductsViewModel.swift in Sources */,
 				321296632C810BDF00BB57A7 /* ProductGridView.swift in Sources */,
-				32C671C72C6637F800E392D4 /* UIImage+Ext.swift in Sources */,
 				323CDDA12C63D4C0009B5182 /* NStack.swift in Sources */,
 				327719BD2C74B87D0064B287 /* MainTabView.swift in Sources */,
 				32835FB22C80942A007B0A71 /* PageTabView.swift in Sources */,
@@ -777,6 +757,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AuthenticationView.swift;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -812,6 +794,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AuthenticationView.swift;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (

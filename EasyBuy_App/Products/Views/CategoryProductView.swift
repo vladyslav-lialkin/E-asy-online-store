@@ -10,7 +10,7 @@ import SwiftUI
 struct CategoryProductView: View {
     
     @EnvironmentObject var coordinator: MainTabCoordinator
-    @ObservedObject private var viewModel: CategoryProductsViewModel
+    @StateObject private var viewModel: CategoryProductsViewModel
     
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
@@ -29,7 +29,6 @@ struct CategoryProductView: View {
             .padding()
             .searchable(text: $viewModel.searchText) {
             }
-            .onAppear()
         }
         .navigationTitle(viewModel.category)
         .showErrorMessega(errorMessage: viewModel.errorMessage)
@@ -48,7 +47,7 @@ struct CategoryProductView: View {
     }
     
     init(category: CategoryEnum.RawValue) {
-        self.viewModel = CategoryProductsViewModel(category: category)
+        _viewModel = StateObject(wrappedValue: CategoryProductsViewModel(category: category))
     }
 }
 
@@ -56,5 +55,6 @@ struct CategoryProductView: View {
     NavigationView {
         CategoryProductView(category: CategoryEnum.rawValue(3))
             .environmentObject(MainTabCoordinator())
+//            .customBackButton()
     }
 }
