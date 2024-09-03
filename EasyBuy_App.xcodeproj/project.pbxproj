@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		3202B5522C623E600047A333 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3202B5512C623E600047A333 /* AuthenticationView.swift */; };
 		3202B5552C62AC5A0047A333 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3202B5532C62AC5A0047A333 /* Localizable.strings */; };
+		320B91762C8718A700C21EA6 /* ProductDeteilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320B91752C8718A700C21EA6 /* ProductDeteilView.swift */; };
+		320B91782C8718EF00C21EA6 /* ProductDeteilViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320B91772C8718EF00C21EA6 /* ProductDeteilViewModel.swift */; };
+		320B917D2C874F8300C21EA6 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320B917C2C874F8300C21EA6 /* Favorite.swift */; };
 		321296612C80F71E00BB57A7 /* PageItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321296602C80F71E00BB57A7 /* PageItemView.swift */; };
 		321296632C810BDF00BB57A7 /* ProductGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321296622C810BDF00BB57A7 /* ProductGridView.swift */; };
 		323A1A822C6CB5160098A4DA /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A1A812C6CB5160098A4DA /* NetworkMonitor.swift */; };
@@ -71,6 +74,9 @@
 		3202B5512C623E600047A333 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		3202B5542C62AC5A0047A333 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3202B5572C62AC7F0047A333 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		320B91752C8718A700C21EA6 /* ProductDeteilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDeteilView.swift; sourceTree = "<group>"; };
+		320B91772C8718EF00C21EA6 /* ProductDeteilViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDeteilViewModel.swift; sourceTree = "<group>"; };
+		320B917C2C874F8300C21EA6 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		321296602C80F71E00BB57A7 /* PageItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageItemView.swift; sourceTree = "<group>"; };
 		321296622C810BDF00BB57A7 /* ProductGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridView.swift; sourceTree = "<group>"; };
 		323A1A812C6CB5160098A4DA /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
@@ -204,6 +210,30 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		320B91792C874F4200C21EA6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				320B917C2C874F8300C21EA6 /* Favorite.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		320B917A2C874F4B00C21EA6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3269476B2C77A534004D56D4 /* FavoritesCoordinatorView.swift */,
+				327719B12C74B5D30064B287 /* FavoritesView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		320B917B2C874F5400C21EA6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		323A1A7F2C6CB4EA0098A4DA /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +350,7 @@
 				321296602C80F71E00BB57A7 /* PageItemView.swift */,
 				32835FB32C80A471007B0A71 /* CategoryProductView.swift */,
 				321296622C810BDF00BB57A7 /* ProductGridView.swift */,
+				320B91752C8718A700C21EA6 /* ProductDeteilView.swift */,
 				32835FB12C809429007B0A71 /* PageTabView.swift */,
 			);
 			path = Views;
@@ -330,6 +361,7 @@
 			children = (
 				326947782C77CDF2004D56D4 /* ProductsViewModel.swift */,
 				32835FB52C80BF0F007B0A71 /* CategoryProductsViewModel.swift */,
+				320B91772C8718EF00C21EA6 /* ProductDeteilViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -375,8 +407,9 @@
 		327719AE2C74B56A0064B287 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				3269476B2C77A534004D56D4 /* FavoritesCoordinatorView.swift */,
-				327719B12C74B5D30064B287 /* FavoritesView.swift */,
+				320B91792C874F4200C21EA6 /* Models */,
+				320B917A2C874F4B00C21EA6 /* Views */,
+				320B917B2C874F5400C21EA6 /* ViewModels */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -550,6 +583,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32FACDE22C8355FA007769DE /* StrokeModifier.swift in Sources */,
+				320B917D2C874F8300C21EA6 /* Favorite.swift in Sources */,
 				327719C52C74BBA00064B287 /* ProductsStack.swift in Sources */,
 				32C0ED712C6A107F00A9886E /* SignUpLogInViewModel.swift in Sources */,
 				326947752C77CCCF004D56D4 /* Product.swift in Sources */,
@@ -571,6 +605,7 @@
 				323CDDA12C63D4C0009B5182 /* NStack.swift in Sources */,
 				327719BD2C74B87D0064B287 /* MainTabView.swift in Sources */,
 				32835FB22C80942A007B0A71 /* PageTabView.swift in Sources */,
+				320B91782C8718EF00C21EA6 /* ProductDeteilViewModel.swift in Sources */,
 				323CDDA42C63D720009B5182 /* SignUpLogInCoordinator.swift in Sources */,
 				329D86D42C791CA40014B601 /* HandlerError.swift in Sources */,
 				321296612C80F71E00BB57A7 /* PageItemView.swift in Sources */,
@@ -586,6 +621,7 @@
 				3276563A2C6788530048790B /* SecureTextField.swift in Sources */,
 				32C6706F2C73B97500C209E5 /* AppDelegate.swift in Sources */,
 				3255356A2C612F0700E7B1F3 /* EasyBuy_App.swift in Sources */,
+				320B91762C8718A700C21EA6 /* ProductDeteilView.swift in Sources */,
 				32C0ED752C6A6F6800A9886E /* ModelError.swift in Sources */,
 				3202B5522C623E600047A333 /* AuthenticationView.swift in Sources */,
 				32AE6D6C2C7DF19A003B22A7 /* LettersView.swift in Sources */,

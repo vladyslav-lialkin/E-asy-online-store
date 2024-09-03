@@ -48,7 +48,7 @@ struct PageItemView: View {
                 .padding(.leading, 30)
             
             HStack {
-                Text("From " + price)
+                Text("Price " + price)
                     .customStroke(strokeSize: 1.2, strokeColor: .app)
                     .foregroundStyle(.customBackground)
                     .padding(.leading, 30)

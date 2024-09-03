@@ -12,6 +12,8 @@ struct LettersView: View {
     
     var body: some View {
         ZStack {
+            Color(uiColor: .systemBackground).ignoresSafeArea()
+            
             HStack {
                 LetterE()
                     .stroke(style: StrokeStyle(lineWidth: 2.7,

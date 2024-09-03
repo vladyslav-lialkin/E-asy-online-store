@@ -17,8 +17,8 @@ struct ProductsCoordinatorView: View {
                 ProductsView()
             case .categoryProducts(let category):
                 CategoryProductView(category: category)
-            case .product(_):
-                EmptyView()
+            case .product(let id):
+                ProductDeteilView(id: id)
             }
         }
     }

@@ -27,26 +27,7 @@ class CategoryProductsViewModel: ObservableObject {
     // MARK: - Init
     init(category: CategoryEnum.RawValue) {
         self.category = category
-        isLoading = true
-        Task {
-            do {
-                let products = try await fetchProducts()
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.products = products
-                }
-            } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
-            }
-            isLoading(false)
-        }
-    }
-    
-    // MARK: - Update isLoading
-    func isLoading(_ bool: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            self?.isLoading = bool
-        }
+        fetchProducts()
     }
     
     
@@ -67,24 +48,36 @@ class CategoryProductsViewModel: ObservableObject {
     }
     
     // MARK: - Fetch Methods
-    func fetchProducts() async throws -> [Product] {
-        guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.products.rawValue + "/category/" + category) else {
-            throw HttpError.badURL
+    func fetchProducts() {
+        isLoading = true
+        Task {
+            do {
+                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.products.rawValue + "/category/" + category) else {
+                    throw HttpError.badURL
+                }
+                
+                #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
+                if KeychainHelper.save(token: "PGA0P0n6IjfnggNQJ0KdZw==") {
+                    print("Test Token added")
+                } else  {
+                    print("Test Token don't added")
+                }
+                #endif
+                
+                guard let token = KeychainHelper.getToken() else {
+                    throw HttpError.badToken
+                }
+                
+                let products: [Product] = try await HttpClient.shared.fetch(url: url, token: token)
+                                
+                DispatchQueue.main.async { [weak self] in
+                    self?.products = products
+                    self?.isLoading = false
+                }
+            } catch let error as HttpError {
+                updateError(HandlerError.httpError(error))
+            }
         }
-        
-//        if KeychainHelper.save(token: "PGA0P0n6IjfnggNQJ0KdZw==") {
-//            print("Test Token added")
-//        } else  {
-//            print("Test Token don't added")
-//        }
-        
-        guard let token = KeychainHelper.getToken() else {
-            throw HttpError.badToken
-        }
-        
-        let products: [Product] = try await HttpClient.shared.fetch(url: url, token: token)
-        
-        return products
     }
 }
 
