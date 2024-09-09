@@ -57,7 +57,7 @@ class CategoryProductsViewModel: ObservableObject {
                 }
                 
                 #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-                if KeychainHelper.save(token: "PGA0P0n6IjfnggNQJ0KdZw==") {
+                if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
                     print("Test Token added")
                 } else  {
                     print("Test Token don't added")

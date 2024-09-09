@@ -24,7 +24,6 @@ struct ProductsView: View {
                         } label: {
                             VStack {
                                 Spacer()
-                                Spacer()
                                 Image(CategoryEnum.rawValue(index))
                                     .resizable()
                                     .scaledToFit()
@@ -53,17 +52,14 @@ struct ProductsView: View {
                 .padding(.horizontal)
                 .frame(width: width, alignment: .leading)
             
-            PageTabView {
-                ForEach(viewModel.iPhonesImagesUrl, id: \.self) { url in
-                    PageItemView(url: url,
+            SwipeSlide(items: viewModel.iPhonesImagesUrl) { index, url in
+                PageItemView(url: url,
                              title: "iPhone 15 pro",
                              price: "$999",
-                             id: UUID(),
+                             id: viewModel.iPhonesID[index] ?? UUID(),
                              coordinator: coordinator)
-                }
-
+                .frame(height: 550)
             }
-            .frame(width: width, height: 550)
             
             Spacer()
                 .frame(height: 50)
@@ -71,7 +67,7 @@ struct ProductsView: View {
         .navigationTitle("Products")
         .showErrorMessega(errorMessage: viewModel.errorMessage)
         .showProgressView(isLoading: viewModel.isLoading)
-        .background(Color.customBackground.ignoresSafeArea())
+        .background(Color.customBackground)
         .toolbar {
             ToolbarItem {
                 Button {

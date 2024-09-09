@@ -24,6 +24,7 @@ enum HttpError: Error {
     case badURL
     case badToken
     case badResponse
+    case propertyDoesntExist
     case errorDecodingData
     case invalidURL
     case tokenDontSave

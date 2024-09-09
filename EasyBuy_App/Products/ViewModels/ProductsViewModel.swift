@@ -19,10 +19,18 @@ class ProductsViewModel: ObservableObject {
         }
     }
     
-    @Published var imagesData = [Data]()
     let iPhonesImagesUrl: [URL?] = [
+        URL(string: "https://i.imgur.com/RvgrlFp.png"),
+        URL(string: "https://i.imgur.com/RvgrlFp.png"),
         URL(string: "https://i.imgur.com/RvgrlFp.png")
     ]
+    
+    let iPhonesID: [UUID?] = [
+        UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
+        UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
+        UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")
+    ]
+    
     
     let categoriesTitle = ["iPhone", "Apple\nWatch", "iPad", "Mac", "Apple\nVision Pro", "AirPods", "Apple TV 4K", "HomePod", "AirTag"]
     
@@ -65,20 +73,5 @@ class ProductsViewModel: ObservableObject {
                 self?.errorMessage = nil
             }
         }
-    }
-    
-    // MARK: - Fetch Methods
-    func fetchImages() async throws -> [Data] {        
-        var imagesData = [Data]()
-                
-        for index in 0..<iPhonesImagesUrl.count {
-            if let url = iPhonesImagesUrl[index] {
-                imagesData += [try await HttpClient.shared.fetch(url: url)]
-            } else {
-                print("The URL of the photo at index \(index) is incorrect")
-            }
-        }
-
-        return imagesData
     }
 }

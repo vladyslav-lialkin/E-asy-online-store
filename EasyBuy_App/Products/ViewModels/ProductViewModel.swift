@@ -1,5 +1,5 @@
 //
-//  ProductDeteilViewModel.swift
+//  ProductViewModel.swift
 //  EasyBuy_App
 //
 //  Created by Влад Лялькін on 03.09.2024.
@@ -7,18 +7,13 @@
 
 import SwiftUI
 
-class ProductDeteilViewModel: ObservableObject {
+class ProductViewModel: ObservableObject {
     
     // MARK: - Property
-    @Published var imagesURL = [URL]()
-    @Published var title = ""
-    @Published var price = ""
-    
-    @Published var favorite = false
-    
-    
-    
+    @Published var product: Product?
+    @Published var favorite: Favorite?
     @Published var productID: UUID
+    
     
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
@@ -62,7 +57,7 @@ class ProductDeteilViewModel: ObservableObject {
                 }
                 
                 #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-                if KeychainHelper.save(token: "PGA0P0n6IjfnggNQJ0KdZw==") {
+                if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
                     print("Test Token added")
                 } else  {
                     print("Test Token don't added")
@@ -76,19 +71,18 @@ class ProductDeteilViewModel: ObservableObject {
                 let product: Product = try await HttpClient.shared.fetch(url: url, token: token)
                 
                 DispatchQueue.main.async { [weak self] in
-                    self?.imagesURL = product.imagesUrl
-                    self?.title = product.name
-                    self?.price = String(format: "%.2f", product.price)
-                    self?.isLoading = false
+                    self?.product = product
                 }
             } catch let error as HttpError {
                 updateError(HandlerError.httpError(error))
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.isLoading = false
             }
         }
     }
     
     func fetchFavorite() {
-        isLoading = true
         Task {
             do {
                 guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue) else {
@@ -104,7 +98,55 @@ class ProductDeteilViewModel: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     self?.favorite = (favorites.first(where: { favorite in
                         favorite.productID == self?.productID
-                    }) != nil)
+                    }))
+                }
+            } catch let error as HttpError {
+                updateError(HandlerError.httpError(error))
+            }
+        }
+    }
+    
+    func addToFavorite() {
+        Task {
+            do {
+                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue) else {
+                    throw HttpError.badURL
+                }
+
+                guard let token = KeychainHelper.getToken() else {
+                    throw HttpError.badToken
+                }
+                
+                let createFavoriteDTO = CreateFavoriteDTO(productID: productID)
+                
+                try await HttpClient.shared.sendData(to: url, object: createFavoriteDTO, httpMethod: .POST, token: token)
+                
+                fetchFavorite()
+            } catch let error as HttpError {
+                updateError(HandlerError.httpError(error))
+            }
+        }
+    }
+    
+    func deleteFavorite() {
+        Task {
+            do {
+                guard let favorite = favorite else {
+                    throw HttpError.propertyDoesntExist
+                }
+                
+                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue + "/" + favorite.id.uuidString) else {
+                    throw HttpError.badURL
+                }
+                        
+                guard let token = KeychainHelper.getToken() else {
+                    throw HttpError.badToken
+                }
+                                
+                try await HttpClient.shared.delete(url: url, token: token)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.favorite = nil
                 }
             } catch let error as HttpError {
                 updateError(HandlerError.httpError(error))

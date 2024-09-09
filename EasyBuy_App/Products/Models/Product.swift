@@ -17,17 +17,6 @@ struct Product: Codable, Identifiable {
     let imagesUrl: [URL]
     let createdAt: Date
 
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case description
-        case price
-        case stockQuantity
-        case category
-        case imagesUrl
-        case createdAt
-    }
-
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -38,13 +27,13 @@ struct Product: Codable, Identifiable {
         stockQuantity = try container.decode(Int.self, forKey: .stockQuantity)
         category = try container.decode(CategoryEnum.RawValue.self, forKey: .category)
         imagesUrl = try container.decode([URL].self, forKey: .imagesUrl)
-        
+
         let dateString = try container.decode(String.self, forKey: .createdAt)
-        let dateFormatter = ISO8601DateFormatter()
-        if let date = dateFormatter.date(from: dateString) {
+        if let date = ISO8601DateFormatter().date(from: dateString) {
             createdAt = date
         } else {
             throw DecodingError.dataCorruptedError(forKey: .createdAt, in: container, debugDescription: "Date string does not match format expected by formatter.")
         }
     }
 }
+

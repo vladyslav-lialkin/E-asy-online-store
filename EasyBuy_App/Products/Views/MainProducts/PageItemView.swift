@@ -18,26 +18,7 @@ struct PageItemView: View {
     var body: some View {
         VStack {
             Spacer()
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .empty:
-                    Spacer()
-                    ProgressView()
-                        .scaleEffect(1.2)
-                    Spacer()
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                case .failure:
-                    Text("Failed to load image")
-                        .foregroundColor(.red)
-                @unknown default:
-                    Text("Unknown error")
-                        .foregroundColor(.red)
-                }
-            }
-            
+            AsyncImageView(url: url)
             Spacer()
                                     
             Text(title)
@@ -45,13 +26,12 @@ struct PageItemView: View {
                 .font(.title.bold())
                 .foregroundStyle(.customBackground)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 30)
+                .padding(.horizontal, 30)
             
             HStack {
                 Text("Price " + price)
                     .customStroke(strokeSize: 1.2, strokeColor: .app)
                     .foregroundStyle(.customBackground)
-                    .padding(.leading, 30)
                 
                 Spacer()
                 
@@ -64,18 +44,21 @@ struct PageItemView: View {
                         .background {
                             Capsule()
                                 .fill(Color.customBackground)
-                                .frame(width: 65, height: 40)
+                                .padding(.horizontal, -15)
+                                .padding(.vertical, -7)
+                            
                         }
                 }
                 .overlay {
                     Capsule()
                         .stroke(Color.border, lineWidth: 1)
-                        .frame(width: 65, height: 40)
+                        .padding(.horizontal, -15)
+                        .padding(.vertical, -7)
                 }
                 .frame(width: 65, height: 40)
-                .padding(.trailing, 30)
             }
-            .frame(height: 60)
+            .padding(.horizontal, 30)
+            .padding(.vertical, 10)
             .background(Color.banerBottom)
         }
         .background(Color(uiColor: .systemBackground))

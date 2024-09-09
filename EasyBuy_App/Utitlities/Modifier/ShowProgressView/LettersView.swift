@@ -9,10 +9,16 @@ import SwiftUI
 
 struct LettersView: View {
     @State private var isMovingAround = false
+    let background: Bool
     
     var body: some View {
         ZStack {
-            Color(uiColor: .systemBackground).ignoresSafeArea()
+            if background {
+                Color(uiColor: .systemBackground).ignoresSafeArea()
+            } else {
+                Color(uiColor: .systemBackground)
+                    .frame(width: 125, height: 60)
+            }
             
             HStack {
                 LetterE()
@@ -87,5 +93,5 @@ struct LettersView: View {
 }
 
 #Preview {
-    LettersView()
+    LettersView(background: true)
 }

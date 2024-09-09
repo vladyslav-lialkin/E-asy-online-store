@@ -1,5 +1,5 @@
 //
-//  CategoryProducts.swift
+//  CategoryProductsView.swift
 //  EasyBuy_App
 //
 //  Created by Влад Лялькін on 29.08.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CategoryProductView: View {
+struct CategoryProductsView: View {
     
     @EnvironmentObject var coordinator: MainTabCoordinator
     @StateObject private var viewModel: CategoryProductsViewModel
@@ -53,7 +53,7 @@ struct CategoryProductView: View {
 
 #Preview {
     NavigationView {
-        CategoryProductView(category: CategoryEnum.rawValue(3))
+        CategoryProductsView(category: CategoryEnum.rawValue(3))
             .environmentObject(MainTabCoordinator())
 //            .customBackButton()
     }

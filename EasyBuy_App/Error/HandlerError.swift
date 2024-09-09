@@ -19,6 +19,8 @@ struct HandlerError {
             return "Re-enter the autorization."
         case .badResponse:
             print("Received a bad response from the server.")
+        case .propertyDoesntExist:
+            print("Property doesn't exist.")
         case .errorDecodingData:
             print("Failed to decode the data.")
         case .invalidURL:

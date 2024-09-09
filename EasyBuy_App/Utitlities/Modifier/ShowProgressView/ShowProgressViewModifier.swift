@@ -11,12 +11,13 @@ struct ShowProgressViewModifier: ViewModifier {
     @State private var isMovingAround = false
     
     var isLoading: Bool
+    let background: Bool
     
     func body(content: Content) -> some View {
         content
             .overlay {
                 if isLoading {
-                    LettersView()
+                    LettersView(background: background)
                 }
             }
             .animation(.easeInOut, value: isLoading)
@@ -27,5 +28,5 @@ struct ShowProgressViewModifier: ViewModifier {
 #Preview {
     Color.customBackground
         .ignoresSafeArea()
-        .modifier(ShowProgressViewModifier(isLoading: true))
+        .modifier(ShowProgressViewModifier(isLoading: true, background: true))
 }

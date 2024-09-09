@@ -16,8 +16,8 @@ extension View {
         self.modifier(ShowErrorMessegaModifier(errorMessage: errorMessage))
     }
     
-    func showProgressView(isLoading: Bool) -> some View {
-        self.modifier(ShowProgressViewModifier(isLoading: isLoading))
+    func showProgressView(isLoading: Bool, background: Bool = true) -> some View {
+        self.modifier(ShowProgressViewModifier(isLoading: isLoading, background: background))
     }
     
     func customStroke(strokeSize: CGFloat = 1, strokeColor: Color = .blue) -> some View {

@@ -221,7 +221,7 @@ struct SignUpLogInView: View {
             }
         }
         .showErrorMessega(errorMessage: viewModel.errorMessage)
-        .showProgressView(isLoading: viewModel.isLoading)
+        .showProgressView(isLoading: viewModel.isLoading, background: false)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if focus {
