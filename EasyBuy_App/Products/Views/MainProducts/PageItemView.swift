@@ -13,7 +13,7 @@ struct PageItemView: View {
     let price: String
     let id: UUID
     
-    let coordinator: MainTabCoordinator
+    @ObservedObject var coordinator: MainTabCoordinator
     
     var body: some View {
         VStack {
@@ -24,14 +24,14 @@ struct PageItemView: View {
             Text(title)
                 .customStroke(strokeSize: 2, strokeColor: .app)
                 .font(.title.bold())
-                .foregroundStyle(.customBackground)
+                .foregroundStyle(.letter)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 30)
             
             HStack {
                 Text("Price " + price)
                     .customStroke(strokeSize: 1.2, strokeColor: .app)
-                    .foregroundStyle(.customBackground)
+                    .foregroundStyle(.letter)
                 
                 Spacer()
                 
@@ -39,11 +39,11 @@ struct PageItemView: View {
                     coordinator.productsStack.append(.product(id))
                 } label: {
                     Text("Buy")
-                        .customStroke(strokeSize: 1.2, strokeColor: .app)
-                        .foregroundStyle(Color.customBackground)
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.letter)
                         .background {
                             Capsule()
-                                .fill(Color.customBackground)
+                                .fill(Color.app)
                                 .padding(.horizontal, -15)
                                 .padding(.vertical, -7)
                             

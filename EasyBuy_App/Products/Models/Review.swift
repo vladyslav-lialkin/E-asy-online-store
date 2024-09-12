@@ -33,3 +33,9 @@ struct Review: Codable, Identifiable {
         }
     }
 }
+
+struct CreateReviewDTO: Codable {
+    let productID: UUID
+    let rating: Int
+    let comment: String
+}

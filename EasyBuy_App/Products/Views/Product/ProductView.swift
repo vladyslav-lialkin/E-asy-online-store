@@ -11,14 +11,23 @@ struct ProductView: View {
     @ObservedObject var viewModel: ProductViewModel
     
     var body: some View {
-        GeometryReader {
+        GeometryReader { reader in
             if let product = viewModel.product {
-                ProductDetailView(
-                    viewModel: viewModel,
-                    product: product,
-                    size: $0.size,
-                    safeArea: $0.safeAreaInsets
-                )
+                ScrollViewReader { proxy in
+                    ScrollView(showsIndicators: false) {
+                        ProductImageView(product: product, safeArea: reader.safeAreaInsets)
+                        
+                        VStack {
+                            ProductSummaryView(viewModel: viewModel, product: product)
+                            
+                            ProductReviewView(viewModel: viewModel, product: product, proxy: proxy)
+                        }
+                        .padding(.horizontal, 30)
+                    }
+                    .refreshable {
+                        viewModel.startProduct()
+                    }
+                }
             } else {
                 Text("Product not found")
                     .font(.title2.bold())
@@ -26,6 +35,7 @@ struct ProductView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .background(.customBackground)
         .showProgressView(isLoading: viewModel.isLoading)
         .showErrorMessega(errorMessage: viewModel.errorMessage)
         .navigationBarTitleDisplayMode(.inline)
@@ -46,8 +56,15 @@ struct ProductView: View {
 }
 
 #Preview {
-    NavigationView {
-        ProductView(id: UUID(uuidString: "2ED280C2-FAD9-44A8-88DF-398CC73C2E60")!)
+    if #available(iOS 16.0, *) {
+        NavigationStack {
+            ProductView(id: UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")!)
+        }
+        .navigationViewStyle(.stack)
+    } else {
+        NavigationView {
+            ProductView(id: UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")!)
+        }
+        .navigationViewStyle(.stack)
     }
-    .navigationViewStyle(.stack)
 }

@@ -6,45 +6,44 @@
 //
 
 import SwiftUI
+import Combine
 
 class CategoryProductsViewModel: ObservableObject {
     
     // MARK: - Property
     @Published var products = [Product]()
+    @Published var category: CategoryEnum.RawValue
     
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
-                startErrorTimeout()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
+                    withAnimation {
+                        self?.errorMessage = nil
+                    }
+                }
             }
         }
     }
     @Published var isLoading = false
     
-    @Published var searchText = ""
-    @Published var category: CategoryEnum.RawValue
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     init(category: CategoryEnum.RawValue) {
         self.category = category
-        fetchProducts()
-    }
-    
-    
-    // MARK: - Error Handling Methods
-    func updateError(_ error: LocalizedStringKey?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.errorMessage = error
-            self?.isLoading = false
-        }
-    }
-    
-    private func startErrorTimeout() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-            withAnimation {
-                self?.errorMessage = nil
+        startCategoryProducts()
+        
+        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
+            .sink { [weak self] _ in
+                self?.startCategoryProducts()
             }
-        }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - Start Category Products
+    func startCategoryProducts() {
+        fetchProducts()
     }
     
     // MARK: - Fetch Methods
@@ -75,7 +74,10 @@ class CategoryProductsViewModel: ObservableObject {
                     self?.isLoading = false
                 }
             } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
+                DispatchQueue.main.async { [weak self] in
+                    self?.errorMessage = HandlerError.httpError(error)
+                    self?.isLoading = false
+                }
             }
         }
     }

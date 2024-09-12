@@ -23,18 +23,28 @@ struct AsyncImageView: View {
                     .resizable()
                     .scaledToFit()
             case .failure:
-                Text("❌")
-                    .font(.title)
-                    .foregroundColor(.red)
+                VStack {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.largeTitle)
+                    Text("Error")
+                        .font(.title.weight(.bold))
+                }
+                .foregroundColor(.red)
             @unknown default:
-                Text("❌")
-                    .font(.title)
-                    .foregroundColor(.red)
+                VStack {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.largeTitle)
+                    Text("Error")
+                        .font(.title.weight(.bold))
+                }
+                .foregroundColor(.red)
             }
         }
     }
 }
 
 #Preview {
-    AsyncImageView(url: nil)
+    VStack {
+        AsyncImageView(url: nil)
+    }
 }

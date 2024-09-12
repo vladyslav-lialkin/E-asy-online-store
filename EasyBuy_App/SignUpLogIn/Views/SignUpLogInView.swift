@@ -229,7 +229,7 @@ struct SignUpLogInView: View {
                         focus = false
                     }) {
                         Text("done")
-                            .foregroundColor(Color("AppColor"))
+                            .foregroundColor(Color.app)
                     }
                 }
             }

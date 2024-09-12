@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class ProductsViewModel: ObservableObject {
     
@@ -14,41 +15,47 @@ class ProductsViewModel: ObservableObject {
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
-                startErrorTimeout()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
+                    withAnimation {
+                        self?.errorMessage = nil
+                    }
+                }
             }
         }
     }
     
-    let iPhonesImagesUrl: [URL?] = [
-        URL(string: "https://i.imgur.com/RvgrlFp.png"),
-        URL(string: "https://i.imgur.com/RvgrlFp.png"),
-        URL(string: "https://i.imgur.com/RvgrlFp.png")
-    ]
+    @Published var iPhonesImagesUrl: [URL?] = []
     
-    let iPhonesID: [UUID?] = [
-        UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
-        UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
-        UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")
-    ]
+    @Published var iPhonesID: [UUID?] = []
     
+    private var cancellables = Set<AnyCancellable>()
     
     let categoriesTitle = ["iPhone", "Apple\nWatch", "iPad", "Mac", "Apple\nVision Pro", "AirPods", "Apple TV 4K", "HomePod", "AirTag"]
     
     // MARK: - Init
     init() {
-//        isLoading = true
-//        Task {
-//            do {
-//                let imagesData = try await fetchImages()
-//                
-//                DispatchQueue.main.async { [weak self] in
-//                    self?.imagesData = imagesData
-//                }
-//            } catch let error as HttpError {
-//                updateError(HandlerError.httpError(error))
-//            }
-//            isLoading(false)
-//        }
+        startProducts()
+        
+        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
+            .sink { [weak self] _ in
+                self?.startProducts()
+            }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - Start Products
+    func startProducts() {
+        iPhonesImagesUrl = [
+            URL(string: "https://i.imgur.com/RvgrlFp.png"),
+            URL(string: "https://i.imgur.com/RvgrlFp.png"),
+            URL(string: "https://i.imgur.com/RvgrlFp.png")
+        ]
+        
+        iPhonesID = [
+            UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
+            UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
+            UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")
+        ]
     }
     
     // MARK: - Update isLoading
@@ -64,14 +71,6 @@ class ProductsViewModel: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             self?.errorMessage = error
             self?.isLoading = false
-        }
-    }
-    
-    private func startErrorTimeout() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-            withAnimation {
-                self?.errorMessage = nil
-            }
         }
     }
 }

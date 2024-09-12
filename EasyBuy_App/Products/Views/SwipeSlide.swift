@@ -40,6 +40,15 @@ struct SwipeSlide<Item, Content: View>: View {
                         }
                     }
             )
+            
+            HStack(spacing: 8) {
+                ForEach(0..<items.count, id: \.self) { index in
+                    Circle()
+                        .fill(index == currentIndex ? Color.app : Color.gray)
+                        .frame(width: index == currentIndex ? 9 : 7, height: index == currentIndex ? 9 : 7)
+                        .animation(.easeInOut, value: currentIndex)
+                }
+            }
         }
     }
 }

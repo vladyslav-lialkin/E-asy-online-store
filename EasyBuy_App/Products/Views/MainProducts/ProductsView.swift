@@ -33,7 +33,7 @@ struct ProductsView: View {
                                     .customStroke(strokeSize: 0.8, strokeColor: .app)
                                     .frame(height: 35 ,alignment: .center)
                                     .font(.caption.weight(.semibold))
-                                    .foregroundStyle(.customBackground)
+                                    .foregroundStyle(.letter)
                                     .padding(.bottom, 5)
                             }
                             .frame(width: 105, height: 125)
@@ -77,6 +77,9 @@ struct ProductsView: View {
                 }
 
             }
+        }
+        .refreshable {
+            viewModel.startProducts()
         }
     }
 }

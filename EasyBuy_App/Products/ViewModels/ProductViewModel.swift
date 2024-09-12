@@ -6,29 +6,53 @@
 //
 
 import SwiftUI
+import Combine
 
 class ProductViewModel: ObservableObject {
     
     // MARK: - Property
     @Published var product: Product?
-    @Published var favorite: Favorite?
     @Published var productID: UUID
+    
+    @Published var favorite: Favorite?
+    @Published var reviews = [Review]()
+    
+    @Published var review = ""
+    @Published var rating = 0
     
     
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
-                startErrorTimeout()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
+                    withAnimation {
+                        self?.errorMessage = nil
+                    }
+                }
             }
         }
     }
     @Published var isLoading = false
     
+    private var cancellables = Set<AnyCancellable>()
+    
     // MARK: - Init
     init(productID: UUID) {
         self.productID = productID
+        startProduct()
+        
+        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
+            .sink { [weak self] _ in
+                self?.startProduct()
+            }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - Start Product
+    func startProduct() {
         fetchProduct()
         fetchFavorite()
+        fetchReview()
     }
     
     // MARK: - Error Handling Methods
@@ -36,14 +60,6 @@ class ProductViewModel: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             self?.errorMessage = error
             self?.isLoading = false
-        }
-    }
-    
-    private func startErrorTimeout() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-            withAnimation {
-                self?.errorMessage = nil
-            }
         }
     }
     
@@ -76,6 +92,7 @@ class ProductViewModel: ObservableObject {
             } catch let error as HttpError {
                 updateError(HandlerError.httpError(error))
             }
+            
             DispatchQueue.main.async { [weak self] in
                 self?.isLoading = false
             }
@@ -106,6 +123,30 @@ class ProductViewModel: ObservableObject {
         }
     }
     
+    func fetchReview() {
+        Task {
+            do {
+                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.reviews.rawValue + "/" + productID.uuidString) else {
+                    throw HttpError.badURL
+                }
+                        
+                guard let token = KeychainHelper.getToken() else {
+                    throw HttpError.badToken
+                }
+                
+                let reviews: [Review] = try await HttpClient.shared.fetch(url: url, token: token)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.reviews = reviews
+                }
+            } catch let error as HttpError {
+                updateError(HandlerError.httpError(error))
+            }
+        }
+    }
+    
+    
+    // MARK: - SendData Methods
     func addToFavorite() {
         Task {
             do {
@@ -120,14 +161,68 @@ class ProductViewModel: ObservableObject {
                 let createFavoriteDTO = CreateFavoriteDTO(productID: productID)
                 
                 try await HttpClient.shared.sendData(to: url, object: createFavoriteDTO, httpMethod: .POST, token: token)
-                
-                fetchFavorite()
             } catch let error as HttpError {
                 updateError(HandlerError.httpError(error))
             }
         }
     }
     
+    func addToBag() {
+        Task {
+            do {
+                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.cartitems.rawValue) else {
+                    throw HttpError.badURL
+                }
+                        
+                guard let token = KeychainHelper.getToken() else {
+                    throw HttpError.badToken
+                }
+                
+                let createBagDTO = CreateBagDTO(productID: productID, quantity: 1)
+                
+                try await HttpClient.shared.sendData(to: url, object: createBagDTO, httpMethod: .POST, token: token)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.review = ""
+                    self?.rating = 0
+                }
+            } catch let error as HttpError {
+                updateError(HandlerError.httpError(error))
+            }
+        }
+    }
+    
+    func addReview() {
+        Task {
+            do {
+                guard !review.isEmpty, rating > 0 else {
+                    return
+                }
+                
+                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.reviews.rawValue) else {
+                    throw HttpError.badURL
+                }
+                        
+                guard let token = KeychainHelper.getToken() else {
+                    throw HttpError.badToken
+                }
+                
+                let createReviewDTO = CreateReviewDTO(productID: productID, rating: rating, comment: review)
+                
+                try await HttpClient.shared.sendData(to: url, object: createReviewDTO, httpMethod: .POST, token: token)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.review = ""
+                    self?.rating = 0
+                }
+            } catch let error as HttpError {
+                updateError(HandlerError.httpError(error))
+            }
+        }
+    }
+    
+    
+    // MARK: - Delete Methods
     func deleteFavorite() {
         Task {
             do {
