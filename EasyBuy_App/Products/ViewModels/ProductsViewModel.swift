@@ -25,7 +25,6 @@ class ProductsViewModel: ObservableObject {
     }
     
     @Published var iPhonesImagesUrl: [URL?] = []
-    
     @Published var iPhonesID: [UUID?] = []
     
     private var cancellables = Set<AnyCancellable>()

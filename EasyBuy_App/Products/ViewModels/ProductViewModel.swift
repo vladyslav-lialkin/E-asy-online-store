@@ -16,10 +16,8 @@ class ProductViewModel: ObservableObject {
     
     @Published var favorite: Favorite?
     @Published var reviews = [Review]()
-    
     @Published var review = ""
     @Published var rating = 0
-    
     
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
@@ -161,6 +159,8 @@ class ProductViewModel: ObservableObject {
                 let createFavoriteDTO = CreateFavoriteDTO(productID: productID)
                 
                 try await HttpClient.shared.sendData(to: url, object: createFavoriteDTO, httpMethod: .POST, token: token)
+                
+                fetchFavorite()
             } catch let error as HttpError {
                 updateError(HandlerError.httpError(error))
             }
