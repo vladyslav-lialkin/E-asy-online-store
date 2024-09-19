@@ -25,7 +25,7 @@ struct SwipeSlide<Item, Content: View>: View {
                         .animation(.spring(), value: dragOffset)
                 }
             }
-            .gesture(
+            .simultaneousGesture(
                 DragGesture()
                     .onEnded { value in
                         let threshold: CGFloat = 50
