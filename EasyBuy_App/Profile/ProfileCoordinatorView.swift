@@ -25,3 +25,5 @@ struct ProfileCoordinatorView: View {
     ProfileCoordinatorView()
         .environmentObject(MainTabCoordinator())
 }
+
+

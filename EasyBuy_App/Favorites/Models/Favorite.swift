@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Favorite: Codable, Equatable {
+struct Favorite: Codable, Equatable, Identifiable {
     let id: UUID
     let userID: UUID
     let productID: UUID

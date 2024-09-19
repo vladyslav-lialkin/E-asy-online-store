@@ -78,11 +78,7 @@ class ProductViewModel: ObservableObject {
                 }
                 #endif
                         
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
-                
-                let product: Product = try await HttpClient.shared.fetch(url: url, token: token)
+                let product: Product = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.product = product
@@ -104,11 +100,7 @@ class ProductViewModel: ObservableObject {
                     throw HttpError.badURL
                 }
                         
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
-                
-                let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: token)
+                let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.favorite = (favorites.first(where: { favorite in
@@ -127,12 +119,8 @@ class ProductViewModel: ObservableObject {
                 guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.reviews.rawValue + "/" + productID.uuidString) else {
                     throw HttpError.badURL
                 }
-                        
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
-                
-                let reviews: [Review] = try await HttpClient.shared.fetch(url: url, token: token)
+                                        
+                let reviews: [Review] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.reviews = reviews
@@ -152,13 +140,9 @@ class ProductViewModel: ObservableObject {
                     throw HttpError.badURL
                 }
 
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
-                
                 let createFavoriteDTO = CreateFavoriteDTO(productID: productID)
                 
-                try await HttpClient.shared.sendData(to: url, object: createFavoriteDTO, httpMethod: .POST, token: token)
+                try await HttpClient.shared.sendData(to: url, object: createFavoriteDTO, httpMethod: .POST, token: KeychainHelper.getToken())
                 
                 fetchFavorite()
             } catch let error as HttpError {
@@ -173,14 +157,10 @@ class ProductViewModel: ObservableObject {
                 guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.cartitems.rawValue) else {
                     throw HttpError.badURL
                 }
-                        
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
-                
+                                        
                 let createBagDTO = CreateBagDTO(productID: productID, quantity: 1)
                 
-                try await HttpClient.shared.sendData(to: url, object: createBagDTO, httpMethod: .POST, token: token)
+                try await HttpClient.shared.sendData(to: url, object: createBagDTO, httpMethod: .POST, token: KeychainHelper.getToken())
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.review = ""
@@ -203,13 +183,9 @@ class ProductViewModel: ObservableObject {
                     throw HttpError.badURL
                 }
                         
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
-                
                 let createReviewDTO = CreateReviewDTO(productID: productID, rating: rating, comment: review)
                 
-                try await HttpClient.shared.sendData(to: url, object: createReviewDTO, httpMethod: .POST, token: token)
+                try await HttpClient.shared.sendData(to: url, object: createReviewDTO, httpMethod: .POST, token: KeychainHelper.getToken())
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.review = ""
@@ -233,12 +209,8 @@ class ProductViewModel: ObservableObject {
                 guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue + "/" + favorite.id.uuidString) else {
                     throw HttpError.badURL
                 }
-                        
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
                                 
-                try await HttpClient.shared.delete(url: url, token: token)
+                try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.favorite = nil

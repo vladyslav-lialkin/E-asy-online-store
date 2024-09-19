@@ -25,7 +25,7 @@ class KeychainHelper {
         return status == errSecSuccess
     }
     
-    static func getToken() -> String? {
+    static func getToken() throws -> String {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: tokenKey,
@@ -36,11 +36,11 @@ class KeychainHelper {
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         
-        guard status == errSecSuccess, let data = item as? Data else {
-            return nil
+        guard status == errSecSuccess, let data = item as? Data, let token = String(data: data, encoding: .utf8) else {
+            throw HttpError.badToken
         }
         
-        return String(data: data, encoding: .utf8)
+        return token
     }
     
     static func deleteToken() -> Bool {

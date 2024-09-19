@@ -21,26 +21,7 @@ struct ProductGridView: View {
         } label: {
             VStack {
                 Spacer()
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .empty:
-                        Spacer()
-                        ProgressView()
-                            .scaleEffect(1.2)
-                        Spacer()
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFit()
-                    case .failure:
-                        Text("Failed to load image")
-                            .foregroundColor(.red)
-                    @unknown default:
-                        Text("Unknown error")
-                            .foregroundColor(.red)
-                    }
-                }
-                
+                AsyncImageView(url: url)
                 Spacer()
                 
                 VStack {

@@ -69,6 +69,5 @@ struct CategoryProductsView: View {
     NavigationView {
         CategoryProductsView(category: CategoryEnum.rawValue(3))
             .environmentObject(MainTabCoordinator())
-//            .customBackButton()
     }
 }

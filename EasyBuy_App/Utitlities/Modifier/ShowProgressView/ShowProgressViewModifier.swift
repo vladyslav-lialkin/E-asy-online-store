@@ -14,13 +14,14 @@ struct ShowProgressViewModifier: ViewModifier {
     let background: Bool
     
     func body(content: Content) -> some View {
-        content
-            .overlay {
-                if isLoading {
-                    LettersView(background: background)
-                }
+        VStack {
+            if isLoading {
+                LettersView(background: background)
+            } else {
+                content
             }
-            .animation(.easeInOut, value: isLoading)
+        }
+        .animation(.easeInOut, value: isLoading)
     }
 }
 

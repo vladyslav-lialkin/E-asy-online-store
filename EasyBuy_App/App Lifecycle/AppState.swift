@@ -16,11 +16,17 @@ class AppState: ObservableObject {
     }
     
     func checkAuthentication(onSuccess: (() -> Void)? = nil) {
-        if KeychainHelper.getToken() != nil {
-            isAuthenticated = true
+        do {
+            let token = try KeychainHelper.getToken()
             
+            guard !token.isEmpty else {
+                throw HttpError.badToken
+            }
+            
+            isAuthenticated = true
             onSuccess?()
-        } else {
+        } catch {
+            print(error)
             isAuthenticated = false
         }
     }

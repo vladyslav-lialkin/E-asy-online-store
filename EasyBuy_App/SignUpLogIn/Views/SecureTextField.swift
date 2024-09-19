@@ -58,11 +58,11 @@ struct SecureTextField: View {
 }
 
 
-#Preview {
-    VStack {
-        @State var password = ""
-        
-        SecureTextField("Password", password: $password)
-            .customTextField(color: .gray)
-    }
-}
+//#Preview {
+//    @State var password = ""
+//    VStack {
+//        
+//        SecureTextField("Password", password: $password)
+//            .customTextField(color: .gray)
+//    }
+//}

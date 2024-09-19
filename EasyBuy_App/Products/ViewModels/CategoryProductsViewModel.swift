@@ -63,14 +63,10 @@ class CategoryProductsViewModel: ObservableObject {
                 }
                 #endif
                 
-                guard let token = KeychainHelper.getToken() else {
-                    throw HttpError.badToken
-                }
-                
-                let products: [Product] = try await HttpClient.shared.fetch(url: url, token: token)
+                let products: [Product] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
                                 
                 DispatchQueue.main.async { [weak self] in
-                    self?.products = products
+                    self?.products = products.sorted(by: { $0.createdAt > $1.createdAt })
                     self?.isLoading = false
                 }
             } catch let error as HttpError {

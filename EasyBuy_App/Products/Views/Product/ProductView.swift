@@ -56,15 +56,8 @@ struct ProductView: View {
 }
 
 #Preview {
-    if #available(iOS 16.0, *) {
-        NavigationStack {
-            ProductView(id: UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")!)
-        }
-        .navigationViewStyle(.stack)
-    } else {
-        NavigationView {
-            ProductView(id: UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")!)
-        }
-        .navigationViewStyle(.stack)
+    NavigationView {
+        ProductView(id: UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")!)
     }
+    .navigationViewStyle(.stack)
 }

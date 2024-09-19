@@ -15,8 +15,8 @@ struct FavoritesCoordinatorView: View {
             switch screens {
             case .favorites:
                 FavoritesView()
-            case .product(_):
-                EmptyView()
+            case .product(let id):
+                ProductView(id: id)
             }
         }
     }
