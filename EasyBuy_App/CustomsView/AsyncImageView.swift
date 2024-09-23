@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AsyncImageView: View {
-    let url: URL?
+    var url: URL?
     
     var body: some View {
         AsyncImage(url: url) { phase in

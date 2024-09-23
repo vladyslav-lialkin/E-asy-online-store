@@ -12,9 +12,9 @@ struct ProductView: View {
     
     var body: some View {
         GeometryReader { reader in
-            if let product = viewModel.product {
-                ScrollViewReader { proxy in
-                    ScrollView(showsIndicators: false) {
+            ScrollViewReader { proxy in
+                ScrollView(showsIndicators: false) {
+                    if let product = viewModel.product {
                         ProductImageView(product: product, safeArea: reader.safeAreaInsets)
                         
                         VStack {
@@ -23,22 +23,21 @@ struct ProductView: View {
                             ProductReviewView(viewModel: viewModel, product: product, proxy: proxy)
                         }
                         .padding(.horizontal, 30)
-                    }
-                    .refreshable {
-                        viewModel.startProduct()
+                    } else {
+                        Text("Product not found")
+                            .font(.title2.bold())
+                            .foregroundStyle(.red)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .position(CGPoint(x: reader.size.width/2, y: reader.size.height/2))
                     }
                 }
-            } else {
-                Text("Product not found")
-                    .font(.title2.bold())
-                    .foregroundStyle(.red)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .refreshable {
+                    await viewModel.startProduct()
+                }
             }
         }
-        .background(.customBackground)
-        .showProgressView(isLoading: viewModel.isLoading)
-        .showErrorMessega(errorMessage: viewModel.errorMessage)
         .navigationBarTitleDisplayMode(.inline)
+        .background(.customBackground)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -48,6 +47,11 @@ struct ProductView: View {
                 }
             }
         }
+        .task {
+            await viewModel.startProduct()
+        }
+        .showProgressView(isLoading: viewModel.isLoading)
+        .showErrorMessega(errorMessage: viewModel.errorMessage)
     }
     
     init(id: UUID) {

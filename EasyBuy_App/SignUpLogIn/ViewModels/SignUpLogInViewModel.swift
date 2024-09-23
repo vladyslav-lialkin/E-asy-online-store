@@ -162,7 +162,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
     // MARK: - HTTP Request's
     
     private func signInRequest(email: String, password: String) async throws -> (Data, URLResponse) {
-        guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.login.rawValue) else {
+        guard let url = URL(string: Constant.startURL(.login)) else {
             throw HttpError.badURL
         }
         
@@ -176,7 +176,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
     }
     
     private func registerRequest(user: UserSignUp) async throws -> (Data, URLResponse) {
-        guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.users.rawValue + Endpoints.register.rawValue) else {
+        guard let url = URL(string: Constant.startURL(.users, .register)) else {
             throw HttpError.badURL
         }
         

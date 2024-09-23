@@ -39,8 +39,6 @@ struct CategoryProductsView: View {
             .searchable(text: $searchText)
         }
         .navigationTitle(viewModel.category)
-        .showErrorMessega(errorMessage: viewModel.errorMessage)
-        .showProgressView(isLoading: viewModel.isLoading)
         .background(Color.customBackground.ignoresSafeArea())
         .toolbar {
             ToolbarItem {
@@ -53,8 +51,13 @@ struct CategoryProductsView: View {
             }
         }
         .refreshable {
-            viewModel.startCategoryProducts()
+            await viewModel.startCategoryProducts()
         }
+        .task {
+            await viewModel.startCategoryProducts()
+        }
+        .showErrorMessega(errorMessage: viewModel.errorMessage)
+        .showProgressView(isLoading: viewModel.isLoading)
     }
     
     init(category: CategoryEnum.RawValue) {

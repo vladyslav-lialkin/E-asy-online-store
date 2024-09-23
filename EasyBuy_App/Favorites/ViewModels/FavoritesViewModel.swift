@@ -56,7 +56,7 @@ final class FavoritesViewModel: ObservableObject {
     // MARK: - Fetch Methods
     private func fetchFavorites() async {
         do {
-            guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue) else {
+            guard let url = URL(string: Constant.startURL(.favorites)) else {
                 throw HttpError.badURL
             }
             
@@ -79,12 +79,11 @@ final class FavoritesViewModel: ObservableObject {
     }
 
     private func fetchProducts() async {
-        let startURL = Constants.baseURL.rawValue + Endpoints.products.rawValue
         var fetchedProducts = [Product]()
         
         for favorite in favorites {
             do {
-                guard let url = URL(string: startURL + "/" + favorite.productID.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.products) + favorite.productID.uuidString) else {
                     print("Invalid URL for productID:", favorite.productID.uuidString)
                     throw HttpError.badToken
                 }
@@ -110,7 +109,7 @@ final class FavoritesViewModel: ObservableObject {
                     throw HttpError.propertyDoesntExist
                 }
                 
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue + "/" + favorite.id.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.favorites) + favorite.id.uuidString) else {
                     throw HttpError.badURL
                 }
                                 

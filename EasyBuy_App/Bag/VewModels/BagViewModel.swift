@@ -35,10 +35,8 @@ final class BagViewModel: ObservableObject {
         Task {
             NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
                 .sink { [weak self] _ in
-                    guard let self = self else { return }
-                    self.isLoading = true
                     Task {
-                        await self.startBags()
+                        await self?.startBags()
                     }
                 }
                 .store(in: &cancellables)
@@ -56,7 +54,7 @@ final class BagViewModel: ObservableObject {
     // MARK: - Fetch Methods
     private func fetchBags() async {
         do {
-            guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.cartitems.rawValue) else {
+            guard let url = URL(string: Constant.startURL(.cartitems)) else {
                 throw HttpError.badURL
             }
             
@@ -79,12 +77,11 @@ final class BagViewModel: ObservableObject {
     }
 
     private func fetchProducts() async {
-        let startURL = Constants.baseURL.rawValue + Endpoints.products.rawValue
         var fetchedProducts = [Product]()
         
         for bag in bags {
             do {
-                guard let url = URL(string: startURL + "/" + bag.productID.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.products) + "/" + bag.productID.uuidString) else {
                     print("Invalid URL for productID:", bag.productID.uuidString)
                     throw HttpError.badToken
                 }
@@ -110,7 +107,7 @@ final class BagViewModel: ObservableObject {
                     throw HttpError.propertyDoesntExist
                 }
                 
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue + "/" + bag.id.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.favorites) + bag.id.uuidString) else {
                     throw HttpError.badURL
                 }
                                 

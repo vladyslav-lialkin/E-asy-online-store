@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+@MainActor
 class ProductViewModel: ObservableObject {
     
     // MARK: - Property
@@ -29,104 +30,87 @@ class ProductViewModel: ObservableObject {
             }
         }
     }
-    @Published var isLoading = false
+    @Published var isLoading = true
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     init(productID: UUID) {
         self.productID = productID
-        startProduct()
-        
         NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
             .sink { [weak self] _ in
-                self?.startProduct()
+                Task {
+                    await self?.startProduct()
+                }
             }
             .store(in: &cancellables)
     }
     
     // MARK: - Start Product
-    func startProduct() {
-        fetchProduct()
-        fetchFavorite()
-        fetchReview()
-    }
-    
-    // MARK: - Error Handling Methods
-    func updateError(_ error: LocalizedStringKey?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.errorMessage = error
-            self?.isLoading = false
-        }
+    func startProduct() async {
+        await fetchProduct()
+        await fetchFavorite()
+        await fetchReview()
+        isLoading = false
     }
     
     // MARK: - Fetch Methods
-    func fetchProduct() {
-        isLoading = true
-        Task {
-            do {
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.products.rawValue + "/" + productID.uuidString) else {
-                    throw HttpError.badURL
-                }
-                
-                #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-                if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
-                    print("Test Token added")
-                } else  {
-                    print("Test Token don't added")
-                }
-                #endif
-                        
-                let product: Product = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.product = product
-                }
-            } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
+    func fetchProduct() async {
+        do {
+            guard let url = URL(string: Constant.startURL(.products) + productID.uuidString) else {
+                throw HttpError.badURL
             }
             
+            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
+            if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
+                print("Test Token added")
+            } else  {
+                print("Test Token don't added")
+            }
+            #endif
+                    
+            let product: Product = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            self.product = product
+        } catch let error as HttpError {
+            errorMessage = HandlerError.httpError(error)
+        } catch {
+            print("fetchProduct", error)
+        }
+    }
+    
+    func fetchFavorite() async {
+        do {
+            guard let url = URL(string: Constant.startURL(.favorites)) else {
+                throw HttpError.badURL
+            }
+                    
+            let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            
+            self.favorite = (favorites.first(where: { favorite in
+                favorite.productID == productID
+            }))
+        } catch let error as HttpError {
+            errorMessage = HandlerError.httpError(error)
+        } catch {
+            print("fetchFavorite", error)
+        }
+    }
+    
+    func fetchReview() async {
+        do {
+            guard let url = URL(string: Constant.startURL(.reviews) + productID.uuidString) else {
+                throw HttpError.badURL
+            }
+                                    
+            let reviews: [Review] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            
             DispatchQueue.main.async { [weak self] in
-                self?.isLoading = false
+                self?.reviews = reviews
             }
-        }
-    }
-    
-    func fetchFavorite() {
-        Task {
-            do {
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue) else {
-                    throw HttpError.badURL
-                }
-                        
-                let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.favorite = (favorites.first(where: { favorite in
-                        favorite.productID == self?.productID
-                    }))
-                }
-            } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
-            }
-        }
-    }
-    
-    func fetchReview() {
-        Task {
-            do {
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.reviews.rawValue + "/" + productID.uuidString) else {
-                    throw HttpError.badURL
-                }
-                                        
-                let reviews: [Review] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.reviews = reviews
-                }
-            } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
-            }
+        } catch let error as HttpError {
+            errorMessage = HandlerError.httpError(error)
+        } catch {
+            print("fetchReview", error)
         }
     }
     
@@ -135,7 +119,7 @@ class ProductViewModel: ObservableObject {
     func addToFavorite() {
         Task {
             do {
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue) else {
+                guard let url = URL(string: Constant.startURL(.favorites)) else {
                     throw HttpError.badURL
                 }
 
@@ -143,9 +127,9 @@ class ProductViewModel: ObservableObject {
                 
                 try await HttpClient.shared.sendData(to: url, object: createFavoriteDTO, httpMethod: .POST, token: KeychainHelper.getToken())
                 
-                fetchFavorite()
+                await fetchFavorite()
             } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
+                errorMessage = HandlerError.httpError(error)
             }
         }
     }
@@ -153,7 +137,7 @@ class ProductViewModel: ObservableObject {
     func addToBag() {
         Task {
             do {
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.cartitems.rawValue) else {
+                guard let url = URL(string: Constant.startURL(.cartitems)) else {
                     throw HttpError.badURL
                 }
                                         
@@ -166,7 +150,7 @@ class ProductViewModel: ObservableObject {
                     self?.rating = 0
                 }
             } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
+                errorMessage = HandlerError.httpError(error)
             }
         }
     }
@@ -178,7 +162,7 @@ class ProductViewModel: ObservableObject {
                     return
                 }
                 
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.reviews.rawValue) else {
+                guard let url = URL(string: Constant.startURL(.reviews)) else {
                     throw HttpError.badURL
                 }
                         
@@ -186,12 +170,10 @@ class ProductViewModel: ObservableObject {
                 
                 try await HttpClient.shared.sendData(to: url, object: createReviewDTO, httpMethod: .POST, token: KeychainHelper.getToken())
                 
-                DispatchQueue.main.async { [weak self] in
-                    self?.review = ""
-                    self?.rating = 0
-                }
+                review = ""; rating = 0
+                await fetchReview()
             } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
+                errorMessage = HandlerError.httpError(error)
             }
         }
     }
@@ -205,17 +187,15 @@ class ProductViewModel: ObservableObject {
                     throw HttpError.propertyDoesntExist
                 }
                 
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue + "/" + favorite.id.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.favorites) + favorite.id.uuidString) else {
                     throw HttpError.badURL
                 }
                                 
                 try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
                 
-                DispatchQueue.main.async { [weak self] in
-                    self?.favorite = nil
-                }
+                self.favorite = nil
             } catch let error as HttpError {
-                updateError(HandlerError.httpError(error))
+                errorMessage = HandlerError.httpError(error)
             }
         }
     }

@@ -53,7 +53,7 @@ struct ProductsView: View {
                 .frame(width: width, alignment: .leading)
             
             SwipeSlide(items: viewModel.iPhonesImagesUrl) { index, url in
-                PageItemView(url: url,
+                PageItemView(url: viewModel.iPhonesImagesUrl[index],
                              title: "iPhone 15 pro",
                              price: "$999",
                              id: viewModel.iPhonesID[index] ?? UUID(),
@@ -65,8 +65,6 @@ struct ProductsView: View {
                 .frame(height: 50)
         }
         .navigationTitle("Products")
-        .showErrorMessega(errorMessage: viewModel.errorMessage)
-        .showProgressView(isLoading: viewModel.isLoading)
         .background(Color.customBackground)
         .toolbar {
             ToolbarItem {
@@ -79,8 +77,13 @@ struct ProductsView: View {
             }
         }
         .refreshable {
-            viewModel.startProducts()
+            await viewModel.startProducts()
         }
+        .task {
+            await viewModel.startProducts()
+        }
+        .showErrorMessega(errorMessage: viewModel.errorMessage)
+        .showProgressView(isLoading: viewModel.isLoading)
     }
 }
 

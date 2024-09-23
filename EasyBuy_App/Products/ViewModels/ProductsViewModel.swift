@@ -8,10 +8,13 @@
 import SwiftUI
 import Combine
 
+@MainActor
 class ProductsViewModel: ObservableObject {
     
     // MARK: - Property
-    @Published var isLoading = false
+    @Published var iPhonesImagesUrl: [URL?] = []
+    @Published var iPhonesID: [UUID?] = []
+    
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
@@ -22,9 +25,7 @@ class ProductsViewModel: ObservableObject {
             }
         }
     }
-    
-    @Published var iPhonesImagesUrl: [URL?] = []
-    @Published var iPhonesID: [UUID?] = []
+    @Published var isLoading = true
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -32,43 +33,30 @@ class ProductsViewModel: ObservableObject {
     
     // MARK: - Init
     init() {
-        startProducts()
-        
         NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
             .sink { [weak self] _ in
-                self?.startProducts()
+                Task {
+                    await self?.startProducts()
+                }
             }
             .store(in: &cancellables)
     }
     
     // MARK: - Start Products
-    func startProducts() {
-        iPhonesImagesUrl = [
-            URL(string: "https://i.imgur.com/RvgrlFp.png"),
-            URL(string: "https://i.imgur.com/RvgrlFp.png"),
-            URL(string: "https://i.imgur.com/RvgrlFp.png")
-        ]
-        
-        iPhonesID = [
-            UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
-            UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
-            UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")
-        ]
-    }
-    
-    // MARK: - Update isLoading
-    func isLoading(_ bool: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            self?.isLoading = bool
-        }
-    }
-    
-    
-    // MARK: - Error Handling Methods
-    func updateError(_ error: LocalizedStringKey?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.errorMessage = error
-            self?.isLoading = false
-        }
+    func startProducts() async {
+        await Task {
+            iPhonesImagesUrl = [
+                URL(string: "https://i.imgur.com/RvgrlFp.png"),
+                URL(string: "https://i.imgur.com/RvgrlFp.png"),
+                URL(string: "https://i.imgur.com/RvgrlFp.png")
+            ]
+            
+            iPhonesID = [
+                UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
+                UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
+                UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")
+            ]
+        }.value
+        isLoading = false
     }
 }
