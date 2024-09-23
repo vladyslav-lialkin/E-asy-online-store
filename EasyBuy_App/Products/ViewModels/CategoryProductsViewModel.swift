@@ -17,10 +17,9 @@ class CategoryProductsViewModel: ObservableObject {
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
+                sleep(10)
+                withAnimation {
+                    errorMessage = nil
                 }
             }
         }

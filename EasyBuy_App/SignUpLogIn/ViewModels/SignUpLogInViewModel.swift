@@ -11,7 +11,7 @@ import GoogleSignIn
 //import FacebookLogin
 import AuthenticationServices
 
-
+@MainActor
 class SignUpLogInViewModel: NSObject, ObservableObject {
     
     // MARK: - Property
@@ -26,7 +26,10 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
-                startErrorTimeout()
+                sleep(10)
+                withAnimation {
+                    errorMessage = nil
+                }
             }
         }
     }
@@ -64,92 +67,52 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         print("deinit: SignUpLogInViewModel")
     }
     
-    // MARK: - Update isLoading Methods
-    
-    func isLoading(_ bool: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            self?.isLoading = bool
-        }
-    }
-    
-    
     // MARK: - Error Handling Methods
-    
-    enum UpdateError {
-        case username
-        case email
-        case password
-        case message
-    }
-    
-    func updateError(_ error: LocalizedStringKey?, for field: UpdateError) {
-        DispatchQueue.main.async { [weak self] in
-            switch field {
-            case .username:
-                self?.errorUsername = error
-            case .email:
-                self?.errorEmail = error
-            case .password:
-                self?.errorPassword = error
-            case .message:
-                self?.errorMessage = error
-                self?.isLoading = false
-            }
-        }
-    }
     
     private func handleModelError(_ modelError: ModelError) -> Bool {
         var hasError = false
         
         if modelError.reason.contains("Email is already in use.") {
-            updateError("email_is_already_in_use", for: .email)
+            errorEmail = "email_is_already_in_use"
             hasError = true
         }
         
         if modelError.reason.contains("Username is already in use.") {
-            updateError("username_is_already_in_use", for: .username)
+            errorUsername = "username_is_already_in_use"
             hasError = true
         }
         
         if modelError.reason.contains("Email does not exist.") {
-            updateError("email_does_not_exist", for: .email)
+            errorEmail = "email_does_not_exist"
             hasError = true
         }
         
         if modelError.reason.contains("Incorrect password.") {
-            updateError("incorrect_password", for: .password)
+            errorPassword = "incorrect_password"
             hasError = true
         }
         
         return hasError
-    }
-    
-    private func startErrorTimeout() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-            withAnimation {
-                self?.errorMessage = nil
-            }
-        }
     }
 
     // MARK: - Validation Methods
     
     private func validateUsername() -> Bool {
         guard !username.isEmpty else {
-            updateError("enter_username", for: .username)
+            errorUsername = "enter_username"
             return false
         }
-        updateError(nil, for: .username)
+        errorUsername = nil
         
         return true
     }
     
     private func validateEmail(_ email: String) -> Bool {
         guard !email.isEmpty else {
-            updateError("enter_email", for: .email)
+            errorEmail = "enter_email"
             return false
         }
-        updateError(nil, for: .email)
+        errorEmail = nil
         
         let emailRegEx = "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
         
@@ -157,17 +120,17 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         if emailPredicate.evaluate(with: email) {
             return true
         } else {
-            updateError("this_email_does_not_exist", for: .email)
+            errorEmail = "this_email_does_not_exist"
             return false
         }
     }
     
     func validatePasswordStrength(password: String) -> Bool {
         guard !password.isEmpty else {
-            updateError("enter_password", for: .password)
+            errorPassword = "enter_password"
             return false
         }
-        updateError(nil, for: .password)
+        errorPassword = nil
         
         let lengthRequirement = password.count >= 8
         let uppercaseRequirement = NSPredicate(format: "SELF MATCHES %@", ".*[A-Z]+.*").evaluate(with: password)
@@ -179,7 +142,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         let mandatoryCriteriaMet = [lengthRequirement, uppercaseRequirement, lowercaseRequirement, digitRequirement].allSatisfy { $0 }
         
         if !mandatoryCriteriaMet {
-            updateError("password_is_very_weak", for: .password)
+            errorPassword = "password_is_very_weak"
             return false
         }
         
@@ -191,7 +154,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         case 1:
             return true
         default:
-            updateError("password_is_very_weak", for: .password)
+            errorPassword = "password_is_very_weak"
             return false
         }
     }
@@ -280,20 +243,20 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         isLoading = true
         Task {
             do {
-                guard let topVc = await TopViewController.find() else {
-                    updateError("google_sign_in_error", for: .message)
+                guard let topVc = TopViewController.find() else {
+                    errorMessage = "google_sign_in_error"
                     return
                 }
                 
                 let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVc)
                 
                 guard let userID = result.user.userID else {
-                    updateError("google_sign_in_error", for: .message)
+                    errorMessage = "google_sign_in_error"
                     return
                 }
                 
                 guard let profile = result.user.profile else {
-                    updateError("google_sign_in_error", for: .message)
+                    errorMessage = "google_sign_in_error"
                     return
                 }
                 
@@ -307,7 +270,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                 let (dataSignIn, _) = try await signInRequest(email: profile.email, password: hashUserID(userID))
                 
                 if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
-                    updateError("google_sign_in_error", for: .message)
+                    errorMessage = "google_sign_in_error"
                     return
                 }
                 
@@ -321,41 +284,42 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                     throw HttpError.tokenDontSave
                 }
             } catch let error as HttpError {
-                updateError(HandlerError.httpError(error), for: .message)
+                errorMessage = HandlerError.httpError(error)
             } catch {
                 print("An unexpected error occurred: \(error)")
             }
-            isLoading(false)
+            isLoading = false
         }
     }
     
     // MARK: Fecebook Sign-In
-//
+
 //    func signInWithFaceBook() {
 //        isLoading = true
-//        Task {
-//            guard let topVc = await TopViewController.find() else {
-//                throw URLError(.cannotFindHost)
-//            }
-//            
-//            let loginManager = LoginManager()
-//            
-//            loginManager.logIn(permissions: ["public_profile", "email"], from: topVc) { (result, error) in
-//                if let error = error {
-//                    print(error)
-//                } else if let result = result, !result.isCancelled {
-//                    self.fetchFacebookUserData()
-//                } else {
-//                    print("isCancelled")
-//                    self.isLoading(false)
-//                }
+//        guard let topVc = TopViewController.find() else {
+//            isLoading = false
+//            return URLError(.cannotFindHost)
+//        }
+//        
+//        let loginManager = LoginManager()
+//        
+//        loginManager.logIn(permissions: ["public_profile", "email"], from: topVc) { (result, error) in
+//            if let error = error {
+//                isLoading = false
+//                print(error)
+//            } else if let result = result, !result.isCancelled {
+//                self.fetchFacebookUserData()
+//            } else {
+//                print("isCancelled")
+//                self.isLoading = false
 //            }
 //        }
 //    }
 //    
 //    private func fetchFacebookUserData() {
 //        guard AccessToken.current != nil else {
-//            updateError("facebook_sign_in_error", for: .message)
+//            errorMessage = "facebook_sign_in_error"
+//            isLoading = false
 //            return
 //        }
 //        
@@ -363,12 +327,13 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 //        
 //        request.start { (_, result, error) in
 //            if let error = error {
+//                isLoading = false
 //                print(error)
 //            } else if let userData = result as? [String: Any] {
 //                self.handleFacebookUserData(userData: userData)
 //            } else {
 //                print("isCancelled")
-//                self.isLoading(false)
+//                self.isLoading = false
 //            }
 //        }
 //    }
@@ -377,7 +342,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 //        Task {
 //            do {
 //                guard let userID = userData["id"] as? String, let name = userData["name"] as? String else {
-//                    updateError("facebook_sign_in_error", for: .message)
+//                    errorMessage = "facebook_sign_in_error"
 //                    return
 //                }
 //                
@@ -392,7 +357,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 //                let (dataSignIn, _) = try await signInRequest(email: hashUserID(name), password: hashUserID(userID))
 //                
 //                if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
-//                    updateError("facebook_sign_in_error", for: .message)
+//                    errorMessage = "facebook_sign_in_error"
 //                    return
 //                }
 //                
@@ -404,11 +369,11 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
 //                    throw HttpError.tokenDontSave
 //                }
 //            } catch let error as HttpError {
-//                handleHttpError(error)
+//                errorMessage = HandlerError.httpError(error)
 //            } catch {
 //                print("An unexpected error occurred: \(error)")
 //            }
-//            isLoading(false)
+//            isLoading = false
 //        }
 //    }
     
@@ -431,7 +396,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
         Task {
             do {
                 guard let emailToUse = email else {
-                    updateError("apple_sign_in_error", for: .message)
+                    errorMessage = "apple_sign_in_error"
                     return
                 }
                                 
@@ -445,7 +410,7 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                 let (dataSignIn, _) = try await signInRequest(email: emailToUse, password: hashUserID(userID))
                 
                 if (try? JSONDecoder().decode(ModelError.self, from: dataSignIn)) != nil {
-                    updateError("apple_sign_in_error", for: .message)
+                    errorMessage = "apple_sign_in_error"
                     return
                 }
                 
@@ -458,12 +423,12 @@ class SignUpLogInViewModel: NSObject, ObservableObject {
                     print("Don't save token")
                     throw HttpError.tokenDontSave
                 }
-                isLoading(false)
             } catch let error as HttpError {
-                updateError(HandlerError.httpError(error), for: .message)
+                errorMessage = HandlerError.httpError(error)
             } catch {
                 print("An unexpected error occurred: \(error)")
             }
+            isLoading = false
         }
     }
 }
@@ -476,6 +441,7 @@ extension SignUpLogInViewModel: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        updateError("apple_sign_in_error", for: .message)
+        errorMessage = "apple_sign_in_error"
+        isLoading = false
     }
 }

@@ -8,20 +8,17 @@
 import SwiftUI
 
 struct ShowProgressViewModifier: ViewModifier {
-    @State private var isMovingAround = false
-    
     var isLoading: Bool
     let background: Bool
     
     func body(content: Content) -> some View {
-        VStack {
-            if isLoading {
-                LettersView(background: background)
-            } else {
-                content
+        content
+            .overlay {
+                if isLoading {
+                    LettersView(background: background)
+                }
             }
-        }
-        .animation(.easeInOut, value: isLoading)
+            .animation(.easeInOut, value: isLoading)
     }
 }
 

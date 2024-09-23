@@ -1,18 +1,18 @@
 //
-//  FavoritesViewModel.swift
+//  BagViewModel.swift
 //  EasyBuy_App
 //
-//  Created by Влад Лялькін on 13.09.2024.
+//  Created by Влад Лялькін on 20.09.2024.
 //
 
 import SwiftUI
 import Combine
 
 @MainActor
-final class FavoritesViewModel: ObservableObject {
+final class BagViewModel: ObservableObject {
     
     // MARK: - Property
-    @Published var favorites = [Favorite]()
+    @Published var bags = [Bag]()
     @Published var products = [Product]()
     
     @Published var errorMessage: LocalizedStringKey? {
@@ -38,7 +38,7 @@ final class FavoritesViewModel: ObservableObject {
                     guard let self = self else { return }
                     self.isLoading = true
                     Task {
-                        await self.startFavorites()
+                        await self.startBags()
                     }
                 }
                 .store(in: &cancellables)
@@ -46,17 +46,17 @@ final class FavoritesViewModel: ObservableObject {
     }
     
     // MARK: - Start Favorites
-    func startFavorites() async {
-        await fetchFavorites()
+    func startBags() async {
+        await fetchBags()
         await fetchProducts()
         
         isLoading = false
     }
         
     // MARK: - Fetch Methods
-    private func fetchFavorites() async {
+    private func fetchBags() async {
         do {
-            guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue) else {
+            guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.cartitems.rawValue) else {
                 throw HttpError.badURL
             }
             
@@ -68,9 +68,9 @@ final class FavoritesViewModel: ObservableObject {
             }
             #endif
                                 
-            let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let bags: [Bag] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
             
-            self.favorites = favorites.sorted(by: { $0.createdDate > $1.createdDate })
+            self.bags = bags.sorted(by: { $0.createdDate > $1.createdDate })
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
@@ -82,10 +82,10 @@ final class FavoritesViewModel: ObservableObject {
         let startURL = Constants.baseURL.rawValue + Endpoints.products.rawValue
         var fetchedProducts = [Product]()
         
-        for favorite in favorites {
+        for bag in bags {
             do {
-                guard let url = URL(string: startURL + "/" + favorite.productID.uuidString) else {
-                    print("Invalid URL for productID:", favorite.productID.uuidString)
+                guard let url = URL(string: startURL + "/" + bag.productID.uuidString) else {
+                    print("Invalid URL for productID:", bag.productID.uuidString)
                     throw HttpError.badToken
                 }
                 
@@ -103,26 +103,26 @@ final class FavoritesViewModel: ObservableObject {
     }
         
     // MARK: - Delete Methods
-    func deleteFavorite(for id: UUID) {
+    func deleteBag(for id: UUID) {
         Task {
             do {
-                guard let favorite = favorites.first(where: { $0.productID == id}) else {
+                guard let bag = bags.first(where: { $0.productID == id}) else {
                     throw HttpError.propertyDoesntExist
                 }
                 
-                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue + "/" + favorite.id.uuidString) else {
+                guard let url = URL(string: Constants.baseURL.rawValue + Endpoints.favorites.rawValue + "/" + bag.id.uuidString) else {
                     throw HttpError.badURL
                 }
                                 
                 try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
                 
-                favorites.removeAll(where: { $0.productID == id})
+                bags.removeAll(where: { $0.productID == id})
                 products.removeAll(where: { $0.id == id})
             } catch let error as HttpError {
                 errorMessage = HandlerError.httpError(error)
             }
             
-            await startFavorites()
+            await startBags()
         }
     }
 }

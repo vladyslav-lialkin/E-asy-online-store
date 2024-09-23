@@ -11,9 +11,8 @@ struct CategoryProductsView: View {
     
     @EnvironmentObject var coordinator: MainTabCoordinator
     @StateObject private var viewModel: CategoryProductsViewModel
-    
     @State private var searchText = ""
-    
+    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     private var sortProduct: [Product] {
         if searchText.isEmpty {
             viewModel.products
@@ -23,8 +22,6 @@ struct CategoryProductsView: View {
             }
         }
     }
-    
-    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         ScrollView {

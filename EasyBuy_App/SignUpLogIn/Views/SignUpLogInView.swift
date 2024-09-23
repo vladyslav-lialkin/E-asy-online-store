@@ -96,11 +96,11 @@ struct SignUpLogInView: View {
                         do {
                             try await viewModel.isLogin ? viewModel.logIn() : viewModel.signUp()
                         } catch let error as HttpError {
-                            viewModel.updateError(HandlerError.httpError(error), for: .message)
+                            viewModel.errorMessage = HandlerError.httpError(error)
                         } catch {
                             print("An unexpected error occurred: \(error)")
                         }
-                        viewModel.isLoading(false)
+                        viewModel.isLoading = false
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 50)
