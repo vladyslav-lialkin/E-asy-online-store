@@ -18,31 +18,29 @@ final class FavoritesViewModel: ObservableObject {
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
-                sleep(10)
-                withAnimation {
-                    errorMessage = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
+                    withAnimation {
+                        self?.errorMessage = nil
+                    }
                 }
             }
         }
     }
-    @Published var isLoading = false
+    @Published var isLoading = true
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     init() {
-        isLoading = true
-        Task {
-            NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-                .sink { [weak self] _ in
-                    guard let self = self else { return }
-                    self.isLoading = true
-                    Task {
-                        await self.startFavorites()
-                    }
+        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.isLoading = true
+                Task {
+                    await self.startFavorites()
                 }
-                .store(in: &cancellables)
-        }
+            }
+            .store(in: &cancellables)
     }
     
     // MARK: - Start Favorites

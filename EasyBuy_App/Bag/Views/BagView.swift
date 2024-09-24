@@ -11,48 +11,38 @@ struct BagView: View {
     @StateObject private var viewModel = BagViewModel()
     @EnvironmentObject var coordinator: MainTabCoordinator
     
-    let height = UIScreen.main.bounds.size.height
-    
     var body: some View {
-        ScrollView {
-            VStack {
-                if !viewModel.products.isEmpty {
+        ZStack {
+            Color.customBackground.ignoresSafeArea()
+            
+            if !viewModel.products.isEmpty {
+                List {
                     ForEach(viewModel.products) { product in
-                        BagItem(action: viewModel.deleteBag(for: product.id),
-                                product: product,
-                                coordinator: coordinator)
-                    }
-                    .onDelete(perform: { IndexSet in
-                        viewModel.products.remove(atOffsets: IndexSet)
-                        viewModel.bags.remove(atOffsets: IndexSet)
-                    })
-                    .transition(.moveAndFade)
-                } else {
-                    VStack {
-                        Spacer()
-                            .frame(height: height * 0.30)
-                        
-                        Text("Bag's empty for now")
-                            .foregroundStyle(.letter)
-                            .customStroke(strokeSize: 1, strokeColor: .app)
-                    }
+                        Section {
+                            BagItem(viewModel: viewModel,
+                                    coordinator: coordinator,
+                                    product: product)
+                        }
+                    }.transition(.moveAndFade)
                 }
+                .refreshable {
+                    await Task {
+                        await viewModel.startBags()
+                    }.value
+                }
+            } else {
+                Text("Bag's empty for now")
+                    .foregroundStyle(.letter)
+                    .customStroke(strokeSize: 1, strokeColor: .app)
             }
-            .frame(maxWidth: .infinity)
-            .navigationTitle("Bag")
-            .animation(.easeInOut, value: viewModel.products)
         }
-        .refreshable {
-            await Task {
-                await viewModel.startBags()
-            }.value
-        }
-        .showProgressView(isLoading: viewModel.isLoading)
-        .showErrorMessega(errorMessage: viewModel.errorMessage)
-        .background(.customBackground)
+        .animation(.easeInOut, value: viewModel.products)
+        .navigationTitle("Bag")
         .task {
             await viewModel.startBags()
         }
+        .showProgressView(isLoading: viewModel.isLoading)
+        .showErrorMessega(errorMessage: viewModel.errorMessage)
     }
 }
 

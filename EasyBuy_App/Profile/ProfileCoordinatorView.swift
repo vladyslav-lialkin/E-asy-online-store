@@ -18,6 +18,7 @@ struct ProfileCoordinatorView: View {
                 ProfileView(appState: appState)
             }
         }
+        .background(Color.customBackground)
     }
 }
 

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct BagItem: View {
-    let action: () -> Void
-    let product: Product
+    @ObservedObject var viewModel: BagViewModel
     let coordinator: MainTabCoordinator
+    let product: Product
     
     var body: some View {
         Button {
@@ -38,35 +38,14 @@ struct BagItem: View {
                 }
             }
             .frame(height: 100)
-            .padding(.horizontal)
-            .background(.itemBackground)
-            .clipShape(.rect(cornerRadius: 20))
-            .overlay {
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.border, lineWidth: 1)
-            }
         }
-        .padding(.horizontal)
-    }
-    
-    init(action: @autoclosure @escaping () -> Void, product: Product, coordinator: MainTabCoordinator) {
-        self.action = action
-        self.product = product
-        self.coordinator = coordinator
     }
 }
 
 #Preview {
-    ScrollView{
-        ForEach(0..<5) { _ in
-            FavoriteItem(action: print(true),
-                         url: URL(string: "https://i.imgur.com/RvgrlFp.png"),
-                         title: "MacBook Air 2020",
-                         price: 999.99,
-                         id: UUID(),
-                         coordinator: MainTabCoordinator())
-        }
+    NavigationView {
+        BagView()
+            .environmentObject(MainTabCoordinator())
     }
-    .background(.customBackground)
-    
+    .navigationViewStyle(.stack)
 }

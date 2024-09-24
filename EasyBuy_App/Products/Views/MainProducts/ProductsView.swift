@@ -76,9 +76,6 @@ struct ProductsView: View {
 
             }
         }
-        .refreshable {
-            await viewModel.startProducts()
-        }
         .task {
             await viewModel.startProducts()
         }

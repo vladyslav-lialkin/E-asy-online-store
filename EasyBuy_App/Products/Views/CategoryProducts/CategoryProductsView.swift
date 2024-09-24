@@ -50,9 +50,6 @@ struct CategoryProductsView: View {
 
             }
         }
-        .refreshable {
-            await viewModel.startCategoryProducts()
-        }
         .task {
             await viewModel.startCategoryProducts()
         }

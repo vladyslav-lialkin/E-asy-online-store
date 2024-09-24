@@ -18,29 +18,27 @@ final class BagViewModel: ObservableObject {
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
-                sleep(10)
-                withAnimation {
-                    errorMessage = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
+                    withAnimation {
+                        self?.errorMessage = nil
+                    }
                 }
             }
         }
     }
-    @Published var isLoading = false
+    @Published var isLoading = true
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     init() {
-        isLoading = true
-        Task {
-            NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-                .sink { [weak self] _ in
-                    Task {
-                        await self?.startBags()
-                    }
+        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
+            .sink { [weak self] _ in
+                Task {
+                    await self?.startBags()
                 }
-                .store(in: &cancellables)
-        }
+            }
+            .store(in: &cancellables)
     }
     
     // MARK: - Start Favorites
@@ -99,6 +97,36 @@ final class BagViewModel: ObservableObject {
         self.products = fetchedProducts
     }
         
+    // MARK: - Send Methods
+    func updateBag(for id: UUID, _ update: UpdateBag) {
+        Task {
+            do {
+                guard var bag = bags.first(where: { $0.productID == id}) else {
+                    throw HttpError.propertyDoesntExist
+                }
+                
+                guard let url = URL(string: Constant.startURL(.cartitems) + bag.id.uuidString) else {
+                    throw HttpError.badURL
+                }
+                
+                bag.quantity = update == .addAction ? bag.quantity + 1 : bag.quantity - 1
+                
+                guard bag.quantity >= 1 else {
+                    deleteBag(for: id)
+                    return
+                }
+                
+                let updateBagDTO = CreateBagDTO(productID: bag.productID, quantity: bag.quantity)
+                                
+                try await HttpClient.shared.sendData(to: url, object: updateBagDTO, httpMethod: .PATCH, token: KeychainHelper.getToken())
+            } catch let error as HttpError {
+                errorMessage = HandlerError.httpError(error)
+            }
+            
+            await startBags()
+        }
+    }
+    
     // MARK: - Delete Methods
     func deleteBag(for id: UUID) {
         Task {
@@ -107,7 +135,7 @@ final class BagViewModel: ObservableObject {
                     throw HttpError.propertyDoesntExist
                 }
                 
-                guard let url = URL(string: Constant.startURL(.favorites) + bag.id.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.cartitems) + bag.id.uuidString) else {
                     throw HttpError.badURL
                 }
                                 
