@@ -30,10 +30,16 @@ struct ProductImageView: View {
                 .offset(y: (minusY + safeArea.top) + adjusted)
                 .overlay(alignment: .bottom) {
                     GeometryReader {_ in
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(.productBaner)
-                            .offset(y: height + 35)
-                            .frame(height: self.size.height + minusY)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(.productBaner)
+                            
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(.border, lineWidth: 1)
+                        }
+                        .clipShape(.rect(cornerRadius: 20))
+                        .offset(y: height + 35)
+                        .frame(height: self.size.height + minusY)
                     }
                 }
             }

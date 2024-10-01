@@ -15,29 +15,53 @@ struct BagView: View {
         ZStack {
             Color.customBackground.ignoresSafeArea()
             
-            if !viewModel.products.isEmpty {
-                List {
-                    ForEach(viewModel.products) { product in
-                        Section {
+            if !viewModel.bags.isEmpty {
+                VStack(spacing: 0) {
+                    ScrollView {
+                        Spacer()
+                            .padding(.top)
+                        
+                        ForEach(viewModel.bags) { bag in
                             BagItem(viewModel: viewModel,
                                     coordinator: coordinator,
-                                    product: product)
+                                    bag: bag)
                         }
-                    }.transition(.moveAndFade)
-                }
-                .refreshable {
-                    await Task {
+                        
+                        Spacer()
+                            .padding(.bottom)
+                    }
+                    .refreshable {
+                        try? await Task.sleep(nanoseconds: 1_000_000_000)
                         await viewModel.startBags()
-                    }.value
+                    }
+
+                    BagBottomBarView(viewModel: viewModel)
                 }
             } else {
-                Text("Bag's empty for now")
-                    .foregroundStyle(.letter)
-                    .customStroke(strokeSize: 1, strokeColor: .app)
+                VStack {
+                    Image(systemName: "bag")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 70)
+                        .foregroundStyle(.app)
+                        .opacity(0.8)
+                    
+                    Text("Your bag is empty")
+                        .font(.title2.bold())
+                        .foregroundStyle(.letter)
+                        .customStroke(strokeSize: 2, strokeColor: .app)
+                }
             }
         }
-        .animation(.easeInOut, value: viewModel.products)
+        .animation(.easeInOut, value: viewModel.bags)
         .navigationTitle("Bag")
+        .toolbar {
+            Button {
+                viewModel.deleteAllSelected()
+            } label: {
+                Image(systemName: "trash")
+            }
+        }
         .task {
             await viewModel.startBags()
         }
@@ -52,4 +76,5 @@ struct BagView: View {
             .environmentObject(MainTabCoordinator())
     }
     .navigationViewStyle(.stack)
+    .tint(.app)
 }

@@ -62,14 +62,6 @@ class ProductViewModel: ObservableObject {
                 throw HttpError.badURL
             }
             
-            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
-                print("Test Token added")
-            } else  {
-                print("Test Token don't added")
-            }
-            #endif
-                    
             let product: Product = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
             self.product = product
         } catch let error as HttpError {

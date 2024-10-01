@@ -32,6 +32,7 @@ struct ProductView: View {
                     }
                 }
                 .refreshable {
+                    try? await Task.sleep(nanoseconds: 1_000_000_000)
                     await viewModel.startProduct()
                 }
             }
@@ -61,7 +62,7 @@ struct ProductView: View {
 
 #Preview {
     NavigationView {
-        ProductView(id: UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")!)
+        ProductView(id: UUID(uuidString: "864FA5BE-D4EB-483E-BA32-67D3B265312B")!)
     }
     .navigationViewStyle(.stack)
 }

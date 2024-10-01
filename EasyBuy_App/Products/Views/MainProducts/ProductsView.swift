@@ -16,6 +16,9 @@ struct ProductsView: View {
     
     var body: some View {
         ScrollView(.vertical) {
+            Spacer()
+                .padding(.top)
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(Array(viewModel.categoriesTitle.enumerated()), id: \.offset) { index, category in
@@ -37,12 +40,15 @@ struct ProductsView: View {
                                     .padding(.bottom, 5)
                             }
                             .frame(width: 105, height: 125)
-                            .background(Color.itemBackground)
-                            .clipShape(.rect(cornerRadius: 15))
+                            .background {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(.border, lineWidth: 1)
+                                    .background(Color.itemBackground)
+                                    .clipShape(.rect(cornerRadius: 15))
+                            }
                         }
                     }
                 }
-                .padding(.top)
                 .padding(.horizontal)
             }
             

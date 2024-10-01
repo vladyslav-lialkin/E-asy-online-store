@@ -54,16 +54,12 @@ struct ProductSummaryView: View {
                         .foregroundStyle(Color.letter)
                         .background {
                             Capsule()
-                                .fill(Color.app)
+                                .stroke(Color.border, lineWidth: 1)
+                                .background(Color.app)
+                                .clipShape(Capsule())
                                 .padding(.vertical, -10)
                                 .padding(.horizontal, -12)
                         }
-                }
-                .overlay {
-                    Capsule()
-                        .stroke(Color.border, lineWidth: 1)
-                        .padding(.vertical, -10)
-                        .padding(.horizontal, -12)
                 }
                 .padding(.trailing, 10)
             }

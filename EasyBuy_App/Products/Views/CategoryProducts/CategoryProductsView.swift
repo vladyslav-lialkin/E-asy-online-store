@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CategoryProductsView: View {
-    
     @EnvironmentObject var coordinator: MainTabCoordinator
     @StateObject private var viewModel: CategoryProductsViewModel
+    
     @State private var searchText = ""
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     private var sortProduct: [Product] {

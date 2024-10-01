@@ -15,21 +15,23 @@ struct FavoritesView: View {
         ZStack {
             Color.customBackground.ignoresSafeArea()
             
-            if !viewModel.products.isEmpty {
+            if !viewModel.favorites.isEmpty {
                 ScrollView {
-                    ForEach(viewModel.products) { product in
-                        FavoriteItem(action: viewModel.deleteFavorite(for: product.id),
-                                     url: product.imagesUrl.first,
-                                     title: product.name,
-                                     price: product.price,
-                                     id: product.id,
-                                     coordinator: coordinator)
+                    Spacer()
+                        .padding(.top)
+                    
+                    ForEach(viewModel.favorites) { favorite in
+                        FavoriteItem(viewModel: viewModel,
+                                     coordinator: coordinator,
+                                     favorite: favorite)
                     }
+                    
+                    Spacer()
+                        .padding(.bottom)
                 }
                 .refreshable {
-                    await Task {
-                        await viewModel.startFavorites()
-                    }.value
+                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                    await viewModel.startFavorites()
                 }
             } else {
                 VStack {
@@ -47,7 +49,7 @@ struct FavoritesView: View {
                 }
             }
         }
-        .animation(.easeInOut, value: viewModel.products)
+        .animation(.easeInOut, value: viewModel.favorites)
         .navigationTitle("Favorites")
         .task {
             await viewModel.startFavorites()

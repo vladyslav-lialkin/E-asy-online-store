@@ -8,13 +8,13 @@
 import SwiftUI
 import Combine
 
+import MapKit
+
 @MainActor
 final class BagViewModel: ObservableObject {
     
     // MARK: - Property
     @Published var bags = [Bag]()
-    @Published var products = [Product]()
-    
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
@@ -29,7 +29,7 @@ final class BagViewModel: ObservableObject {
     @Published var isLoading = true
     
     private var cancellables = Set<AnyCancellable>()
-    
+        
     // MARK: - Init
     init() {
         NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
@@ -43,9 +43,7 @@ final class BagViewModel: ObservableObject {
     
     // MARK: - Start Favorites
     func startBags() async {
-        await fetchBags()
-        await fetchProducts()
-        
+        await fetchBags()        
         isLoading = false
     }
         
@@ -57,7 +55,7 @@ final class BagViewModel: ObservableObject {
             }
             
             #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
+            if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
                 print("Test Token added")
             } else  {
                 print("Test Token don't added")
@@ -66,88 +64,130 @@ final class BagViewModel: ObservableObject {
                                 
             let bags: [Bag] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
             
-            self.bags = bags.sorted(by: { $0.createdDate > $1.createdDate })
+            withAnimation {
+                self.bags = bags.sorted { $0.createdDate > $1.createdDate }
+            }
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
             print("fetchFavorites:", error)
         }
     }
-
-    private func fetchProducts() async {
-        var fetchedProducts = [Product]()
-        
-        for bag in bags {
-            do {
-                guard let url = URL(string: Constant.startURL(.products) + "/" + bag.productID.uuidString) else {
-                    print("Invalid URL for productID:", bag.productID.uuidString)
-                    throw HttpError.badToken
-                }
-                
-                let product: Product = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
-                
-                fetchedProducts.append(product)
-            } catch let error as HttpError {
-                errorMessage = HandlerError.httpError(error)
-            } catch {
-                print("fetchProducts error:", error)
-            }
-        }
-        
-        self.products = fetchedProducts
-    }
         
     // MARK: - Send Methods
-    func updateBag(for id: UUID, _ update: UpdateBag) {
+    func updateBag(for bag: Bag, _ update: UpdateBag) async {
+        do {
+            guard let url = URL(string: Constant.startURL(.cartitems) + bag.id.uuidString) else {
+                throw HttpError.badURL
+            }
+            
+            let quantity: Int? = {
+                switch update {
+                case .addQuantity:
+                    return bag.quantity + 1
+                case .subtractQuantity:
+                    return bag.quantity - 1
+                case .isSelected:
+                    return nil
+                }
+            }()
+            
+            let isSelected: Bool? = {
+                switch update {
+                case .isSelected:
+                    return !bag.isSelected
+                case .addQuantity, .subtractQuantity:
+                    return nil
+                }
+            }()
+            
+            guard quantity ?? 1 >= 1 else {
+                await deleteBag(for: bag.id)
+                return
+            }
+            
+            let updateBagDTO = UpdateBagDTO(quantity: quantity, isSelected: isSelected)
+                            
+            try await HttpClient.shared.sendData(to: url, object: updateBagDTO, httpMethod: .PATCH, token: KeychainHelper.getToken())
+        } catch let error as HttpError {
+            errorMessage = HandlerError.httpError(error)
+        } catch {
+            print("updateBag:", error)
+        }
+    }
+    
+    func updateAllSelected() {
+        let value = bags.allSatisfy(\.isSelected)
+        
+        Task {
+            for bag in bags {
+                if bag.isSelected == value {
+                    await updateBag(for: bag, .isSelected)
+                }
+            }
+            
+            await fetchBags()
+        }
+    }
+    
+    func buyAllSelected() {
         Task {
             do {
-                guard var bag = bags.first(where: { $0.productID == id}) else {
-                    throw HttpError.propertyDoesntExist
-                }
-                
-                guard let url = URL(string: Constant.startURL(.cartitems) + bag.id.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.orders)) else {
                     throw HttpError.badURL
                 }
                 
-                bag.quantity = update == .addAction ? bag.quantity + 1 : bag.quantity - 1
+                var createOrderDTOs = [CreateOrderDTO]()
                 
-                guard bag.quantity >= 1 else {
-                    deleteBag(for: id)
-                    return
+                for bag in bags.filter({ $0.isSelected }) {
+                    createOrderDTOs.append(
+                        CreateOrderDTO(productID: bag.productID,
+                                       quantity: bag.quantity)
+                    )
                 }
                 
-                let updateBagDTO = CreateBagDTO(productID: bag.productID, quantity: bag.quantity)
-                                
-                try await HttpClient.shared.sendData(to: url, object: updateBagDTO, httpMethod: .PATCH, token: KeychainHelper.getToken())
+                try await HttpClient.shared.sendData(to: url,
+                                                     object: createOrderDTOs,
+                                                     httpMethod: .POST,
+                                                     token: KeychainHelper.getToken())
+
+                deleteAllSelected()
             } catch let error as HttpError {
                 errorMessage = HandlerError.httpError(error)
+            } catch {
+                print("buyAllSelected:", error)
             }
-            
-            await startBags()
+            await fetchBags()
         }
     }
     
     // MARK: - Delete Methods
-    func deleteBag(for id: UUID) {
+    func deleteBag(for id: UUID) async {
+        do {
+            guard let url = URL(string: Constant.startURL(.cartitems) + id.uuidString) else {
+                throw HttpError.badURL
+            }
+                            
+            try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
+            
+            if var storedValues = UserDefaults.standard.stringArray(forKey: "selected") {
+                storedValues.removeAll(where: { $0 == id.uuidString })
+                UserDefaults.standard.set(storedValues, forKey: "selected")
+            }
+        } catch let error as HttpError {
+            errorMessage = HandlerError.httpError(error)
+        } catch {
+            print("deleteBag:", error)
+        }
+    }
+    
+    func deleteAllSelected() {
         Task {
-            do {
-                guard let bag = bags.first(where: { $0.productID == id}) else {
-                    throw HttpError.propertyDoesntExist
-                }
-                
-                guard let url = URL(string: Constant.startURL(.cartitems) + bag.id.uuidString) else {
-                    throw HttpError.badURL
-                }
-                                
-                try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
-                
-                bags.removeAll(where: { $0.productID == id})
-                products.removeAll(where: { $0.id == id})
-            } catch let error as HttpError {
-                errorMessage = HandlerError.httpError(error)
+            for bag in bags.filter({ $0.isSelected }) {
+                await deleteBag(for: bag.id)
             }
             
-            await startBags()
+            await fetchBags()
         }
     }
 }

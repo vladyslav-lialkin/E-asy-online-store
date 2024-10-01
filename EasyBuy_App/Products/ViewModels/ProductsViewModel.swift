@@ -53,9 +53,9 @@ class ProductsViewModel: ObservableObject {
             ]
             
             iPhonesID = [
-                UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
-                UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E"),
-                UUID(uuidString: "E0233890-71C4-4FF3-94C0-12CBB208BF3E")
+                UUID(uuidString: "864FA5BE-D4EB-483E-BA32-67D3B265312B"),
+                UUID(uuidString: "864FA5BE-D4EB-483E-BA32-67D3B265312B"),
+                UUID(uuidString: "864FA5BE-D4EB-483E-BA32-67D3B265312B")
             ]
         }.value
         isLoading = false

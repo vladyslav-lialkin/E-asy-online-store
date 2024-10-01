@@ -11,6 +11,9 @@ struct Favorite: Codable, Equatable, Identifiable {
     let id: UUID
     let userID: UUID
     let productID: UUID
+    let name: String
+    let price: Double
+    let imageUrl: URL
     let createdDate: Date
     
     init(from decoder: Decoder) throws {
@@ -19,6 +22,9 @@ struct Favorite: Codable, Equatable, Identifiable {
         id = try container.decode(UUID.self, forKey: .id)
         userID = try container.decode(UUID.self, forKey: .userID)
         productID = try container.decode(UUID.self, forKey: .productID)
+        name = try container.decode(String.self, forKey: .name)
+        price = try container.decode(Double.self, forKey: .price)
+        imageUrl = try container.decode(URL.self, forKey: .imageUrl)
         
         
         let dateString = try container.decode(String.self, forKey: .createdDate)

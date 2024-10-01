@@ -62,11 +62,11 @@ struct PageItemView: View {
             .background(Color.banerBottom)
         }
         .background(Color(uiColor: .systemBackground))
-        .clipShape(.rect(cornerRadius: 30))
         .overlay {
             RoundedRectangle(cornerRadius: 30)
                 .stroke(Color.border, lineWidth: 1)
         }
+        .clipShape(.rect(cornerRadius: 30))
         .padding(.horizontal)
         .padding(.all, 2)
     }

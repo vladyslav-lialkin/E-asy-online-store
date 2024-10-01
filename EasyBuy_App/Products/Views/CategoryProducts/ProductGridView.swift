@@ -48,11 +48,11 @@ struct ProductGridView: View {
             }
             .background(Color(uiColor: .systemBackground))
         }
-        .clipShape(.rect(cornerRadius: 20))
         .overlay {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.border, lineWidth: 1)
         }
+        .clipShape(.rect(cornerRadius: 20))
     }
 }
 

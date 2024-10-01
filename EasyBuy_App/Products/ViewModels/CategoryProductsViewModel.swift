@@ -55,14 +55,6 @@ class CategoryProductsViewModel: ObservableObject {
                 throw HttpError.badURL
             }
             
-            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
-                print("Test Token added")
-            } else  {
-                print("Test Token don't added")
-            }
-            #endif
-            
             let products: [Product] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
             self.products = products.sorted(by: { $0.createdAt > $1.createdAt })
         } catch let error as HttpError {

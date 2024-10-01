@@ -13,8 +13,6 @@ final class FavoritesViewModel: ObservableObject {
     
     // MARK: - Property
     @Published var favorites = [Favorite]()
-    @Published var products = [Product]()
-    
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
@@ -46,8 +44,6 @@ final class FavoritesViewModel: ObservableObject {
     // MARK: - Start Favorites
     func startFavorites() async {
         await fetchFavorites()
-        await fetchProducts()
-        
         isLoading = false
     }
         
@@ -59,7 +55,7 @@ final class FavoritesViewModel: ObservableObject {
             }
             
             #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "awHBfIFzYT51CpzgEzbWDg==") {
+            if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
                 print("Test Token added")
             } else  {
                 print("Test Token don't added")
@@ -68,53 +64,25 @@ final class FavoritesViewModel: ObservableObject {
                                 
             let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
             
-            self.favorites = favorites.sorted(by: { $0.createdDate > $1.createdDate })
+            withAnimation {
+                self.favorites = favorites.sorted(by: { $0.createdDate > $1.createdDate })
+            }
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
             print("fetchFavorites:", error)
         }
     }
-
-    private func fetchProducts() async {
-        var fetchedProducts = [Product]()
-        
-        for favorite in favorites {
-            do {
-                guard let url = URL(string: Constant.startURL(.products) + favorite.productID.uuidString) else {
-                    print("Invalid URL for productID:", favorite.productID.uuidString)
-                    throw HttpError.badToken
-                }
-                
-                let product: Product = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
-                
-                fetchedProducts.append(product)
-            } catch let error as HttpError {
-                errorMessage = HandlerError.httpError(error)
-            } catch {
-                print("fetchProducts error:", error)
-            }
-        }
-        
-        self.products = fetchedProducts
-    }
         
     // MARK: - Delete Methods
     func deleteFavorite(for id: UUID) {
         Task {
             do {
-                guard let favorite = favorites.first(where: { $0.productID == id}) else {
-                    throw HttpError.propertyDoesntExist
-                }
-                
-                guard let url = URL(string: Constant.startURL(.favorites) + favorite.id.uuidString) else {
+                guard let url = URL(string: Constant.startURL(.favorites) + id.uuidString) else {
                     throw HttpError.badURL
                 }
                                 
                 try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
-                
-                favorites.removeAll(where: { $0.productID == id})
-                products.removeAll(where: { $0.id == id})
             } catch let error as HttpError {
                 errorMessage = HandlerError.httpError(error)
             }
