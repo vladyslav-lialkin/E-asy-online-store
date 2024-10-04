@@ -23,7 +23,7 @@ struct BagBottomBarView: View {
             .padding(.leading)
             
             Text("All")
-                .customStroke(strokeSize: 1, strokeColor: .app)
+                .customStroke(strokeSize: 1.5, strokeColor: .app)
                 .foregroundStyle(.letter)
             
             Spacer()
@@ -33,7 +33,7 @@ struct BagBottomBarView: View {
                     .filter { $0.isSelected }
                     .reduce(0.00) { $0 + $1.price }
             ))
-            .customStroke(strokeSize: 1, strokeColor: .app)
+            .customStroke(strokeSize: 1.5, strokeColor: .app)
             .foregroundStyle(.letter)
             .padding(.horizontal)
             

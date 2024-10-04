@@ -8,8 +8,6 @@
 import SwiftUI
 import Combine
 
-import MapKit
-
 @MainActor
 final class BagViewModel: ObservableObject {
     

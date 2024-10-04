@@ -23,4 +23,8 @@ extension View {
     func customStroke(strokeSize: CGFloat = 1, strokeColor: Color = .blue) -> some View {
         self.modifier(StrokeModifier(strokeSize: strokeSize, strokeColor: strokeColor))
     }
+    
+    func capsuleButtonStyle() -> some View {
+        self.modifier(CapsuleButtonStyle())
+    }
 }

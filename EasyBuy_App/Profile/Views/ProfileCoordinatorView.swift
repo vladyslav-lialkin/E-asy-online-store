@@ -15,16 +15,28 @@ struct ProfileCoordinatorView: View {
         NStack(stack: $coordinator.profileStack) { screens in
             switch screens {
             case .profile:
-                ProfileView(appState: appState)
+                ProfileView()
+            case .orders(let rawValue):
+                EmptyView()
+            case .order(let id):
+                EmptyView()
+            case .personalData:
+                EmptyView()
+            case .notification:
+                EmptyView()
+            case .settings:
+                EmptyView()
+            case .requestAccountDeletion:
+                EmptyView()
             }
         }
-        .background(Color.customBackground)
     }
 }
 
 #Preview {
     ProfileCoordinatorView()
         .environmentObject(MainTabCoordinator())
+        .environmentObject(AppState())
 }
 
 

@@ -14,4 +14,7 @@ enum StatusOrderEnum: String {
     case delivered
     case canceled
     case returned
+    
+    // for see all
+    case all = ""
 }
