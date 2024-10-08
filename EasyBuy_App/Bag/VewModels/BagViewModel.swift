@@ -68,7 +68,7 @@ final class BagViewModel: ObservableObject {
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
-            print("fetchFavorites:", error)
+            print("fetchBags:", error)
         }
     }
         

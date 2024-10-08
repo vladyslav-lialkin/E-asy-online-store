@@ -1,17 +1,18 @@
 //
-//  ProfileViewModel.swift
+//  OrderDetailsViewModel.swift
 //  EasyBuy_App
 //
-//  Created by Влад Лялькін on 02.10.2024.
+//  Created by Влад Лялькін on 07.10.2024.
 //
 
 import SwiftUI
 import Combine
 
 @MainActor
-class ProfileViewModel: ObservableObject {
-    // MARK: - Property
-    @Published var user: User!
+final class OrderDetailsViewModel: ObservableObject {
+    // MARK: - Properties
+    @Published var order: Order!
+    @Published var orderID: UUID
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
@@ -25,35 +26,30 @@ class ProfileViewModel: ObservableObject {
     }
     @Published var isLoading = true
     
-    @AppStorage("emoji") var emoji = String()
-    
     private var cancellables = Set<AnyCancellable>()
         
     // MARK: - Init
-    init() {
-        if emoji.isEmpty {
-            emoji = "🙂"
-        }
-        
+    init(id: UUID) {
+        orderID = id
         NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
             .sink { [weak self] _ in
                 Task {
-                    await self?.startUser()
+                    await self?.fetchOrder()
                 }
             }
             .store(in: &cancellables)
     }
     
     // MARK: - Start Favorites
-    func startUser() async {
-        await fetchUser()
+    func startOrder() async {
+        await fetchOrder()
         isLoading = false
     }
     
     // MARK: - Fetch Methods
-    private func fetchUser() async {
+    private func fetchOrder() async {
         do {
-            guard let url = URL(string: Constant.startURL(.users, .profile)) else {
+            guard let url = URL(string: Constant.startURL(.orders) + orderID.uuidString) else {
                 throw HttpError.badURL
             }
             
@@ -64,16 +60,12 @@ class ProfileViewModel: ObservableObject {
                 print("Test Token don't added")
             }
             #endif
-                                
-            let user: User = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
             
-            withAnimation {
-                self.user = user
-            }
+            order = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
-//            print("fetchUser:", error)
+//            print("fetchOrder:", error)
         }
     }
 }

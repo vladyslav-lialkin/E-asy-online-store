@@ -14,9 +14,9 @@ struct LettersView: View {
     var body: some View {
         ZStack {
             if background {
-                Color(uiColor: .systemBackground).ignoresSafeArea()
+                Color.customBackground.ignoresSafeArea()
             } else {
-                Color(uiColor: .systemBackground)
+                Color.customBackground
                     .frame(width: 125, height: 60)
             }
             

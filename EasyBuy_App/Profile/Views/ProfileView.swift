@@ -40,7 +40,7 @@ struct ProfileView: View {
     var userInfoSection: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Hello, " + (viewModel.user?.username ?? "___"))
+                Text("Hello, " + (String(viewModel.user?.username.prefix(15) ?? "___")))
                     .customStroke(strokeSize: 1.7, strokeColor: .app)
                     .foregroundStyle(.letter)
                     .font(.title2.bold())
@@ -53,7 +53,7 @@ struct ProfileView: View {
             
             Spacer()
             
-            Text(viewModel.emojis.randomElement() ?? "🙂")
+            Text(viewModel.emoji)
                 .font(.system(size: 50))
         }
     }
@@ -67,7 +67,7 @@ struct ProfileView: View {
                     .fontWeight(.bold)
                 Spacer()
                 Button("See all >") {
-                    coordinator.profileStack.append(.orders(.all))
+                    coordinator.profileStack.append(.orders([.all]))
                 }
                 .font(.callout)
                 .foregroundStyle(.gray)
@@ -75,18 +75,18 @@ struct ProfileView: View {
             
             HStack {
                 orderButton(title: "New") {
-                    coordinator.profileStack.append(.orders(.new))
+                    coordinator.profileStack.append(.orders([.new, .processing]))
                 }
                 orderButton(title: "Shipped") {
-                    coordinator.profileStack.append(.orders(.shipped))
+                    coordinator.profileStack.append(.orders([.shipped]))
                 }
             }
             HStack {
                 orderButton(title: "Delivered") {
-                    coordinator.profileStack.append(.orders(.delivered))
+                    coordinator.profileStack.append(.orders([.delivered]))
                 }
                 orderButton(title: "Returned") {
-                    coordinator.profileStack.append(.orders(.returned))
+                    coordinator.profileStack.append(.orders([.returned]))
                 }
             }
         }
@@ -150,11 +150,13 @@ struct ProfileView: View {
     
     // MARK: - Helper Buttons
     func orderButton(title: String, _ action: @escaping () -> Void) -> some View {
-        Button(title) {
+        Button {
             action()
+        } label: {
+            Text(title)
+                .font(.callout.bold())
+                .capsuleButtonStyle()
         }
-        .font(.callout.bold())
-        .capsuleButtonStyle()
     }
     
     func quickActionButton(label: String, icon: String, _ action: @escaping () -> Void) -> some View {

@@ -36,6 +36,7 @@
 "enter_email" = "Enter email";
 "password" = "Password";
 "enter_password" = "Enter password";
+"enter_phone_number" = "Enter phone number";
 
 // Buttons
 "log_in_primary_button_title" = "Sign In";
@@ -54,6 +55,8 @@
 // Errors
 "email_is_already_in_use" = "Email is already in use.";
 "username_is_already_in_use" = "Username is already in use.";
+"phonenumber_is_already_in_use" = "Phone Number is already in use.";
+"invalid_phone_number_format" = "Incorrect phone number.";
 "email_does_not_exist" = "Email does not exist.";
 "incorrect_password" = "Incorrect password.";
 "server_connection_issue" = "There is an issue with the connection to the server. Please try again later.";

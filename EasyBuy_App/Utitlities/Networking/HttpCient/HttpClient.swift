@@ -7,24 +7,17 @@
 
 import Foundation
 
-struct HttpClient {
+final class HttpClient {
     private init() {}
 
     static let shared = HttpClient()
-    
-    private let session: URLSession = {
-        let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 30
-        config.timeoutIntervalForResource = 60
-        return URLSession(configuration: config)
-    }()
     
     func fetch<T: Codable>(url: URL, token: String) async throws -> T {
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token)",
                          forHTTPHeaderField: "Authorization")
         
-        let (data, response) = try await session.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
             throw HttpError.badResponse
@@ -38,7 +31,7 @@ struct HttpClient {
     }
     
     func fetch(url: URL) async throws -> Data {
-        let (data, response) = try await session.data(from: url)
+        let (data, response) = try await URLSession.shared.data(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
             throw HttpError.badResponse
@@ -58,7 +51,7 @@ struct HttpClient {
         
         request.httpBody = try JSONEncoder().encode(object)
         
-        let (_, response) = try await session.data(for: request)
+        let (_, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
             throw HttpError.badResponse
@@ -71,7 +64,7 @@ struct HttpClient {
         request.addValue("Bearer \(token)",
                          forHTTPHeaderField: "Authorization")
         
-        let (_, response) = try await session.data(for: request)
+        let (_, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
             throw HttpError.badResponse

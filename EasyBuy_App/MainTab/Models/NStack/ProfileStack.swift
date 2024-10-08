@@ -9,9 +9,10 @@ import Foundation
 
 enum ProfileStack: CustomStringConvertible {
     case profile
-    case orders(StatusOrderEnum)
+    case orders([StatusOrderEnum])
     case order(UUID)
     case personalData
+    case editPersonalData(PersonalDataField)
     case notification
     case settings
     case requestAccountDeletion
@@ -19,19 +20,21 @@ enum ProfileStack: CustomStringConvertible {
     var description: String {
         switch self {
         case .profile:
-            "Profile"
-        case .orders(let status):
-            "Orders:\(status.rawValue)"
+            return "Profile"
+        case .orders(let statuses):
+            return "Orders: \(statuses.map { $0.rawValue }.joined(separator: ", "))"
         case .order(let id):
-            "Order:\(id.uuidString)"
+            return "Order: \(id.uuidString)"
         case .personalData:
-            "PersonalData"
+            return "PersonalData"
+        case .editPersonalData(let edit):
+            return "EditPersonalData: \(edit.rawValue)"
         case .notification:
-            "Notification"
+            return "Notification"
         case .settings:
-            "Settings"
+            return "Settings"
         case .requestAccountDeletion:
-            "RequestAccountDeletion"
+            return "RequestAccountDeletion"
         }
     }
 
@@ -47,9 +50,10 @@ enum ProfileStack: CustomStringConvertible {
         } else if rawValue == "RequestAccountDeletion" {
             self = .requestAccountDeletion
         } else if rawValue.starts(with: "Orders:") {
-            let statusRawValue = String(rawValue.dropFirst("Orders:".count))
-            if let status = StatusOrderEnum(rawValue: statusRawValue) {
-                self = .orders(status)
+            let statusRawValues = rawValue.dropFirst("Orders:".count).split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
+            let statuses = statusRawValues.compactMap { StatusOrderEnum(rawValue: $0) }
+            if statuses.count == statusRawValues.count {
+                self = .orders(statuses)
             } else {
                 return nil
             }
@@ -57,6 +61,13 @@ enum ProfileStack: CustomStringConvertible {
             let uuidString = String(rawValue.dropFirst("Order:".count))
             if let uuid = UUID(uuidString: uuidString) {
                 self = .order(uuid)
+            } else {
+                return nil
+            }
+        } else if rawValue.starts(with: "EditPersonalData:") {
+            let rawValue = String(rawValue.dropFirst("EditPersonalData:".count))
+            if let edit = PersonalDataField(rawValue: rawValue) {
+                self = .editPersonalData(edit)
             } else {
                 return nil
             }

@@ -27,4 +27,8 @@ extension View {
     func capsuleButtonStyle() -> some View {
         self.modifier(CapsuleButtonStyle())
     }
+    
+    func roundedButton(cornerRadius: CGFloat) -> some View {
+        self.modifier(RoundedButtonStyle(cornerRadius: cornerRadius))
+    }
 }

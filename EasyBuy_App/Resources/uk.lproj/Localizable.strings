@@ -36,6 +36,7 @@
 "enter_email" = "Введіть адресу електронної пошти";
 "password" = "Пароль";
 "enter_password" = "Введіть пароль";
+"enter_phone_number" = "Введіть номер телефону";
 
 // Buttons
 "log_in_primary_button_title" = "Увійти";
@@ -54,6 +55,8 @@
 // Errors
 "email_is_already_in_use" = "Ця електронна адреса вже використовується.";
 "username_is_already_in_use" = "Це ім'я користувача вже використовується.";
+"phonenumber_is_already_in_use" = "Цей номер телефону вже використовується.";
+"invalid_phone_number_format" = "Неправильний номер телефону.";
 "email_does_not_exist" = "Електронна адреса не існує.";
 "incorrect_password" = "Неправильний пароль.";
 "server_connection_issue" = "Проблема з підключенням до сервера. Будь ласка, спробуйте пізніше.";

@@ -1,17 +1,18 @@
 //
-//  ProfileViewModel.swift
+//  PersonalDataViewModel.swift
 //  EasyBuy_App
 //
-//  Created by Влад Лялькін on 02.10.2024.
+//  Created by Влад Лялькін on 07.10.2024.
 //
 
 import SwiftUI
 import Combine
 
 @MainActor
-class ProfileViewModel: ObservableObject {
+final class PersonalDataViewModel: ObservableObject {
     // MARK: - Property
     @Published var user: User!
+    @Published var isEmojiPicker = false
     @Published var errorMessage: LocalizedStringKey? {
         didSet {
             if errorMessage != nil {
@@ -28,30 +29,26 @@ class ProfileViewModel: ObservableObject {
     @AppStorage("emoji") var emoji = String()
     
     private var cancellables = Set<AnyCancellable>()
-        
+            
     // MARK: - Init
     init() {
-        if emoji.isEmpty {
-            emoji = "🙂"
-        }
-        
         NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
             .sink { [weak self] _ in
                 Task {
-                    await self?.startUser()
+                    await self?.fetchUserData()
                 }
             }
             .store(in: &cancellables)
     }
     
     // MARK: - Start Favorites
-    func startUser() async {
-        await fetchUser()
+    func startUserData() async {
+        await fetchUserData()
         isLoading = false
     }
     
     // MARK: - Fetch Methods
-    private func fetchUser() async {
+    func fetchUserData() async {
         do {
             guard let url = URL(string: Constant.startURL(.users, .profile)) else {
                 throw HttpError.badURL
@@ -73,7 +70,7 @@ class ProfileViewModel: ObservableObject {
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
-//            print("fetchUser:", error)
+//            print("fetchUserData:", error)
         }
     }
 }

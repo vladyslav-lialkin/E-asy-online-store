@@ -16,12 +16,14 @@ struct ProfileCoordinatorView: View {
             switch screens {
             case .profile:
                 ProfileView()
-            case .orders(let rawValue):
-                EmptyView()
+            case .orders(let statuses):
+                OrdersView(statuses: statuses)
             case .order(let id):
-                EmptyView()
+                OrderDetailsView(id: id)
             case .personalData:
-                EmptyView()
+                PersonalDataView()
+            case .editPersonalData(let edit):
+                EditPersonalDataView(field: edit)
             case .notification:
                 EmptyView()
             case .settings:

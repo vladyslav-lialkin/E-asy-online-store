@@ -52,3 +52,15 @@ struct User: Codable, Identifiable {
         }
     }
 }
+
+struct UpdateUserDTO: Codable {
+    var name: String? = nil
+    var lastname: String? = nil
+    var username: String? = nil
+    var email: String? = nil
+    var city: String? = nil
+    var address: String? = nil
+    var phoneNumber: String? = nil
+    var country: String? = nil
+    var postalcode: String? = nil
+}
