@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class MainTabCoordinator: ObservableObject {
+final class MainTabCoordinator: ObservableObject {
     @Published var activeTab: Tab = .products
     @Published var productsStack: [ProductsStack] = [.products]
     @Published var favouritesStack: [FavoritesStack] = [.favorites]

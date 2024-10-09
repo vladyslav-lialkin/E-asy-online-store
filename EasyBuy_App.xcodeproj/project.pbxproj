@@ -27,6 +27,7 @@
 		323CDDA42C63D720009B5182 /* SignUpLogInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CDDA32C63D720009B5182 /* SignUpLogInCoordinator.swift */; };
 		323CDDA82C63D7DF009B5182 /* SignUpLogInCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CDDA72C63D7DF009B5182 /* SignUpLogInCoordinatorView.swift */; };
 		3249EAC62C64FD87004C478F /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249EAC52C64FD87004C478F /* View+Ext.swift */; };
+		324A88A32CB69DA5004574E3 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324A88A22CB69DA5004574E3 /* BaseViewModel.swift */; };
 		324ADFC32C9B5BFC007C9088 /* FavoriteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324ADFC22C9B5BFC007C9088 /* FavoriteItem.swift */; };
 		324CCBB42C7A241C00EC849E /* ShowProgressViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CCBB32C7A241C00EC849E /* ShowProgressViewModifier.swift */; };
 		3255356A2C612F0700E7B1F3 /* EasyBuy_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325535692C612F0700E7B1F3 /* EasyBuy_App.swift */; };
@@ -118,6 +119,7 @@
 		323CDDA32C63D720009B5182 /* SignUpLogInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpLogInCoordinator.swift; sourceTree = "<group>"; };
 		323CDDA72C63D7DF009B5182 /* SignUpLogInCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpLogInCoordinatorView.swift; sourceTree = "<group>"; };
 		3249EAC52C64FD87004C478F /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
+		324A88A22CB69DA5004574E3 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		324ADFC22C9B5BFC007C9088 /* FavoriteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteItem.swift; sourceTree = "<group>"; };
 		324CCBB32C7A241C00EC849E /* ShowProgressViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProgressViewModifier.swift; sourceTree = "<group>"; };
 		325535662C612F0700E7B1F3 /* EasyBuy_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuy_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -347,6 +349,14 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		324A88A12CB69D8B004574E3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				324A88A22CB69DA5004574E3 /* BaseViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		3255355D2C612F0700E7B1F3 = {
 			isa = PBXGroup;
 			children = (
@@ -396,6 +406,7 @@
 				32C671CA2C66394700E392D4 /* Modifier */,
 				323CDD9D2C63D295009B5182 /* Extensions */,
 				32C671C52C6637AE00E392D4 /* Coordinator */,
+				324A88A12CB69D8B004574E3 /* ViewModel */,
 				323A1A7F2C6CB4EA0098A4DA /* Networking */,
 				32C0ED762C6A94D400A9886E /* Keychain */,
 			);
@@ -790,6 +801,7 @@
 				32362D5C2C8CC720001C1A70 /* Review.swift in Sources */,
 				327719BD2C74B87D0064B287 /* MainTabView.swift in Sources */,
 				32835FB22C80942A007B0A71 /* SwipeSlide.swift in Sources */,
+				324A88A32CB69DA5004574E3 /* BaseViewModel.swift in Sources */,
 				320B91782C8718EF00C21EA6 /* ProductViewModel.swift in Sources */,
 				323CDDA42C63D720009B5182 /* SignUpLogInCoordinator.swift in Sources */,
 				32C49C242C8B4B55009AD0BA /* AsyncImageView.swift in Sources */,

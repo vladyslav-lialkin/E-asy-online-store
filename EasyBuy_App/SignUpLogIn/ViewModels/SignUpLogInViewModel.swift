@@ -12,7 +12,7 @@ import GoogleSignIn
 import AuthenticationServices
 
 @MainActor
-class SignUpLogInViewModel: NSObject, ObservableObject {
+final class SignUpLogInViewModel: NSObject, ObservableObject {
     
     // MARK: - Property
     

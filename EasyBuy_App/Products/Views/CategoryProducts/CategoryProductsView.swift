@@ -51,7 +51,7 @@ struct CategoryProductsView: View {
             }
         }
         .task {
-            await viewModel.startCategoryProducts()
+            await viewModel.reloadData()
         }
         .showErrorMessega(errorMessage: viewModel.errorMessage)
         .showProgressView(isLoading: viewModel.isLoading)

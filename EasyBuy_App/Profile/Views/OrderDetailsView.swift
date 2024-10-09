@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OrderDetailsView: View {
-    @ObservedObject private var viewModel: OrderDetailsViewModel
+    @StateObject private var viewModel: OrderDetailsViewModel
     @EnvironmentObject var coordinator: MainTabCoordinator
     
     var body: some View {
@@ -61,7 +61,7 @@ struct OrderDetailsView: View {
                 }
                 .refreshable {
                     try? await Task.sleep(nanoseconds: 1_000_000_000)
-                    await viewModel.startOrder()
+                    await viewModel.reloadData()
                 }
             } else {
                 Text("Order not found")
@@ -71,14 +71,14 @@ struct OrderDetailsView: View {
         }
         .navigationTitle("Order Details")
         .task {
-            await viewModel.startOrder()
+            await viewModel.reloadData()
         }
         .showProgressView(isLoading: viewModel.isLoading)
         .showErrorMessega(errorMessage: viewModel.errorMessage)
     }
     
     init(id: UUID) {
-        viewModel = OrderDetailsViewModel(id: id)
+        _viewModel = StateObject(wrappedValue: OrderDetailsViewModel(id: id))
     }
     
     // MARK: - Item Order

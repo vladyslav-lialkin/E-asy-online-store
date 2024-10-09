@@ -5,12 +5,10 @@
 //  Created by Влад Лялькін on 03.09.2024.
 //
 
-import SwiftUI
-import Combine
+import Foundation
 
 @MainActor
-class ProductViewModel: ObservableObject {
-    
+final class ProductViewModel: BaseViewModel {
     // MARK: - Property
     @Published var product: Product?
     @Published var productID: UUID
@@ -20,35 +18,14 @@ class ProductViewModel: ObservableObject {
     @Published var review = ""
     @Published var rating = 0
     
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
-    private var cancellables = Set<AnyCancellable>()
-    
     // MARK: - Init
     init(productID: UUID) {
         self.productID = productID
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.startProduct()
-                }
-            }
-            .store(in: &cancellables)
+        super.init()
     }
     
     // MARK: - Start Product
-    func startProduct() async {
+    override func reloadData() async {
         await fetchProduct()
         await fetchFavorite()
         await fetchReview()
@@ -62,7 +39,7 @@ class ProductViewModel: ObservableObject {
                 throw HttpError.badURL
             }
             
-            let product: Product = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let product: Product = try await fetchData(from: url)
             self.product = product
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
@@ -77,7 +54,7 @@ class ProductViewModel: ObservableObject {
                 throw HttpError.badURL
             }
                     
-            let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let favorites: [Favorite] = try await fetchData(from: url)
             
             self.favorite = (favorites.first(where: { favorite in
                 favorite.productID == productID
@@ -95,7 +72,7 @@ class ProductViewModel: ObservableObject {
                 throw HttpError.badURL
             }
                                     
-            let reviews: [Review] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let reviews: [Review] = try await fetchData(from: url)
             
             DispatchQueue.main.async { [weak self] in
                 self?.reviews = reviews

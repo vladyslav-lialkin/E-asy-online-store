@@ -32,7 +32,7 @@ struct BagView: View {
                     }
                     .refreshable {
                         try? await Task.sleep(nanoseconds: 1_000_000_000)
-                        await viewModel.startBags()
+                        await viewModel.reloadData()
                     }
 
                     BagBottomBarView(viewModel: viewModel)
@@ -63,7 +63,7 @@ struct BagView: View {
             }
         }
         .task {
-            await viewModel.startBags()
+            await viewModel.reloadData()
         }
         .showProgressView(isLoading: viewModel.isLoading)
         .showErrorMessega(errorMessage: viewModel.errorMessage)

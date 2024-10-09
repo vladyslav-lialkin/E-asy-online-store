@@ -5,43 +5,17 @@
 //  Created by Влад Лялькін on 20.09.2024.
 //
 
-import SwiftUI
-import Combine
+import Foundation
+import SwiftUICore
 
 @MainActor
-final class BagViewModel: ObservableObject {
-    
+final class BagViewModel: BaseViewModel {
     // MARK: - Property
     @Published var bags = [Bag]()
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
     
-    private var cancellables = Set<AnyCancellable>()
-        
-    // MARK: - Init
-    init() {
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.startBags()
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
-    // MARK: - Start Favorites
-    func startBags() async {
-        await fetchBags()        
+    // MARK: - Start Bag
+    override func reloadData() async {
+        await fetchBags()
         isLoading = false
     }
         
@@ -51,16 +25,8 @@ final class BagViewModel: ObservableObject {
             guard let url = URL(string: Constant.startURL(.cartitems)) else {
                 throw HttpError.badURL
             }
-            
-            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
-                print("Test Token added")
-            } else  {
-                print("Test Token don't added")
-            }
-            #endif
-                                
-            let bags: [Bag] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+                                            
+            let bags: [Bag] = try await fetchData(from: url)
             
             withAnimation {
                 self.bags = bags.sorted { $0.createdDate > $1.createdDate }

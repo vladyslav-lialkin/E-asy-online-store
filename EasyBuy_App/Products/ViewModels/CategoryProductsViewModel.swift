@@ -5,45 +5,22 @@
 //  Created by Влад Лялькін on 29.08.2024.
 //
 
-import SwiftUI
-import Combine
+import Foundation
 
 @MainActor
-class CategoryProductsViewModel: ObservableObject {
-    
+final class CategoryProductsViewModel: BaseViewModel {
     // MARK: - Property
     @Published var products = [Product]()
     @Published var category: CategoryEnum.RawValue
-    
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
-    private var cancellables = Set<AnyCancellable>()
-    
+        
     // MARK: - Init
     init(category: CategoryEnum.RawValue) {
         self.category = category
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.startCategoryProducts()
-                }
-            }
-            .store(in: &cancellables)
+        super.init()
     }
     
     // MARK: - Start Category Products
-    func startCategoryProducts() async {
+    override func reloadData() async {
         await fetchProducts()
         isLoading = false
     }
@@ -55,7 +32,7 @@ class CategoryProductsViewModel: ObservableObject {
                 throw HttpError.badURL
             }
             
-            let products: [Product] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let products: [Product] = try await fetchData(from: url)
             self.products = products.sorted(by: { $0.createdAt > $1.createdAt })
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)

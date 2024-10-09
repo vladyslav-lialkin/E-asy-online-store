@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class SignUpLogInCoordinator: ObservableObject {
+final class SignUpLogInCoordinator: ObservableObject {
     @Published var stack: [SignUpLogInStack] = [.authentication]
     
     func push(_ element: SignUpLogInStack) {

@@ -5,47 +5,26 @@
 //  Created by Влад Лялькін on 02.10.2024.
 //
 
+import Foundation
 import SwiftUI
-import Combine
 
 @MainActor
-class ProfileViewModel: ObservableObject {
+final class ProfileViewModel: BaseViewModel {
     // MARK: - Property
-    @Published var user: User!
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
+    @Published var user: User?
     @AppStorage("emoji") var emoji = String()
-    
-    private var cancellables = Set<AnyCancellable>()
-        
+
     // MARK: - Init
-    init() {
+    override init() {
+        super.init()
+        
         if emoji.isEmpty {
             emoji = "🙂"
         }
-        
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.startUser()
-                }
-            }
-            .store(in: &cancellables)
     }
     
-    // MARK: - Start Favorites
-    func startUser() async {
+    // MARK: - Start Profile
+    override func reloadData() async {
         await fetchUser()
         isLoading = false
     }
@@ -56,16 +35,8 @@ class ProfileViewModel: ObservableObject {
             guard let url = URL(string: Constant.startURL(.users, .profile)) else {
                 throw HttpError.badURL
             }
-            
-            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
-                print("Test Token added")
-            } else  {
-                print("Test Token don't added")
-            }
-            #endif
                                 
-            let user: User = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let user: User = try await fetchData(from: url)
             
             withAnimation {
                 self.user = user

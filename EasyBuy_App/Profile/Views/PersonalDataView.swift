@@ -63,7 +63,7 @@ struct PersonalDataView: View {
                 }
                 .refreshable {
                     try? await Task.sleep(nanoseconds: 1_000_000_000)
-                    await viewModel.startUserData()
+                    await viewModel.reloadData()
                 }
                 .overlay(alignment: .bottom) {
                     if viewModel.isEmojiPicker {
@@ -96,7 +96,7 @@ struct PersonalDataView: View {
         }
         .navigationTitle("Personal Data")
         .task {
-            await viewModel.startUserData()
+            await viewModel.reloadData()
         }
         .toolbar {
             if viewModel.isEmojiPicker {

@@ -20,7 +20,7 @@ struct BagItem: View {
                 Button {
                     Task {
                         await viewModel.updateBag(for: bag, .isSelected)
-                        await viewModel.startBags()
+                        await viewModel.reloadData()
                     }
                 } label: {
                     Image(
@@ -62,7 +62,7 @@ struct BagItem: View {
                             Button {
                                 Task {
                                     await viewModel.updateBag(for: bag, .subtractQuantity)
-                                    await viewModel.startBags()
+                                    await viewModel.reloadData()
                                 }
                             } label: {
                                 Text("-")
@@ -75,7 +75,7 @@ struct BagItem: View {
                             Button {
                                 Task {
                                     await viewModel.updateBag(for: bag, .addQuantity)
-                                    await viewModel.startBags()
+                                    await viewModel.reloadData()
                                 }
                             } label: {
                                 Text("+")

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProductView: View {
-    @ObservedObject var viewModel: ProductViewModel
+    @StateObject var viewModel: ProductViewModel
     
     var body: some View {
         GeometryReader { reader in
@@ -33,7 +33,7 @@ struct ProductView: View {
                 }
                 .refreshable {
                     try? await Task.sleep(nanoseconds: 1_000_000_000)
-                    await viewModel.startProduct()
+                    await viewModel.reloadData()
                 }
             }
         }
@@ -49,14 +49,14 @@ struct ProductView: View {
             }
         }
         .task {
-            await viewModel.startProduct()
+            await viewModel.reloadData()
         }
         .showProgressView(isLoading: viewModel.isLoading)
         .showErrorMessega(errorMessage: viewModel.errorMessage)
     }
     
     init(id: UUID) {
-        viewModel = ProductViewModel(productID: id)
+        _viewModel = StateObject(wrappedValue: ProductViewModel(productID: id))
     }
 }
 

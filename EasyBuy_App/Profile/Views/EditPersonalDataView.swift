@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditPersonalDataView: View {
-    @ObservedObject private var viewModel: EditPersonalDataViewModel
+    @StateObject private var viewModel: EditPersonalDataViewModel
     @FocusState private var focus: Bool
     
     var body: some View {
@@ -102,7 +102,7 @@ struct EditPersonalDataView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            await viewModel.startEditPersonalData()
+            await viewModel.reloadData()
         }
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
@@ -118,7 +118,7 @@ struct EditPersonalDataView: View {
     }
     
     init(field: PersonalDataField) {
-        self.viewModel = EditPersonalDataViewModel(field: field)
+        _viewModel = StateObject(wrappedValue: EditPersonalDataViewModel(field: field))
     }
 }
 

@@ -6,43 +6,21 @@
 //
 
 import SwiftUI
-import Combine
 
 @MainActor
-final class OrdersViewModel: ObservableObject {
+final class OrdersViewModel: BaseViewModel {
     // MARK: - Properties
     @Published var orders = [Order]()
     @Published var statuses: [StatusOrderEnum]
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
-    private var cancellables = Set<AnyCancellable>()
-        
+
     // MARK: - Init
     init(statuses: [StatusOrderEnum]) {
         self.statuses = statuses
-        
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.fetchOrders()
-                }
-            }
-            .store(in: &cancellables)
+        super.init()
     }
     
-    // MARK: - Start Favorites
-    func startOrders() async {
+    // MARK: - Start Orders
+    override func reloadData() async {
         await fetchOrders()
         isLoading = false
     }
@@ -56,15 +34,7 @@ final class OrdersViewModel: ObservableObject {
                     throw HttpError.badURL
                 }
                 
-                #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-                if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
-                    print("Test Token added")
-                } else  {
-                    print("Test Token don't added")
-                }
-                #endif
-                
-                orders += try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+                orders += try await fetchData(from: url)
             }
             withAnimation {
                 self.orders = orders.sorted { $0.orderDate > $1.orderDate }
@@ -72,7 +42,7 @@ final class OrdersViewModel: ObservableObject {
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
-//            print("fetchOrders:", error)
+            print("fetchOrders:", error)
         }
     }
 }

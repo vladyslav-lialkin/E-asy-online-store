@@ -5,44 +5,16 @@
 //  Created by Влад Лялькін on 13.09.2024.
 //
 
-import SwiftUI
-import Combine
+import Foundation
+import SwiftUICore
 
 @MainActor
-final class FavoritesViewModel: ObservableObject {
-    
+final class FavoritesViewModel: BaseViewModel {
     // MARK: - Property
     @Published var favorites = [Favorite]()
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
-    private var cancellables = Set<AnyCancellable>()
-    
-    // MARK: - Init
-    init() {
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                self.isLoading = true
-                Task {
-                    await self.startFavorites()
-                }
-            }
-            .store(in: &cancellables)
-    }
     
     // MARK: - Start Favorites
-    func startFavorites() async {
+    override func reloadData() async {
         await fetchFavorites()
         isLoading = false
     }
@@ -53,16 +25,8 @@ final class FavoritesViewModel: ObservableObject {
             guard let url = URL(string: Constant.startURL(.favorites)) else {
                 throw HttpError.badURL
             }
-            
-            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
-                print("Test Token added")
-            } else  {
-                print("Test Token don't added")
-            }
-            #endif
                                 
-            let favorites: [Favorite] = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let favorites: [Favorite] = try await fetchData(from: url)
             
             withAnimation {
                 self.favorites = favorites.sorted(by: { $0.createdDate > $1.createdDate })
@@ -87,7 +51,7 @@ final class FavoritesViewModel: ObservableObject {
                 errorMessage = HandlerError.httpError(error)
             }
             
-            await startFavorites()
+            await fetchFavorites()
         }
     }
 }

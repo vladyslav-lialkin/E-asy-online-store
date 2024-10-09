@@ -5,43 +5,15 @@
 //  Created by Влад Лялькін on 22.08.2024.
 //
 
-import SwiftUI
-import Combine
+import Foundation
 
 @MainActor
-class ProductsViewModel: ObservableObject {
-    
+final class ProductsViewModel: BaseViewModel {
     // MARK: - Property
     @Published var iPhonesImagesUrl: [URL?] = []
     @Published var iPhonesID: [UUID?] = []
-    
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
-    private var cancellables = Set<AnyCancellable>()
-    
+        
     let categoriesTitle = ["iPhone", "Apple\nWatch", "iPad", "Mac", "Apple\nVision Pro", "AirPods", "Apple TV 4K", "HomePod", "AirTag"]
-    
-    // MARK: - Init
-    init() {
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.startProducts()
-                }
-            }
-            .store(in: &cancellables)
-    }
     
     // MARK: - Start Products
     func startProducts() async {

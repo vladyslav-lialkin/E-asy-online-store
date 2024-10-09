@@ -5,43 +5,22 @@
 //  Created by Влад Лялькін on 07.10.2024.
 //
 
-import SwiftUI
-import Combine
+import Foundation
 
 @MainActor
-final class OrderDetailsViewModel: ObservableObject {
+final class OrderDetailsViewModel: BaseViewModel {
     // MARK: - Properties
     @Published var order: Order!
     @Published var orderID: UUID
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
-    private var cancellables = Set<AnyCancellable>()
         
     // MARK: - Init
     init(id: UUID) {
         orderID = id
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.fetchOrder()
-                }
-            }
-            .store(in: &cancellables)
+        super.init()
     }
     
-    // MARK: - Start Favorites
-    func startOrder() async {
+    // MARK: - Start OrderDetails
+    override func reloadData() async {
         await fetchOrder()
         isLoading = false
     }
@@ -53,19 +32,11 @@ final class OrderDetailsViewModel: ObservableObject {
                 throw HttpError.badURL
             }
             
-            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
-                print("Test Token added")
-            } else  {
-                print("Test Token don't added")
-            }
-            #endif
-            
-            order = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            order = try await fetchData(from: url)
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
-//            print("fetchOrder:", error)
+            print("fetchOrder:", error)
         }
     }
 }

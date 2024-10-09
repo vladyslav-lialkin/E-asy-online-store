@@ -5,64 +5,31 @@
 //  Created by Влад Лялькін on 08.10.2024.
 //
 
-
-import SwiftUI
-import Combine
+import Foundation
+import SwiftUICore
 
 @MainActor
-final class EditPersonalDataViewModel: ObservableObject {
+final class EditPersonalDataViewModel: BaseViewModel {
     // MARK: - Property
     @Published var title = "Title"
     @Published var editField = ""
     @Published var field: PersonalDataField
-    @Published var isSuccess = false  {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
+    @Published var isSuccess = false
     @Published var errorField: LocalizedStringKey?
-    @Published var errorMessage: LocalizedStringKey? {
-        didSet {
-            if errorMessage != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-                    withAnimation {
-                        self?.errorMessage = nil
-                    }
-                }
-            }
-        }
-    }
-    @Published var isLoading = true
-    
-    private var cancellables = Set<AnyCancellable>()
             
     // MARK: - Init
     init(field: PersonalDataField) {
         self.field = field
-        
-        NotificationCenter.default.publisher(for: .didRestoreInternetConnection)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.fetchField()
-                }
-            }
-            .store(in: &cancellables)
+        super.init()
     }
     
-    // MARK: - Start Favorites
-    func startEditPersonalData() async {
+    // MARK: - Start EditPersonalData
+    override func reloadData() async {
         await fetchField()
         isLoading = false
     }
     
     // MARK: - Error Handling Methods
-    
     private func handleModelError(_ modelError: ModelError) -> Bool {
         var hasError = false
         
@@ -141,16 +108,8 @@ final class EditPersonalDataViewModel: ObservableObject {
             guard let url = URL(string: Constant.startURL(.users, .profile)) else {
                 throw HttpError.badURL
             }
-            
-            #if targetEnvironment(simulator) || targetEnvironment(macCatalyst)
-            if KeychainHelper.save(token: "4ax1JPZFQZSyG1VRTTpUbw==") {
-                print("Test Token added")
-            } else  {
-                print("Test Token don't added")
-            }
-            #endif
                                 
-            let user: User = try await HttpClient.shared.fetch(url: url, token: KeychainHelper.getToken())
+            let user: User = try await fetchData(from: url)
             
             withAnimation {
                 (editField, title) = switch field {
@@ -169,7 +128,7 @@ final class EditPersonalDataViewModel: ObservableObject {
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {
-//            print("fetchField:", error)
+            print("fetchField:", error)
         }
     }
     
@@ -218,7 +177,7 @@ final class EditPersonalDataViewModel: ObservableObject {
             } catch let error as HttpError {
                 errorMessage = HandlerError.httpError(error)
             } catch {
-//                print("updateField:", error)
+                print("updateField:", error)
             }
             await fetchField()
         }

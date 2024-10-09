@@ -26,11 +26,11 @@ struct ProfileView: View {
                     logOutButton
                 }
                 .padding(.horizontal)
-                .navigationTitle("Profile")
-                .task {
-                    await viewModel.startUser()
-                }
             }
+        }
+        .navigationTitle("Profile")
+        .task {
+            await viewModel.reloadData()
         }
         .showProgressView(isLoading: viewModel.isLoading)
         .showErrorMessega(errorMessage: viewModel.errorMessage)
