@@ -28,6 +28,7 @@
 		323CDDA82C63D7DF009B5182 /* SignUpLogInCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CDDA72C63D7DF009B5182 /* SignUpLogInCoordinatorView.swift */; };
 		3249EAC62C64FD87004C478F /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249EAC52C64FD87004C478F /* View+Ext.swift */; };
 		324A88A32CB69DA5004574E3 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324A88A22CB69DA5004574E3 /* BaseViewModel.swift */; };
+		324A88A92CB6CA61004574E3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324A88A82CB6CA61004574E3 /* SettingsView.swift */; };
 		324ADFC32C9B5BFC007C9088 /* FavoriteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324ADFC22C9B5BFC007C9088 /* FavoriteItem.swift */; };
 		324CCBB42C7A241C00EC849E /* ShowProgressViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CCBB32C7A241C00EC849E /* ShowProgressViewModifier.swift */; };
 		3255356A2C612F0700E7B1F3 /* EasyBuy_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325535692C612F0700E7B1F3 /* EasyBuy_App.swift */; };
@@ -94,6 +95,8 @@
 		32C49E992C9A134100DC4C57 /* AnyTransition+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C49E982C9A134100DC4C57 /* AnyTransition+Ext.swift */; };
 		32C6706F2C73B97500C209E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6706E2C73B97500C209E5 /* AppDelegate.swift */; };
 		32C671C92C6638AB00E392D4 /* View+Modifire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C671C82C6638AB00E392D4 /* View+Modifire.swift */; };
+		32ED2EE22CB84719003FFB53 /* SecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ED2EE12CB84719003FFB53 /* SecurityView.swift */; };
+		32ED2EE62CB84743003FFB53 /* SecurityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ED2EE52CB84743003FFB53 /* SecurityViewModel.swift */; };
 		32EFE3742CADBCEC004A58DF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EFE3732CADBCEC004A58DF /* User.swift */; };
 		32EFE3762CADBDC9004A58DF /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EFE3752CADBDC9004A58DF /* ProfileViewModel.swift */; };
 		32FACDE22C8355FA007769DE /* StrokeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FACDE12C8355FA007769DE /* StrokeModifier.swift */; };
@@ -120,6 +123,7 @@
 		323CDDA72C63D7DF009B5182 /* SignUpLogInCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpLogInCoordinatorView.swift; sourceTree = "<group>"; };
 		3249EAC52C64FD87004C478F /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		324A88A22CB69DA5004574E3 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		324A88A82CB6CA61004574E3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		324ADFC22C9B5BFC007C9088 /* FavoriteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteItem.swift; sourceTree = "<group>"; };
 		324CCBB32C7A241C00EC849E /* ShowProgressViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProgressViewModifier.swift; sourceTree = "<group>"; };
 		325535662C612F0700E7B1F3 /* EasyBuy_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuy_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +192,8 @@
 		32C49E982C9A134100DC4C57 /* AnyTransition+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyTransition+Ext.swift"; sourceTree = "<group>"; };
 		32C6706E2C73B97500C209E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32C671C82C6638AB00E392D4 /* View+Modifire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Modifire.swift"; sourceTree = "<group>"; };
+		32ED2EE12CB84719003FFB53 /* SecurityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
+		32ED2EE52CB84743003FFB53 /* SecurityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewModel.swift; sourceTree = "<group>"; };
 		32EFE3732CADBCEC004A58DF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		32EFE3752CADBDC9004A58DF /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		32FACDE12C8355FA007769DE /* StrokeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeModifier.swift; sourceTree = "<group>"; };
@@ -584,6 +590,8 @@
 				32BCA8172CB41D8B00144257 /* OrderDetailsView.swift */,
 				32A260AC2CB456570086BEFA /* PersonalDataView.swift */,
 				3289E69E2CB566C100E60EB3 /* EditPersonalDataView.swift */,
+				324A88A82CB6CA61004574E3 /* SettingsView.swift */,
+				32ED2EE12CB84719003FFB53 /* SecurityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -596,6 +604,7 @@
 				32BCA8192CB41DB700144257 /* OrderDetailsViewModel.swift */,
 				32A260AE2CB4575E0086BEFA /* PersonalDataViewModel.swift */,
 				3289E69A2CB55F0B00E60EB3 /* EditPersonalDataViewModel.swift */,
+				32ED2EE52CB84743003FFB53 /* SecurityViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -827,11 +836,14 @@
 				3255356A2C612F0700E7B1F3 /* EasyBuy_App.swift in Sources */,
 				320B91762C8718A700C21EA6 /* ProductView.swift in Sources */,
 				32C0ED752C6A6F6800A9886E /* ModelError.swift in Sources */,
+				32ED2EE62CB84743003FFB53 /* SecurityViewModel.swift in Sources */,
 				3202B5522C623E600047A333 /* AuthenticationView.swift in Sources */,
 				32AE6D6C2C7DF19A003B22A7 /* LettersView.swift in Sources */,
 				323CDD9C2C63D1FF009B5182 /* SignUpLogInStack.swift in Sources */,
 				3255357B2C61353700E7B1F3 /* APIConfig.swift in Sources */,
+				324A88A92CB6CA61004574E3 /* SettingsView.swift in Sources */,
 				327719B62C74B5F50064B287 /* ProfileView.swift in Sources */,
+				32ED2EE22CB84719003FFB53 /* SecurityView.swift in Sources */,
 				32A38E722CAC6B3F00F61255 /* BagBottomBarView.swift in Sources */,
 				327719BB2C74B6550064B287 /* Tab.swift in Sources */,
 				326947702C77A54B004D56D4 /* ProfileCoordinatorView.swift in Sources */,

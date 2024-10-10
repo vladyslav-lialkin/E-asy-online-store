@@ -8,11 +8,11 @@
 import SwiftUI
 
 extension Color {
-    static var lable = Color(uiColor: UIColor.label)
+    static var label = Color(uiColor: UIColor.label)
 }
 
 extension ShapeStyle where Self == Color {
-    static var lable: Color {
-        Color.lable
+    static var label: Color {
+        Color.label
     }
 }

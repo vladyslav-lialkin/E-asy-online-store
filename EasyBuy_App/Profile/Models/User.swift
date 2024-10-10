@@ -64,3 +64,8 @@ struct UpdateUserDTO: Codable {
     var country: String? = nil
     var postalcode: String? = nil
 }
+
+struct ChangeUserPasswordDTO: Codable {
+    let oldPassword: String
+    let newPassword: String
+}

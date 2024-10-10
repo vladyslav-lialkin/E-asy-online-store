@@ -17,6 +17,7 @@ enum Endpoints: String {
     case register = "register/"
     case update = "update/"
     case delete = "delete/"
+    case changePassword = "change-password/"
     case users = "users/"
     case products = "products/"
     case favorites = "favorites/"

@@ -59,6 +59,7 @@
 "invalid_phone_number_format" = "Неправильний номер телефону.";
 "email_does_not_exist" = "Електронна адреса не існує.";
 "incorrect_password" = "Неправильний пароль.";
+"passwords_do_not_match" = "Пароль не збігається.";
 "server_connection_issue" = "Проблема з підключенням до сервера. Будь ласка, спробуйте пізніше.";
 "this_email_does_not_exist" = "Ця електронна адреса не існує.";
 "password_is_very_weak" = "Пароль дуже слабкий.";

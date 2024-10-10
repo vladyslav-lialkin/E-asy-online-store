@@ -27,6 +27,14 @@ struct ProfileCoordinatorView: View {
             case .notification:
                 EmptyView()
             case .settings:
+                SettingsView()
+            case .security:
+                SecurityView()
+            case .privacyPolicy:
+                EmptyView()
+            case .termsAndConditions:
+                EmptyView()
+            case .helpAndSupport:
                 EmptyView()
             case .requestAccountDeletion:
                 EmptyView()

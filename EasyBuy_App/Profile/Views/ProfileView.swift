@@ -164,7 +164,9 @@ struct ProfileView: View {
             action()
         } label: {
             HStack {
-                Label(label, systemImage: icon)
+                Image(systemName: icon)
+                    .frame(width: 20)
+                Text(label)
                 Spacer()
                 Image(systemName: "chevron.forward")
             }

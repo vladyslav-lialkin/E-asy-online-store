@@ -130,7 +130,7 @@ struct PersonalDataView: View {
                     Text(title)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.lable)
+                        .foregroundStyle(.label)
                         .lineLimit(1)
                     
                     Text(subtitle)

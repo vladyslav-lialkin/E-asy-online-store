@@ -59,6 +59,7 @@
 "invalid_phone_number_format" = "Incorrect phone number.";
 "email_does_not_exist" = "Email does not exist.";
 "incorrect_password" = "Incorrect password.";
+"passwords_do_not_match" = "Passwords do not match";
 "server_connection_issue" = "There is an issue with the connection to the server. Please try again later.";
 "this_email_does_not_exist" = "This email does not exist.";
 "password_is_very_weak" = "Password is very weak.";

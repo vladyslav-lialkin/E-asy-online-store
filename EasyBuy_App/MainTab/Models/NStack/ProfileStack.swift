@@ -15,6 +15,10 @@ enum ProfileStack: CustomStringConvertible {
     case editPersonalData(PersonalDataField)
     case notification
     case settings
+    case security
+    case privacyPolicy
+    case termsAndConditions
+    case helpAndSupport
     case requestAccountDeletion
 
     var description: String {
@@ -33,6 +37,14 @@ enum ProfileStack: CustomStringConvertible {
             return "Notification"
         case .settings:
             return "Settings"
+        case .security:
+            return "Security"
+        case .privacyPolicy:
+            return "PrivacyPolicy"
+        case .termsAndConditions:
+            return "TermsAndConditions"
+        case .helpAndSupport:
+            return "HelpAndSupport"
         case .requestAccountDeletion:
             return "RequestAccountDeletion"
         }
@@ -47,6 +59,14 @@ enum ProfileStack: CustomStringConvertible {
             self = .notification
         } else if rawValue == "Settings" {
             self = .settings
+        } else if rawValue == "Security" {
+            self = .security
+        } else if rawValue == "PrivacyPolicy" {
+            self = .privacyPolicy
+        } else if rawValue == "TermsAndConditions" {
+            self = .termsAndConditions
+        } else if rawValue == "HelpAndSupport" {
+            self = .helpAndSupport
         } else if rawValue == "RequestAccountDeletion" {
             self = .requestAccountDeletion
         } else if rawValue.starts(with: "Orders:") {
