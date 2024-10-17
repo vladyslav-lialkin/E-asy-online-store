@@ -31,13 +31,11 @@ struct ProfileCoordinatorView: View {
             case .security:
                 SecurityView()
             case .privacyPolicy:
-                EmptyView()
+                PrivacyPolicyView()
             case .termsAndConditions:
-                EmptyView()
+                TermsAndConditionsView()
             case .helpAndSupport:
-                EmptyView()
-            case .requestAccountDeletion:
-                EmptyView()
+                HelpAndSupportView()
             }
         }
     }

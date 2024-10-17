@@ -43,7 +43,6 @@ final class SecurityViewModel: BaseViewModel {
     }
 
     private func validatePassword(password: String, errorKey: inout LocalizedStringKey?) -> Bool {
-        // Перевірка на порожній пароль
         guard !password.isEmpty else {
             errorKey = "enter_password"
             return false
@@ -51,7 +50,6 @@ final class SecurityViewModel: BaseViewModel {
         
         errorKey = nil
         
-        // Перевірка довжини, великої літери, малої літери та числа
         let lengthRequirement = password.count >= 8
         let uppercaseRequirement = NSPredicate(format: "SELF MATCHES %@", ".*[A-Z]+.*").evaluate(with: password)
         let lowercaseRequirement = NSPredicate(format: "SELF MATCHES %@", ".*[a-z]+.*").evaluate(with: password)
@@ -101,12 +99,10 @@ final class SecurityViewModel: BaseViewModel {
         Task {
             isLoading = true
             
-            // Перевірка всіх полів
             let isValidCurrentPassword = validatePasswordStrength(type: .current)
             let isValidNewPassword = validatePasswordStrength(type: .new)
             let isValidConfirmPassword = validatePasswordStrength(type: .confirm)
             
-            // Якщо не валідний хоча б один пароль - зупиняємось
             guard isValidCurrentPassword, isValidNewPassword, isValidConfirmPassword else {
                 isLoading = false
                 return
@@ -117,7 +113,6 @@ final class SecurityViewModel: BaseViewModel {
                 
                 let (data, response) = try await changePasswordRequest(object: changeUserPasswordDTO)
                 
-                // Перевірка на помилки в респонсі
                 if let modelError = try? JSONDecoder().decode(ModelError.self, from: data) {
                     if modelError.reason.contains("Incorrect password.") {
                         errorCurrentPassword = "incorrect_password"
@@ -126,12 +121,10 @@ final class SecurityViewModel: BaseViewModel {
                     }
                 }
                 
-                // Перевірка коду відповіді
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     throw HttpError.badResponse
                 }
                 
-                // Якщо успіх
                 withAnimation {
                     currentPassword = ""
                     newPassword = ""

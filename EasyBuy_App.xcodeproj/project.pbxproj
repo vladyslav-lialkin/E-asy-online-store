@@ -18,6 +18,9 @@
 		321296632C810BDF00BB57A7 /* ProductGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321296622C810BDF00BB57A7 /* ProductGridView.swift */; };
 		3221A1F32C9DA6F800274CEC /* BagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221A1F22C9DA6F800274CEC /* BagViewModel.swift */; };
 		3221A1F52C9DA9A600274CEC /* BagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221A1F42C9DA9A600274CEC /* BagItem.swift */; };
+		3223E1B72CBD4B550083F3DE /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223E1B62CBD4B550083F3DE /* PrivacyPolicyView.swift */; };
+		3223E1B92CBD4B740083F3DE /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223E1B82CBD4B740083F3DE /* TermsAndConditionsView.swift */; };
+		3223E1BB2CBD4B900083F3DE /* HelpAndSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223E1BA2CBD4B900083F3DE /* HelpAndSupportView.swift */; };
 		32362D5C2C8CC720001C1A70 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32362D5B2C8CC720001C1A70 /* Review.swift */; };
 		32377D992CAF202B0052F56D /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32377D982CAF202B0052F56D /* CapsuleButtonStyle.swift */; };
 		323A1A822C6CB5160098A4DA /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A1A812C6CB5160098A4DA /* NetworkMonitor.swift */; };
@@ -113,6 +116,9 @@
 		321296622C810BDF00BB57A7 /* ProductGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridView.swift; sourceTree = "<group>"; };
 		3221A1F22C9DA6F800274CEC /* BagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagViewModel.swift; sourceTree = "<group>"; };
 		3221A1F42C9DA9A600274CEC /* BagItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagItem.swift; sourceTree = "<group>"; };
+		3223E1B62CBD4B550083F3DE /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		3223E1B82CBD4B740083F3DE /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
+		3223E1BA2CBD4B900083F3DE /* HelpAndSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportView.swift; sourceTree = "<group>"; };
 		32362D5B2C8CC720001C1A70 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		32377D982CAF202B0052F56D /* CapsuleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButtonStyle.swift; sourceTree = "<group>"; };
 		323A1A812C6CB5160098A4DA /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
@@ -592,6 +598,9 @@
 				3289E69E2CB566C100E60EB3 /* EditPersonalDataView.swift */,
 				324A88A82CB6CA61004574E3 /* SettingsView.swift */,
 				32ED2EE12CB84719003FFB53 /* SecurityView.swift */,
+				3223E1B62CBD4B550083F3DE /* PrivacyPolicyView.swift */,
+				3223E1B82CBD4B740083F3DE /* TermsAndConditionsView.swift */,
+				3223E1BA2CBD4B900083F3DE /* HelpAndSupportView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -848,6 +857,8 @@
 				327719BB2C74B6550064B287 /* Tab.swift in Sources */,
 				326947702C77A54B004D56D4 /* ProfileCoordinatorView.swift in Sources */,
 				3289E69B2CB55F0B00E60EB3 /* EditPersonalDataViewModel.swift in Sources */,
+				3223E1B92CBD4B740083F3DE /* TermsAndConditionsView.swift in Sources */,
+				3223E1B72CBD4B550083F3DE /* PrivacyPolicyView.swift in Sources */,
 				32EFE3762CADBDC9004A58DF /* ProfileViewModel.swift in Sources */,
 				32C0ED732C6A5CE900A9886E /* UserSignUp.swift in Sources */,
 				323CDDA82C63D7DF009B5182 /* SignUpLogInCoordinatorView.swift in Sources */,
@@ -858,6 +869,7 @@
 				32BCA81A2CB41DB700144257 /* OrderDetailsViewModel.swift in Sources */,
 				3269476E2C77A53E004D56D4 /* BagCoordinatorView.swift in Sources */,
 				32A260B32CB4745A0086BEFA /* EmojiPicker.swift in Sources */,
+				3223E1BB2CBD4B900083F3DE /* HelpAndSupportView.swift in Sources */,
 				327656382C677A690048790B /* Color+Ext.swift in Sources */,
 				32A38E772CAC76A000F61255 /* Order.swift in Sources */,
 				32C671C92C6638AB00E392D4 /* View+Modifire.swift in Sources */,

@@ -12,6 +12,7 @@ import SwiftUI
 final class ProfileViewModel: BaseViewModel {
     // MARK: - Property
     @Published var user: User?
+    @Published var showAlert = false
     @AppStorage("emoji") var emoji = String()
 
     // MARK: - Init
@@ -45,6 +46,25 @@ final class ProfileViewModel: BaseViewModel {
             errorMessage = HandlerError.httpError(error)
         } catch {
 //            print("fetchUser:", error)
+        }
+    }
+    
+    // MARK: - Delete Methods
+    func requestAccountDeletion(onSuccess: @escaping () -> Void) {
+        Task {
+            do {
+                guard let url = URL(string: Constant.startURL(.users, .profile, .delete)) else {
+                    throw HttpError.badURL
+                }
+                
+                try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
+                
+                onSuccess()
+            } catch let error as HttpError {
+                errorMessage = HandlerError.httpError(error)
+            } catch {
+                print("requestAccountDeletion:", error)
+            }
         }
     }
 }

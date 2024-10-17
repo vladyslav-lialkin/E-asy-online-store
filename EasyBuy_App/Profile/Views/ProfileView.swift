@@ -27,6 +27,20 @@ struct ProfileView: View {
                 }
                 .padding(.horizontal)
             }
+            .alert("Request to delete account", isPresented: $viewModel.showAlert) {
+                Button("Cancel", role: .cancel) {}
+                
+                Button("Delete", role: .destructive) {
+                    viewModel.requestAccountDeletion(onSuccess: {
+                        if !KeychainHelper.deleteToken() {
+                            print("Don't delete Token")
+                        }
+                        appState.checkAuthentication()
+                    })
+                }
+            } message: {
+                Text("If you want to delete account, please confirm.")
+            }
         }
         .navigationTitle("Profile")
         .task {
@@ -122,7 +136,7 @@ struct ProfileView: View {
                 coordinator.profileStack.append(.settings)
             }
             quickActionButton(label: "Request Account Deletion", icon: "trash") {
-                coordinator.profileStack.append(.requestAccountDeletion)
+                viewModel.showAlert = true
             }
         }
     }

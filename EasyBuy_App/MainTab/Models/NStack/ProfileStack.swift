@@ -19,7 +19,6 @@ enum ProfileStack: CustomStringConvertible {
     case privacyPolicy
     case termsAndConditions
     case helpAndSupport
-    case requestAccountDeletion
 
     var description: String {
         switch self {
@@ -45,8 +44,6 @@ enum ProfileStack: CustomStringConvertible {
             return "TermsAndConditions"
         case .helpAndSupport:
             return "HelpAndSupport"
-        case .requestAccountDeletion:
-            return "RequestAccountDeletion"
         }
     }
 
@@ -67,8 +64,6 @@ enum ProfileStack: CustomStringConvertible {
             self = .termsAndConditions
         } else if rawValue == "HelpAndSupport" {
             self = .helpAndSupport
-        } else if rawValue == "RequestAccountDeletion" {
-            self = .requestAccountDeletion
         } else if rawValue.starts(with: "Orders:") {
             let statusRawValues = rawValue.dropFirst("Orders:".count).split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
             let statuses = statusRawValues.compactMap { StatusOrderEnum(rawValue: $0) }
