@@ -19,7 +19,7 @@ struct FavoriteItem: View {
             coordinator.favouritesStack.append(.product(favorite.productID))
         } label: {
             HStack {
-                AsyncImageView(url: favorite.imageUrl)
+                ImageLoader(url: favorite.imageUrl)
                     .frame(width: 100)
                 
                 VStack {

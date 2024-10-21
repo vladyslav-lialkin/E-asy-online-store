@@ -29,21 +29,25 @@ struct EasyBuy_App: App {
                         .transition(.move(edge: .leading))
                 }
             }
-            .overlay(alignment: .top) {
+            .overlay(alignment: .center) {
                 if !networkMonitor.isConnected {
-                    Text("no_internet_connection")
-                        .foregroundColor(.red)
-                        .padding()
-                        .background {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(uiColor: .systemGray2))
-                                .opacity(0.9)
+                    Rectangle()
+                        .fill(.regularMaterial)
+                        .ignoresSafeArea()
+                        .overlay {
+                            Text("no_internet_connection")
+                                .foregroundColor(.red)
+                                .padding()
+                                .background {
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color(uiColor: .systemGray2))
+                                        .opacity(0.3)
+                                }
                         }
-                        .transition(.move(edge: .top))
                 }
             }
-            .animation(.easeInOut, value: appState.isAuthenticated)
-            .animation(.easeOut, value: networkMonitor.isConnected)
+            .animation(.linear, value: appState.isAuthenticated)
+            .animation(.linear, value: networkMonitor.isConnected)
             .onOpenURL { url in
 //                ApplicationDelegate.shared.application(UIApplication.shared,
 //                                                       open: url,sourceApplication: nil,

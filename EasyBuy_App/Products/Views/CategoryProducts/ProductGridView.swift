@@ -21,7 +21,7 @@ struct ProductGridView: View {
         } label: {
             VStack {
                 Spacer()
-                AsyncImageView(url: url)
+                ImageLoader(url: url)
                 Spacer()
                 
                 VStack {

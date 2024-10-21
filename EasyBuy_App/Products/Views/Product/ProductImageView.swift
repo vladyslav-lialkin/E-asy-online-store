@@ -23,7 +23,7 @@ struct ProductImageView: View {
                 let adjusted = minY - safeArea.top > 0 ? minY - safeArea.top : 0
                 
                 SwipeSlide(items: product.imagesUrl) {_, url in
-                    AsyncImageView(url: url)
+                    ImageLoader(url: url)
                         .frame(maxWidth: .infinity)
                         .frame(height: size.height)
                 }

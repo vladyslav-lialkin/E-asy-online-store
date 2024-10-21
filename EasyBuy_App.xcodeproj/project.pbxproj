@@ -94,7 +94,7 @@
 		32C0ED782C6A958000A9886E /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C0ED772C6A958000A9886E /* KeychainHelper.swift */; };
 		32C0ED7C2C6A977200A9886E /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C0ED7B2C6A977200A9886E /* TokenModel.swift */; };
 		32C0ED7E2C6A9EFB00A9886E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C0ED7D2C6A9EFB00A9886E /* AppState.swift */; };
-		32C49C242C8B4B55009AD0BA /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C49C232C8B4B55009AD0BA /* AsyncImageView.swift */; };
+		32C49C242C8B4B55009AD0BA /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C49C232C8B4B55009AD0BA /* ImageLoader.swift */; };
 		32C49E992C9A134100DC4C57 /* AnyTransition+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C49E982C9A134100DC4C57 /* AnyTransition+Ext.swift */; };
 		32C6706F2C73B97500C209E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6706E2C73B97500C209E5 /* AppDelegate.swift */; };
 		32C671C92C6638AB00E392D4 /* View+Modifire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C671C82C6638AB00E392D4 /* View+Modifire.swift */; };
@@ -194,7 +194,7 @@
 		32C0ED772C6A958000A9886E /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		32C0ED7B2C6A977200A9886E /* TokenModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		32C0ED7D2C6A9EFB00A9886E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		32C49C232C8B4B55009AD0BA /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
+		32C49C232C8B4B55009AD0BA /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		32C49E982C9A134100DC4C57 /* AnyTransition+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyTransition+Ext.swift"; sourceTree = "<group>"; };
 		32C6706E2C73B97500C209E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32C671C82C6638AB00E392D4 /* View+Modifire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Modifire.swift"; sourceTree = "<group>"; };
@@ -622,7 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				32835FB12C809429007B0A71 /* SwipeSlide.swift */,
-				32C49C232C8B4B55009AD0BA /* AsyncImageView.swift */,
+				32C49C232C8B4B55009AD0BA /* ImageLoader.swift */,
 				32A260B22CB4745A0086BEFA /* EmojiPicker.swift */,
 			);
 			path = CustomsView;
@@ -822,7 +822,7 @@
 				324A88A32CB69DA5004574E3 /* BaseViewModel.swift in Sources */,
 				320B91782C8718EF00C21EA6 /* ProductViewModel.swift in Sources */,
 				323CDDA42C63D720009B5182 /* SignUpLogInCoordinator.swift in Sources */,
-				32C49C242C8B4B55009AD0BA /* AsyncImageView.swift in Sources */,
+				32C49C242C8B4B55009AD0BA /* ImageLoader.swift in Sources */,
 				329D86D42C791CA40014B601 /* HandlerError.swift in Sources */,
 				32A260AD2CB456570086BEFA /* PersonalDataView.swift in Sources */,
 				32EFE3742CADBCEC004A58DF /* User.swift in Sources */,

@@ -65,7 +65,7 @@ struct OrdersView: View {
             coordinator.profileStack.append(.order(order.id))
         } label: {
             HStack {
-                AsyncImageView(url: order.imageUrl)
+                ImageLoader(url: order.imageUrl)
                     .frame(width: 100, height: 68)
                     .background {
                         RoundedRectangle(cornerRadius: 10)

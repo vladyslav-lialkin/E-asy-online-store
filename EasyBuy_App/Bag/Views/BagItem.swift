@@ -30,7 +30,7 @@ struct BagItem: View {
                 }
                 .padding(.leading, 5)
                 
-                AsyncImageView(url: bag.imageUrl)
+                ImageLoader(url: bag.imageUrl)
                     .frame(width: 100, height: 68)
                     .background {
                         RoundedRectangle(cornerRadius: 10)

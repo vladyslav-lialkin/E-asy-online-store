@@ -18,7 +18,7 @@ struct PageItemView: View {
     var body: some View {
         VStack {
             Spacer()
-            AsyncImageView(url: url)
+            ImageLoader(url: url)
             Spacer()
                                     
             Text(title)
