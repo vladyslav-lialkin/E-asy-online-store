@@ -43,6 +43,9 @@
 		325C26162C932A7200D1C2A5 /* Bag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325C26152C932A7200D1C2A5 /* Bag.swift */; };
 		325C8F322CB004CA001A7EBF /* OrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325C8F312CB004CA001A7EBF /* OrdersView.swift */; };
 		325C8F342CB004D2001A7EBF /* OrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325C8F332CB004D2001A7EBF /* OrdersViewModel.swift */; };
+		325EA5DC2CD906DB00AC2053 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EA5DB2CD906DB00AC2053 /* LaunchScreenView.swift */; };
+		325EA5DE2CD9125500AC2053 /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EA5DD2CD9125500AC2053 /* CheckoutView.swift */; };
+		325EA5E42CD9129700AC2053 /* CheckoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EA5E32CD9129700AC2053 /* CheckoutViewModel.swift */; };
 		3269476A2C77A523004D56D4 /* ProductsCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326947692C77A523004D56D4 /* ProductsCoordinatorView.swift */; };
 		3269476C2C77A534004D56D4 /* FavoritesCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3269476B2C77A534004D56D4 /* FavoritesCoordinatorView.swift */; };
 		3269476E2C77A53E004D56D4 /* BagCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3269476D2C77A53E004D56D4 /* BagCoordinatorView.swift */; };
@@ -142,6 +145,9 @@
 		325C26152C932A7200D1C2A5 /* Bag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bag.swift; sourceTree = "<group>"; };
 		325C8F312CB004CA001A7EBF /* OrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersView.swift; sourceTree = "<group>"; };
 		325C8F332CB004D2001A7EBF /* OrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewModel.swift; sourceTree = "<group>"; };
+		325EA5DB2CD906DB00AC2053 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		325EA5DD2CD9125500AC2053 /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
+		325EA5E32CD9129700AC2053 /* CheckoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutViewModel.swift; sourceTree = "<group>"; };
 		326947692C77A523004D56D4 /* ProductsCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCoordinatorView.swift; sourceTree = "<group>"; };
 		3269476B2C77A534004D56D4 /* FavoritesCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCoordinatorView.swift; sourceTree = "<group>"; };
 		3269476D2C77A53E004D56D4 /* BagCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagCoordinatorView.swift; sourceTree = "<group>"; };
@@ -265,6 +271,7 @@
 				325535692C612F0700E7B1F3 /* EasyBuy_App.swift */,
 				32C0ED7D2C6A9EFB00A9886E /* AppState.swift */,
 				32C6706E2C73B97500C209E5 /* AppDelegate.swift */,
+				325EA5DB2CD906DB00AC2053 /* LaunchScreenView.swift */,
 			);
 			path = "App Lifecycle";
 			sourceTree = "<group>";
@@ -313,6 +320,7 @@
 				327719B32C74B5E50064B287 /* BagView.swift */,
 				3221A1F42C9DA9A600274CEC /* BagItem.swift */,
 				32A38E712CAC6B3E00F61255 /* BagBottomBarView.swift */,
+				325EA5DD2CD9125500AC2053 /* CheckoutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -321,6 +329,7 @@
 			isa = PBXGroup;
 			children = (
 				3221A1F22C9DA6F800274CEC /* BagViewModel.swift */,
+				325EA5E32CD9129700AC2053 /* CheckoutViewModel.swift */,
 			);
 			path = VewModels;
 			sourceTree = "<group>";
@@ -790,6 +799,7 @@
 				325C8F342CB004D2001A7EBF /* OrdersViewModel.swift in Sources */,
 				327719C52C74BBA00064B287 /* ProductsStack.swift in Sources */,
 				32C0ED712C6A107F00A9886E /* SignUpLogInViewModel.swift in Sources */,
+				325EA5DC2CD906DB00AC2053 /* LaunchScreenView.swift in Sources */,
 				326947752C77CCCF004D56D4 /* Product.swift in Sources */,
 				3269476C2C77A534004D56D4 /* FavoritesCoordinatorView.swift in Sources */,
 				327719C72C74BBB10064B287 /* FavoritesStack.swift in Sources */,
@@ -814,6 +824,7 @@
 				324ADFC32C9B5BFC007C9088 /* FavoriteItem.swift in Sources */,
 				326947792C77CDF2004D56D4 /* ProductsViewModel.swift in Sources */,
 				321296632C810BDF00BB57A7 /* ProductGridView.swift in Sources */,
+				325EA5DE2CD9125500AC2053 /* CheckoutView.swift in Sources */,
 				32873E7F2C921CF7007DD07E /* ProductSummaryView.swift in Sources */,
 				323CDDA12C63D4C0009B5182 /* NStack.swift in Sources */,
 				32362D5C2C8CC720001C1A70 /* Review.swift in Sources */,
@@ -829,6 +840,7 @@
 				321296612C80F71E00BB57A7 /* PageItemView.swift in Sources */,
 				32C49E992C9A134100DC4C57 /* AnyTransition+Ext.swift in Sources */,
 				325535792C61351000E7B1F3 /* HttpClient.swift in Sources */,
+				325EA5E42CD9129700AC2053 /* CheckoutViewModel.swift in Sources */,
 				3269476A2C77A523004D56D4 /* ProductsCoordinatorView.swift in Sources */,
 				327719C92C74BBBC0064B287 /* BagStack.swift in Sources */,
 				3221A1F52C9DA9A600274CEC /* BagItem.swift in Sources */,
@@ -1027,7 +1039,6 @@
 				INFOPLIST_FILE = "EasyBuy_App/Resources/EasyBuy-App-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AuthenticationView.swift;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
@@ -1064,7 +1075,6 @@
 				INFOPLIST_FILE = "EasyBuy_App/Resources/EasyBuy-App-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AuthenticationView.swift;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";

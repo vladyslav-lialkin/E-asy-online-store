@@ -133,11 +133,6 @@ final class BagViewModel: BaseViewModel {
             }
                             
             try await HttpClient.shared.delete(url: url, token: KeychainHelper.getToken())
-            
-            if var storedValues = UserDefaults.standard.stringArray(forKey: "selected") {
-                storedValues.removeAll(where: { $0 == id.uuidString })
-                UserDefaults.standard.set(storedValues, forKey: "selected")
-            }
         } catch let error as HttpError {
             errorMessage = HandlerError.httpError(error)
         } catch {

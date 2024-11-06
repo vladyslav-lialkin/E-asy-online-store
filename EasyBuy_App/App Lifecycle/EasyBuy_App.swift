@@ -18,48 +18,50 @@ struct EasyBuy_App: App {
 
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                if appState.isAuthenticated {
-                    MainTabView()
-                        .environmentObject(appState)
-                        .transition(.move(edge: .trailing))
-                } else {
-                    SignUpLogInCoordinatorView()
-                        .environmentObject(appState)
-                        .transition(.move(edge: .leading))
+            LaunchScreenView {
+                ZStack {
+                    if appState.isAuthenticated {
+                        MainTabView()
+                            .environmentObject(appState)
+                            .transition(.move(edge: .trailing))
+                    } else {
+                        SignUpLogInCoordinatorView()
+                            .environmentObject(appState)
+                            .transition(.move(edge: .leading))
+                    }
                 }
-            }
-            .overlay(alignment: .center) {
-                if !networkMonitor.isConnected {
-                    Rectangle()
-                        .fill(.regularMaterial)
-                        .ignoresSafeArea()
-                        .overlay {
-                            Text("no_internet_connection")
-                                .foregroundColor(.red)
-                                .padding()
-                                .background {
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .fill(Color(uiColor: .systemGray2))
-                                        .opacity(0.3)
-                                }
-                        }
+                .overlay(alignment: .center) {
+                    if !networkMonitor.isConnected {
+                        Rectangle()
+                            .fill(.regularMaterial)
+                            .ignoresSafeArea()
+                            .overlay {
+                                Text("no_internet_connection")
+                                    .foregroundColor(.red)
+                                    .padding()
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .fill(Color(uiColor: .systemGray2))
+                                            .opacity(0.3)
+                                    }
+                            }
+                    }
                 }
-            }
-            .animation(.linear, value: appState.isAuthenticated)
-            .animation(.linear, value: networkMonitor.isConnected)
-            .onOpenURL { url in
-//                ApplicationDelegate.shared.application(UIApplication.shared,
-//                                                       open: url,sourceApplication: nil,
-//                                                       annotation: UIApplication.OpenURLOptionsKey.annotation)
-                
-                if GIDSignIn.sharedInstance.handle(url) {
-                    return
+                .animation(.linear, value: appState.isAuthenticated)
+                .animation(.linear, value: networkMonitor.isConnected)
+                .onOpenURL { url in
+//                    ApplicationDelegate.shared.application(UIApplication.shared,
+//                                                           open: url,sourceApplication: nil,
+//                                                           annotation: UIApplication.OpenURLOptionsKey.annotation)
+                    
+                    if GIDSignIn.sharedInstance.handle(url) {
+                        return
+                    }
                 }
-            }
-            .onAppear {
-                GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-                    // Check if `user` exists; otherwise, do something with `error`
+                .onAppear {
+                    GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+                        // Check if `user` exists; otherwise, do something with `error`
+                    }
                 }
             }
         }

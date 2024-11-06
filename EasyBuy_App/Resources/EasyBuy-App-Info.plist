@@ -25,5 +25,10 @@
 	<string>E-asy</string>
 	<key>GIDClientID</key>
 	<string>860114035678-8ejns59vc0gsl731p32kdsep0phahduu.apps.googleusercontent.com</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>customBackground</string>
+	</dict>
 </dict>
 </plist>

@@ -15,6 +15,8 @@ struct BagCoordinatorView: View {
             switch screens {
             case .bag:
                 BagView()
+            case .checkout:
+                CheckoutView()
             case .product(let id):
                 ProductView(id: id)
             }

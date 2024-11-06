@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BagBottomBarView: View {
     @ObservedObject var viewModel: BagViewModel
+    @EnvironmentObject var coordinator: MainTabCoordinator
     
     var body: some View {
         HStack {
@@ -31,16 +32,17 @@ struct BagBottomBarView: View {
             Text(String(format: "%.2f",
                 viewModel.bags
                     .filter { $0.isSelected }
-                    .reduce(0.00) { $0 + $1.price }
+                    .reduce(0.00) { $0 + ($1.price * Double($1.quantity)) }
             ))
             .customStroke(strokeSize: 1.5, strokeColor: .app)
             .foregroundStyle(.letter)
             .padding(.horizontal)
+            .animation(.none, value: viewModel.bags)
             
             Button {
-                viewModel.buyAllSelected()
+                coordinator.bagStack.append(.checkout)
             } label: {
-                Text("Buy (\(viewModel.bags.filter { $0.isSelected }.count))")
+                Text("Chackout (\(viewModel.bags.filter { $0.isSelected }.count))")
                     .font(.body.weight(.semibold))
                     .foregroundStyle(Color.letter)
                     .background {
@@ -52,6 +54,7 @@ struct BagBottomBarView: View {
                             .padding(.horizontal, -12)
                     }
             }
+            .disabled(viewModel.bags.filter(\.isSelected).count == 0)
             .padding(.trailing, 28)
         }
         .frame(height: 60)
@@ -68,4 +71,5 @@ struct BagBottomBarView: View {
 
 #Preview {
     BagBottomBarView(viewModel: BagViewModel())
+        .environmentObject(MainTabCoordinator())
 }

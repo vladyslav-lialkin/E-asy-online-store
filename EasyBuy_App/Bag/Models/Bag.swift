@@ -21,7 +21,7 @@ struct Bag: Codable, Equatable, Identifiable {
     let price: Double
     let imageUrl: URL
     let createdDate: Date
-    let quantity: Int
+    var quantity: Int
     let isSelected: Bool
     
     init(from decoder: Decoder) throws {
