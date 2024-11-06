@@ -93,7 +93,7 @@ struct EditPersonalDataView: View {
                 .background {
                     Color.green
                         .clipShape(.rect(cornerRadius: 10))
-                        .opacity(0.1)
+                        .opacity(0.2)
                 }
                 .zIndex(1)
                 .transition(.scale)

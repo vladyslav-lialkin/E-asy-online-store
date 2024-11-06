@@ -17,10 +17,14 @@ final class CheckoutViewModel: BaseViewModel {
     @Published var errorPromoCode: String? = nil
     @Published var isEmptyAddress = true
     
-    // MARK: - Start Checkout
+    // MARK: - Init
     override init() {
         super.init()
         fetchSelectedBags()
+    }
+    
+    // MARK: - Start Checkout
+    override func reloadData() async {
         fetchUserInfo()
     }
         
@@ -59,6 +63,8 @@ final class CheckoutViewModel: BaseViewModel {
                     self.user = user
                     isEmptyAddress = false
                 }
+            } catch {
+                print("Error fetchUserInfo")
             }
         }
     }

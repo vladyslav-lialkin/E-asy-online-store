@@ -28,7 +28,7 @@ struct CheckoutView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
                     quickActionButton {
-                        //
+                        coordinator.bagStack.append(.shippingAddress)
                     } label: {
                         VStack {
                             if let user = viewModel.user,
@@ -132,6 +132,9 @@ struct CheckoutView: View {
                     focus = false
                 }
             }
+        }
+        .task {
+            await viewModel.reloadData()
         }
         .showProgressView(isLoading: viewModel.isLoading)
         .showErrorMessega(errorMessage: viewModel.errorMessage)
@@ -297,11 +300,6 @@ struct CheckoutView: View {
     NavigationView {
         CheckoutView()
             .environmentObject(MainTabCoordinator())
-            .onAppear {
-                if !KeychainHelper.save(token: "1Ibk0EWNvnEzq/g6aJwCXA==") {
-                    print("Token is Error")
-                }
-            }
     }
     .tint(.app)
 }

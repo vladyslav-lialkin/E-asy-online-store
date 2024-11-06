@@ -10,6 +10,7 @@ import Foundation
 enum BagStack: CustomStringConvertible {
     case bag
     case checkout
+    case shippingAddress
     case product(UUID)
 
     var description: String {
@@ -18,6 +19,8 @@ enum BagStack: CustomStringConvertible {
             return "Bag"
         case .checkout:
             return "Checkout"
+        case .shippingAddress:
+            return "ShippingAddress"
         case .product(let id):
             return "Product:\(id.uuidString)"
         }
@@ -28,6 +31,8 @@ enum BagStack: CustomStringConvertible {
             self = .bag
         } else if rawValue == "Checkout" {
             self = .checkout
+        } else if rawValue == "ShippingAddress" {
+            self = .shippingAddress
         } else if rawValue.starts(with: "Product:") {
             let uuidString = String(rawValue.dropFirst("Product:".count))
             if let uuid = UUID(uuidString: uuidString) {

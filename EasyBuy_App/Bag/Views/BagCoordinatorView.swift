@@ -17,6 +17,8 @@ struct BagCoordinatorView: View {
                 BagView()
             case .checkout:
                 CheckoutView()
+            case .shippingAddress:
+                ShippingAddressView()
             case .product(let id):
                 ProductView(id: id)
             }
