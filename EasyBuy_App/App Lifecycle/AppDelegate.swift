@@ -32,4 +32,23 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
 //        )
 //    }
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let sceneConfiguration = UISceneConfiguration(name: "Custom Configuration", sessionRole: connectingSceneSession.role)
+        sceneConfiguration.delegateClass = CustomSceneDelegate.self
+        
+        return sceneConfiguration
+    }
+}
+
+class CustomSceneDelegate: UIResponder, UIWindowSceneDelegate {
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        if let shortcutItem = connectionOptions.shortcutItem {
+            UIApplication.shared.open(URL(string: "e-asy://\(shortcutItem.type)")!)
+        }
+    }
+        
+    func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        UIApplication.shared.open(URL(string: "e-asy://\(shortcutItem.type)")!)
+    }
 }

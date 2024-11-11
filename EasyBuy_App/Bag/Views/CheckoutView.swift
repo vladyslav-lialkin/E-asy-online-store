@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SafariServices
 
 struct CheckoutView: View {
     @StateObject private var viewModel = CheckoutViewModel()
@@ -234,9 +235,12 @@ struct CheckoutView: View {
             Spacer()
             
             Button {
-                viewModel.buyAllSelected {
-                    coordinator.bagStack.removeLast()
-                }
+//                viewModel.buyAllSelected {
+//                    coordinator.bagStack.removeLast()
+//                }
+                guard let topVC = TopViewController.find() else { return }
+                let vc = SFSafariViewController(url: URL(string: "https://buy.stripe.com/test_aEU7u67Vk6JyaDC3cd")!)
+                topVC.present(vc, animated: true)
             } label: {
                 Text("Pay Now")
                     .font(.body.weight(.semibold))

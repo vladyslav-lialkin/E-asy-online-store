@@ -42,6 +42,21 @@ struct MainTabView: View {
         }
         .environmentObject(coordinator)
         .tint(.app)
+        .onOpenURL { url in
+            let path = url.absoluteString.replacingOccurrences(of: "e-asy://", with: "")
+            print(url, path)
+            
+            if path == "Order" {
+                coordinator.activeTab = .profile
+                coordinator.profileStack.append(.orders([.all]))
+            } else if path == "Favorite" {
+                coordinator.activeTab = .favorites
+            } else if path == "Bag" {
+                coordinator.activeTab = .bag
+            } else if path == "Profile" {
+                coordinator.activeTab = .profile
+            }
+        }
     }
 }
 

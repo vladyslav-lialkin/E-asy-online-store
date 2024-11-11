@@ -16,6 +16,24 @@
 				<string>com.googleusercontent.apps.860114035678-8ejns59vc0gsl731p32kdsep0phahduu</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>e-asy</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>$(BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>accept-a-payment</string>
+			</array>
+		</dict>
 	</array>
 	<key>FacebookAppID</key>
 	<string>870634361651203</string>
@@ -25,6 +43,41 @@
 	<string>E-asy</string>
 	<key>GIDClientID</key>
 	<string>860114035678-8ejns59vc0gsl731p32kdsep0phahduu.apps.googleusercontent.com</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>shippingbox</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Order</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Order</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>heart</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Favorite</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Favorite</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>bag</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Bag</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Bag</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>person</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Profile</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Profile</string>
+		</dict>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

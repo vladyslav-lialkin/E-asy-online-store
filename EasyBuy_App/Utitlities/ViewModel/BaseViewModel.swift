@@ -23,8 +23,9 @@ class BaseViewModel: ObservableObject {
         }
     }
     @Published var isLoading = true
+    @Published var isBackground = true
     
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
 
     // MARK: - Init
     init() {
