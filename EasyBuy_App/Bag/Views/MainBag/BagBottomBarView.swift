@@ -66,6 +66,7 @@ struct BagBottomBarView: View {
                 .clipShape(.rect(cornerRadius: 10))
         }
         .padding(.horizontal, 5)
+        .padding(.bottom)
     }
 }
 

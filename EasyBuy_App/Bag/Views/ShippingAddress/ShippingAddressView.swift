@@ -50,7 +50,7 @@ struct ShippingAddressView: View {
                                 .customTextField(color: .app)
                         }
                         
-                        Text("Address (Street, Building, Floor, Apartment)")
+                        Text("Address (Street, Building, Floor*, Apartment*)")
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         

@@ -8,6 +8,7 @@
 import SwiftUI
 import GoogleSignIn
 //import FacebookLogin
+import Stripe
 
 @main
 struct EasyBuy_App: App {
@@ -56,6 +57,11 @@ struct EasyBuy_App: App {
                     
                     if GIDSignIn.sharedInstance.handle(url) {
                         return
+                    }
+                    
+                    let stripeHandled = StripeAPI.handleURLCallback(with: url)
+                    if (stripeHandled) {
+                        // This was not a Stripe URL - handle normally
                     }
                 }
                 .onAppear {

@@ -20,6 +20,7 @@ enum Endpoints: String {
     case changePassword = "change-password/"
     case users = "users/"
     case products = "products/"
+    case createPaymentIntent = "create-payment-intent/"
     case favorites = "favorites/"
     case orders = "orders/"
     case cartitems = "cartitems/"

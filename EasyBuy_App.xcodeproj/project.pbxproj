@@ -21,8 +21,10 @@
 		3223E1B72CBD4B550083F3DE /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223E1B62CBD4B550083F3DE /* PrivacyPolicyView.swift */; };
 		3223E1B92CBD4B740083F3DE /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223E1B82CBD4B740083F3DE /* TermsAndConditionsView.swift */; };
 		3223E1BB2CBD4B900083F3DE /* HelpAndSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223E1BA2CBD4B900083F3DE /* HelpAndSupportView.swift */; };
+		3233678A2CE66292008FA34C /* ItemCheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323367892CE66291008FA34C /* ItemCheckoutView.swift */; };
 		32362D5C2C8CC720001C1A70 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32362D5B2C8CC720001C1A70 /* Review.swift */; };
 		32377D992CAF202B0052F56D /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32377D982CAF202B0052F56D /* CapsuleButtonStyle.swift */; };
+		323902982CE522B800B94062 /* PaymentIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323902972CE522B800B94062 /* PaymentIntent.swift */; };
 		323A1A822C6CB5160098A4DA /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A1A812C6CB5160098A4DA /* NetworkMonitor.swift */; };
 		323CDD982C63C110009B5182 /* SignUpLogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CDD972C63C110009B5182 /* SignUpLogInView.swift */; };
 		323CDD9C2C63D1FF009B5182 /* SignUpLogInStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CDD9B2C63D1FF009B5182 /* SignUpLogInStack.swift */; };
@@ -46,6 +48,7 @@
 		325EA5DC2CD906DB00AC2053 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EA5DB2CD906DB00AC2053 /* LaunchScreenView.swift */; };
 		325EA5DE2CD9125500AC2053 /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EA5DD2CD9125500AC2053 /* CheckoutView.swift */; };
 		325EA5E42CD9129700AC2053 /* CheckoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EA5E32CD9129700AC2053 /* CheckoutViewModel.swift */; };
+		325FCCF42CE3CA6300443B91 /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 325FCCF32CE3CA6300443B91 /* Stripe */; };
 		3269476A2C77A523004D56D4 /* ProductsCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326947692C77A523004D56D4 /* ProductsCoordinatorView.swift */; };
 		3269476C2C77A534004D56D4 /* FavoritesCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3269476B2C77A534004D56D4 /* FavoritesCoordinatorView.swift */; };
 		3269476E2C77A53E004D56D4 /* BagCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3269476D2C77A53E004D56D4 /* BagCoordinatorView.swift */; };
@@ -124,8 +127,10 @@
 		3223E1B62CBD4B550083F3DE /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		3223E1B82CBD4B740083F3DE /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
 		3223E1BA2CBD4B900083F3DE /* HelpAndSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportView.swift; sourceTree = "<group>"; };
+		323367892CE66291008FA34C /* ItemCheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCheckoutView.swift; sourceTree = "<group>"; };
 		32362D5B2C8CC720001C1A70 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		32377D982CAF202B0052F56D /* CapsuleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButtonStyle.swift; sourceTree = "<group>"; };
+		323902972CE522B800B94062 /* PaymentIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentIntent.swift; sourceTree = "<group>"; };
 		323A1A812C6CB5160098A4DA /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		323CDD972C63C110009B5182 /* SignUpLogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpLogInView.swift; sourceTree = "<group>"; };
 		323CDD9B2C63D1FF009B5182 /* SignUpLogInStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpLogInStack.swift; sourceTree = "<group>"; };
@@ -222,6 +227,7 @@
 			files = (
 				320F67BA2C8A564B005D6593 /* GoogleSignIn in Frameworks */,
 				320F67BC2C8A564B005D6593 /* GoogleSignInSwift in Frameworks */,
+				325FCCF42CE3CA6300443B91 /* Stripe in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,12 +326,10 @@
 		3221A1F02C9DA22400274CEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3269476D2C77A53E004D56D4 /* BagCoordinatorView.swift */,
-				327719B32C74B5E50064B287 /* BagView.swift */,
-				3221A1F42C9DA9A600274CEC /* BagItem.swift */,
-				32A38E712CAC6B3E00F61255 /* BagBottomBarView.swift */,
-				325EA5DD2CD9125500AC2053 /* CheckoutView.swift */,
-				32F031C02CDBEEAE00A29E16 /* ShippingAddressView.swift */,
+				323367862CE65E75008FA34C /* Coordinator */,
+				323367852CE65E63008FA34C /* MainBag */,
+				323367872CE65EC7008FA34C /* Checkout */,
+				323367882CE65EDC008FA34C /* ShippingAddress */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -338,6 +342,41 @@
 				32F031C22CDBEEBC00A29E16 /* ShippingAddressViewModel.swift */,
 			);
 			path = VewModels;
+			sourceTree = "<group>";
+		};
+		323367852CE65E63008FA34C /* MainBag */ = {
+			isa = PBXGroup;
+			children = (
+				327719B32C74B5E50064B287 /* BagView.swift */,
+				3221A1F42C9DA9A600274CEC /* BagItem.swift */,
+				32A38E712CAC6B3E00F61255 /* BagBottomBarView.swift */,
+			);
+			path = MainBag;
+			sourceTree = "<group>";
+		};
+		323367862CE65E75008FA34C /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				3269476D2C77A53E004D56D4 /* BagCoordinatorView.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		323367872CE65EC7008FA34C /* Checkout */ = {
+			isa = PBXGroup;
+			children = (
+				325EA5DD2CD9125500AC2053 /* CheckoutView.swift */,
+				323367892CE66291008FA34C /* ItemCheckoutView.swift */,
+			);
+			path = Checkout;
+			sourceTree = "<group>";
+		};
+		323367882CE65EDC008FA34C /* ShippingAddress */ = {
+			isa = PBXGroup;
+			children = (
+				32F031C02CDBEEAE00A29E16 /* ShippingAddressView.swift */,
+			);
+			path = ShippingAddress;
 			sourceTree = "<group>";
 		};
 		323A1A7F2C6CB4EA0098A4DA /* Networking */ = {
@@ -454,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				325C26152C932A7200D1C2A5 /* Bag.swift */,
+				323902972CE522B800B94062 /* PaymentIntent.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -738,6 +778,7 @@
 			packageProductDependencies = (
 				320F67B92C8A564B005D6593 /* GoogleSignIn */,
 				320F67BB2C8A564B005D6593 /* GoogleSignInSwift */,
+				325FCCF32CE3CA6300443B91 /* Stripe */,
 			);
 			productName = EasyBuy_App;
 			productReference = 325535662C612F0700E7B1F3 /* EasyBuy_App.app */;
@@ -770,6 +811,7 @@
 			mainGroup = 3255355D2C612F0700E7B1F3;
 			packageReferences = (
 				320F67B82C8A564B005D6593 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				325FCCF22CE3CA6300443B91 /* XCRemoteSwiftPackageReference "stripe-ios" */,
 			);
 			productRefGroup = 325535672C612F0700E7B1F3 /* Products */;
 			projectDirPath = "";
@@ -821,6 +863,7 @@
 				3249EAC62C64FD87004C478F /* View+Ext.swift in Sources */,
 				325C26162C932A7200D1C2A5 /* Bag.swift in Sources */,
 				32835FB62C80BF0F007B0A71 /* CategoryProductsViewModel.swift in Sources */,
+				323902982CE522B800B94062 /* PaymentIntent.swift in Sources */,
 				327719B02C74B5C20064B287 /* ProductsView.swift in Sources */,
 				32835FB42C80A471007B0A71 /* CategoryProductsView.swift in Sources */,
 				32873E812C921DE3007DD07E /* ProductReviewView.swift in Sources */,
@@ -828,6 +871,7 @@
 				329D86DA2C791E4A0014B601 /* ShowErrorMessegaModifier.swift in Sources */,
 				3221A1F32C9DA6F800274CEC /* BagViewModel.swift in Sources */,
 				324ADFC32C9B5BFC007C9088 /* FavoriteItem.swift in Sources */,
+				3233678A2CE66292008FA34C /* ItemCheckoutView.swift in Sources */,
 				326947792C77CDF2004D56D4 /* ProductsViewModel.swift in Sources */,
 				321296632C810BDF00BB57A7 /* ProductGridView.swift in Sources */,
 				325EA5DE2CD9125500AC2053 /* CheckoutView.swift in Sources */,
@@ -1038,6 +1082,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EasyBuy_App/Resources/Preview Content\"";
@@ -1059,6 +1104,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "LIALKIN-s.EasyBuy-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1074,6 +1120,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EasyBuy_App/Resources/Preview Content\"";
@@ -1095,6 +1142,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "LIALKIN-s.EasyBuy-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1137,6 +1185,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		325FCCF22CE3CA6300443B91 /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1149,6 +1205,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 320F67B82C8A564B005D6593 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		325FCCF32CE3CA6300443B91 /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 325FCCF22CE3CA6300443B91 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = Stripe;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
