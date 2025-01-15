@@ -3,7 +3,7 @@
 ## Overview
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/30a40f34-4fb1-4808-ac7f-3ce8df84b4b4" width="930" title="DMV Test Prep">
+<img src="https://github.com/user-attachments/assets/9e490e55-93b0-44d3-80d0-3e04f373cc53" width="930" title="DMV Test Prep">
 
 </p>
 
